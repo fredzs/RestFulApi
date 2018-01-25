@@ -1,23 +1,21 @@
 import logging
 from logging.config import fileConfig
-from flask import Flask
+from datetime import datetime
 
+from Entity.Performance import Performance
+from Service.DBDailyService import DBDailyService
 
 fileConfig('logging_config.ini')
 logger = logging.getLogger()
 
 
-app = Flask(__name__)
-
-
-@app.route('/')
-def index():
-    return "Hello, World!"
-
-
 if "__main__" == __name__:
     logger.info('-------------------------------------------'
                 '程序开始执行-------------------------------------------')
-    app.run(debug=True)
+    db = DBDailyService()
+    date = datetime.strptime("2018-01-01", "%Y-%m-%d")
+    performance = Performance("科技园", date, 100, 'q', 'w', 'e', 'r')
+    db.db_save(performance)
+    db.db_commit()
     logger.info('-------------------------------------------'
                 '程序执行结束-------------------------------------------')
