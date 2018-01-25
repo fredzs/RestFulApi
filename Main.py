@@ -13,8 +13,8 @@ if "__main__" == __name__:
     logger.info('-------------------------------------------'
                 '程序开始执行-------------------------------------------')
     db = DBDailyService()
-    date = datetime.strptime("2018-01-01", "%Y-%m-%d")
-    performance = Performance("科技园", date, 100, 'q', 'w', 'e', 'r')
+    date = datetime.strptime("2018-01-02", "%Y-%m-%d")
+    performance = Performance("香河园", date, 200, 'q', 'w', 'e', 'r')
     db.db_save(performance)
     db.db_commit()
     logger.info('-------------------------------------------'
