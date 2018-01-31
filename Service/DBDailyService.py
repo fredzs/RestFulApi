@@ -40,7 +40,7 @@ class DBDailyService(object):
             logging.error("记录重复")
             logging.error(e)
         except Exception as e:
-            logging.error("数据库写入失败！")
+            logging.error("提交数据库失败！")
             logging.error(e)
 
     @staticmethod
