@@ -1,4 +1,4 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, JSON
 from sqlalchemy import String
 from sqlalchemy import Date
 from sqlalchemy import Integer
@@ -17,11 +17,9 @@ class DBDaily(Base):
     id = Column(Integer(), primary_key=True)
     dept_name = Column(String(20))
     date = Column(Date())
+    submit_user = Column(String(30))
     project_1 = Column(Integer())
-    project_2 = Column(String(20))
-    project_3 = Column(String(20))
-    project_4 = Column(String(20))
-    project_5 = Column(String(20))
+    extra_fields = Column(JSON())
 
 
 

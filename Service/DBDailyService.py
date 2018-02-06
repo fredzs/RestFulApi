@@ -13,11 +13,9 @@ class DBDailyService(object):
         db_daily = DBDaily()
         db_daily.dept_name = performance.get_dept_name
         db_daily.date = performance.get_date
+        db_daily.submit_user = performance.get_submit_user
         db_daily.project_1 = performance.get_project_1
-        db_daily.project_2 = performance.get_project_2
-        db_daily.project_3 = performance.get_project_3
-        db_daily.project_4 = performance.get_project_4
-        db_daily.project_5 = performance.get_project_5
+        db_daily.extra_fields = performance.get_extra_fields
         return db_daily
 
     @staticmethod
