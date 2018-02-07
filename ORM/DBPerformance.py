@@ -9,16 +9,16 @@ Base = declarative_base()
 
 
 # 定义User对象:
-class DBDaily(Base):
+class DBPerformance(Base):
     # 表的名字:
     __tablename__ = 'daily'
 
     # 表的结构:
     id = Column(Integer(), primary_key=True)
-    dept_name = Column(String(20))
+    dept_id = Column(Integer())
     date = Column(Date())
+    submit_date = Column(Date())
     submit_user = Column(String(30))
-    project_1 = Column(Integer())
     extra_fields = Column(JSON())
 
 

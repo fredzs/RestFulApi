@@ -1,27 +1,22 @@
 """数据库测试文件"""
 
 
+from datetime import datetime
 import logging
 from logging.config import fileConfig
-from datetime import datetime
-
-from Entity.Performance import Performance
-from Service.DBDailyService import DBDailyService
+from Service.PerformanceService import PerformanceService
 
 fileConfig('logging_config.ini')
 LOGGER = logging.getLogger()
 
-p = [
-    {
-        'dept_name': 1,
-        'date': '2018-01-01',
-        'submit_date': '2018-02-06',
+p = {
+        'dept_id': 2,
+        'date': '2018-02-07',
         "submit_user": "fred",
-        'project_1': 100,
         "extra_fields": {
             "field_1": {
                 "field_id": "1",
-                "filed_value": 100
+                "filed_value": 300
             },
             "field_2": {
                 "field_id": "2",
@@ -36,21 +31,16 @@ p = [
                 "filed_value": "10"
             }
         }
-    },
-    {
-        'dept_name': 1,
-        'date': '2018-02-01',
-        "submit_user": "fred",
-        'project_1': 200
-    }]
+    }
 
 if __name__ == "__main__":
     LOGGER.info('-----------------------------------'
                 '程序开始执行-----------------------------------')
-    DB = DBDailyService()
-    DATE = datetime.strptime("2018-02-02", "%Y-%m-%d")
-    PERFORMANCE = Performance("首都机场", DATE, "顾铮", 300)
-    DB.db_save(PERFORMANCE)
-    DB.db_commit()
+    SERVICE = PerformanceService()
+    PERFORMANCE = PerformanceService.read_json(p)
+    SERVICE.submit_performance(PERFORMANCE)
+    date = datetime.strptime("2018-02-07", "%Y-%m-%d")
+    check_result = PerformanceService.check_submission(date)
+    LOGGER.info(check_result)
     LOGGER.info('-----------------------------------'
                 '程序执行结束-----------------------------------')
