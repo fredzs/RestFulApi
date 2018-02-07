@@ -4,9 +4,12 @@
 from datetime import datetime
 import logging
 from logging.config import fileConfig
-from app.api.Service.PerformanceService import PerformanceService
 
-fileConfig('logging_config.ini')
+from app.api.Service.FieldsInfoService import FieldsInfoService
+from app.api.Service.PerformanceService import PerformanceService
+from app.api.Service.DBService import DBService
+
+fileConfig('../logging_config.ini')
 LOGGER = logging.getLogger()
 
 p = {
@@ -34,13 +37,14 @@ p = {
     }
 
 if __name__ == "__main__":
-    LOGGER.info('-----------------------------------'
-                '程序开始执行-----------------------------------')
-    SERVICE = PerformanceService()
-    PERFORMANCE = PerformanceService.read_json(p)
-    SERVICE.submit_performance(PERFORMANCE)
-    date = datetime.strptime("2018-02-07", "%Y-%m-%d")
-    check_result = PerformanceService.check_submission(date)
-    LOGGER.info(check_result)
-    LOGGER.info('-----------------------------------'
-                '程序执行结束-----------------------------------')
+    LOGGER.info('-----------------------------------程序开始执行-----------------------------------')
+    # SERVICE = PerformanceService()
+    # PERFORMANCE = PerformanceService.read_json(p)
+    # SERVICE.submit_performance(PERFORMANCE)
+    # date = datetime.strptime("2018-02-07", "%Y-%m-%d")
+    # p = PerformanceService()
+    # check_result = p.check_submission(date)
+    fields_info_service = FieldsInfoService()
+    fields_list = fields_info_service.find_fields_list()
+    LOGGER.info(fields_list)
+    LOGGER.info('-----------------------------------程序执行结束-----------------------------------')

@@ -5,8 +5,11 @@ from os import abort
 from datetime import datetime
 from flask import request
 from flask import render_template
-from . import main
+
+from app.api.Service.DeptInfoService import DeptInfoService
+from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
+from . import main
 
 
 @main.route('/')
@@ -41,21 +44,34 @@ def check_submit():
     else:
         request_date = request.args.get('date')
     date = datetime.strptime(request_date, "%Y-%m-%d")
-    check_result = PerformanceService.check_submission(date)
+    performance_service = PerformanceService()
+    check_result = performance_service.check_submission(date)
     logging.info('---------POST请求处理完毕-----------')
 
     return check_result, 201  # 并返回这个添加的task内容，和状态码
 
 
 @main.route('/api/branches', methods=['GET'])
-def check():
+def get_branches():
     """GET，用于获取所有网点"""
-    logging.info('---------收到GET请求：/api/check----------')
+    logging.info('---------收到GET请求：/api/branches----------')
     if not request.args.get('branch_name'):
         branch_name = "wangjing"
     else:
         branch_name = "wangjing"
-    branch_list = PerformanceService.find_branch_list(branch_name)
+    dept_info_service = DeptInfoService()
+    branch_list = dept_info_service.find_branch_list(branch_name)
     logging.info('---------POST请求处理完毕-----------')
 
     return branch_list, 201  # 并返回这个添加的task内容，和状态码
+
+
+@main.route('/api/fields', methods=['GET'])
+def get_fields():
+    """GET，用于获取所有字段"""
+    logging.info('---------收到GET请求：/api/fields----------')
+    fields_info_service = FieldsInfoService()
+    fields_list = fields_info_service.find_fields_list()
+    logging.info('---------POST请求处理完毕-----------')
+
+    return fields_list, 201  # 并返回这个添加的task内容，和状态码

@@ -53,3 +53,21 @@ class DBFieldsInfoService(object):
         logging.debug(query)
         result = query.all()
         return result
+
+    @staticmethod
+    def check_exist(date, dept_id):
+        exist = None
+        result = DBFieldsInfoService.db_find_column_by_attribute_list(["date", "dept_id"], [date, dept_id], "id")
+        if len(result) > 0:
+            exist = result[0].id
+        return exist
+
+    @staticmethod
+    def db_find_column_by_attribute_list(attribute_list, search_content_list, column):
+        db_session = DBFactory().get_db_session()
+        query = db_session.query(getattr(DBPerformance, column))
+        for attr, content in zip(attribute_list, search_content_list):
+            query = query.filter(getattr(DBPerformance, attr) == content)
+        logging.debug(query)
+        result = query.all()
+        return result
