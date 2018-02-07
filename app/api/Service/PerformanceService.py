@@ -1,9 +1,9 @@
 import logging
 import json
 
-from Entity.Performance import Performance
-from Service.DBPerformanceService import DBPerformanceService
-from Service.DBDeptInfoService import DBDeptInfoService
+from app.api.Entity.Performance import Performance
+from app.api.Service.DBPerformanceService import DBPerformanceService
+from app.api.Service.DBDeptInfoService import DBDeptInfoService
 
 
 class PerformanceService(object):
@@ -53,3 +53,11 @@ class PerformanceService(object):
         logging.info("%s尚未提交业绩的网点有：%s" % (date.strftime('%Y-%m-%d'), unsubmission_list))
         return result
 
+    @staticmethod
+    def find_branch_list(branch_name):
+        branch_dept_list = DBDeptInfoService().db_find_list_by_attribute("dept_type", 2)
+        dept_name_list = dict()
+        for dept in branch_dept_list:
+            dept_name_list[dept.dept_id] = dept.dept_name
+        result = json.dumps(dept_name_list, ensure_ascii=False)
+        return result

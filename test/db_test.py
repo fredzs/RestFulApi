@@ -4,7 +4,7 @@
 from datetime import datetime
 import logging
 from logging.config import fileConfig
-from Service.PerformanceService import PerformanceService
+from app.api.Service.PerformanceService import PerformanceService
 
 fileConfig('logging_config.ini')
 LOGGER = logging.getLogger()

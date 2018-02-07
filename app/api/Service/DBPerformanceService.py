@@ -3,8 +3,8 @@ import logging
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 
-from Factory.DBFactory import DBFactory
-from ORM.DBPerformance import DBPerformance
+from app.api.Factory.DBFactory import DBFactory
+from app.api.ORM.DBPerformance import DBPerformance
 
 
 class DBPerformanceService(object):
@@ -54,7 +54,7 @@ class DBPerformanceService(object):
     @staticmethod
     def db_find_list_by_attribute(attribute, search_content):
         db_session = DBFactory().get_db_session()
-        query = db_session.query(DBPerformance).filter(getattr(DBPerformance,attribute) == search_content)
+        query = db_session.query(DBPerformance).filter(getattr(DBPerformance, attribute) == search_content)
         logging.debug(query)
         result = query.first()
         return result
@@ -69,7 +69,7 @@ class DBPerformanceService(object):
     @staticmethod
     def db_find_column_by_attribute(attribute, search_content, column):
         db_session = DBFactory().get_db_session()
-        query = db_session.query(getattr(DBPerformance,column)).filter(getattr(DBPerformance,attribute) == search_content)
+        query = db_session.query(getattr(DBPerformance, column)).filter(getattr(DBPerformance, attribute) == search_content)
         logging.debug(query)
         result = query.all()
         return result
@@ -77,7 +77,7 @@ class DBPerformanceService(object):
     @staticmethod
     def db_find_column_by_attribute_list(attribute_list, search_content_list, column):
         db_session = DBFactory().get_db_session()
-        query = db_session.query(getattr(DBPerformance,column))
+        query = db_session.query(getattr(DBPerformance, column))
         for attr, content in zip(attribute_list, search_content_list):
             query = query.filter(getattr(DBPerformance, attr) == content)
         logging.debug(query)
@@ -91,5 +91,3 @@ class DBPerformanceService(object):
         if len(result) > 0:
             exist = result[0].id
         return exist
-
-

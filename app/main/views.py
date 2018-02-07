@@ -4,18 +4,19 @@ import logging
 from os import abort
 from datetime import datetime
 from flask import request
-from APP import APP
-from Service.PerformanceService import PerformanceService
+from flask import render_template
+from . import main
+from app.api.Service.PerformanceService import PerformanceService
 
 
-@APP.route('/')
-@APP.route('/index')
+@main.route('/')
+@main.route('/index')
 def index():
     """默认的Get请求"""
     return "Hello, World!"
 
 
-@APP.route('/api/submit', methods=['POST'])
+@main.route('/api/submit', methods=['POST'])
 def create_performance():
     """POST方法，用于提交业绩"""
     logging.info(request.json)
@@ -31,13 +32,30 @@ def create_performance():
     return request.json['dept_id'], 201  # 并返回这个添加的task内容，和状态码
 
 
-@APP.route('/api/check', methods=['GET'])
-def create_performance():
+@main.route('/api/check', methods=['GET'])
+def check_submit():
     """GET，用于检查未提交业绩的网点"""
     logging.info('---------收到GET请求：/api/check----------')
-    request_date = request.args.get('date')
+    if not request.args.get('date'):
+        request_date = datetime.today().strftime("%Y-%m-%d")
+    else:
+        request_date = request.args.get('date')
     date = datetime.strptime(request_date, "%Y-%m-%d")
     check_result = PerformanceService.check_submission(date)
     logging.info('---------POST请求处理完毕-----------')
 
     return check_result, 201  # 并返回这个添加的task内容，和状态码
+
+
+@main.route('/api/branches', methods=['GET'])
+def check():
+    """GET，用于获取所有网点"""
+    logging.info('---------收到GET请求：/api/check----------')
+    if not request.args.get('branch_name'):
+        branch_name = "wangjing"
+    else:
+        branch_name = "wangjing"
+    branch_list = PerformanceService.find_branch_list(branch_name)
+    logging.info('---------POST请求处理完毕-----------')
+
+    return branch_list, 201  # 并返回这个添加的task内容，和状态码
