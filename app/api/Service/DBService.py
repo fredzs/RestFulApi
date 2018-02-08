@@ -12,8 +12,9 @@ from app.api.ORM.DBFieldsInfo import DBFieldsInfo
 
 
 class DBService(object):
-    def __init__(self, class_name):
-        self._db_class = eval(class_name)
+    def __init__(self, class_type):
+        self._db_class = eval(class_type)
+        self._db_instance = eval(class_type + "()")
         self._db_factory = DBFactory()
         self._db_session = self._db_factory.get_db_session()
 
@@ -21,30 +22,36 @@ class DBService(object):
         pass
         # self._db_factory.close_session()
 
-    def copy_to_db(self, performance, update_id=None):
-        db_performance = self._db_class
+    def copy_to_db(self, instance, update_id=None):
+        db_obj = self._db_instance
         if update_id is not None:
-            db_performance.id = update_id
-        db_performance.dept_id = performance.get_dept_id
-        db_performance.date = performance.get_date
-        db_performance.submit_date = performance.get_submit_date
-        db_performance.submit_user = performance.get_submit_user
-        db_performance.extra_fields = performance.get_extra_fields
-        return db_performance
+            db_obj.id = update_id
+        for attr in instance.__dict__:
+            attr_1 = attr[1:]
+            setattr(db_obj, attr_1, getattr(instance, attr))
+        return db_obj
 
     def db_save(self, performance):
         self._db_session = DBFactory.get_db_session()
         db_service = self.copy_to_db(performance)
-        self._db_session.add(db_service)
+        try:
+            self._db_session.add(db_service)
+        except Exception as e:
+            logging.info("写入数据库缓存失败:%s" % e)
+            return False
         logging.info("已写入数据库缓存")
-        return
+        return True
 
     def db_update(self, performance, update_id):
         self._db_session = DBFactory.get_db_session()
         db_service = self.copy_to_db(performance, update_id)
-        self._db_session.merge(db_service)
+        try:
+            self._db_session.merge(db_service)
+        except Exception as e:
+            logging.info("写入数据库缓存失败:%s" % e)
+            return False
         logging.info("已写入数据库缓存")
-        return
+        return True
 
     def db_commit(self):
         self._db_session = DBFactory.get_db_session()
@@ -74,11 +81,14 @@ class DBService(object):
         result = query.all()
         return result
 
-    def db_find_date_total(self, date):
+    def db_find_list_by_attribute_list_order_by(self, attribute_list, search_content_list, order_by):
         self._db_session = DBFactory().get_db_session()
-        query = self._db_session.query(func.count('*'))
-        result = query.filter(self._db_class.submit_date == date).first()
-        return result[0]
+        query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, order_by).asc())
+        for attr, content in zip(attribute_list, search_content_list):
+            query = query.filter(getattr(self._db_class, attr) == content)
+        logging.debug(query)
+        result = query.all()
+        return result
 
     def db_find_column_by_attribute(self, attribute, search_content, column):
         self._db_session = DBFactory().get_db_session()
@@ -97,9 +107,8 @@ class DBService(object):
         result = query.all()
         return result
 
-    def check_exist(self, date, dept_id):
-        exist = None
-        result = self.db_find_column_by_attribute_list(["date", "dept_id"], [date, dept_id], "id")
-        if len(result) > 0:
-            exist = result[0].id
-        return exist
+    def db_find_date_total(self, date):
+        self._db_session = DBFactory().get_db_session()
+        query = self._db_session.query(func.count('*'))
+        result = query.filter(self._db_class.submit_date == date).first()
+        return result[0]

@@ -13,13 +13,13 @@ fileConfig('../logging_config.ini')
 LOGGER = logging.getLogger()
 
 p = {
-        'dept_id': 1,
-        'date': '2018-02-08',
+        'dept_id': 2,
+        'date': '2018-02-06',
         "submit_user": "fred",
         "extra_fields": {
             "field_1": {
                 "field_id": "1",
-                "filed_value": 300
+                "filed_value": 500
             },
             "field_2": {
                 "field_id": "2",

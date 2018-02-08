@@ -12,13 +12,24 @@ class PerformanceService(object):
 
     """Class Performance"""
     def submit_performance(self, performance):
-        check = self._db_performance_service.check_exist(performance.get_date, performance.get_dept_id)
+        check = self.check_exist(performance.get_date, performance.get_dept_id)
         if check is not None:
             logging.info("该条记录已存在！")
-            self._db_performance_service.db_update(performance, check)
+            result = self._db_performance_service.db_update(performance, check)
         else:
-            self._db_performance_service.db_save(performance)
-        self._db_performance_service.db_commit()
+            result = self._db_performance_service.db_save(performance)
+        if result:
+            self._db_performance_service.db_commit()
+            return True
+        else:
+            return False
+
+    def check_exist(self, date, dept_id):
+        exist = None
+        result = self._db_performance_service.db_find_column_by_attribute_list(["date", "dept_id"], [date, dept_id], "id")
+        if len(result) > 0:
+            exist = result[0].id
+        return exist
 
     @staticmethod
     def read_json(json_raw):
@@ -36,7 +47,7 @@ class PerformanceService(object):
     def check_submission(self, date):
         branch_dept_list = self._db_dept_info_service.db_find_list_by_attribute("dept_type", 2)
         performance_list = self._db_performance_service.db_find_column_by_attribute("date", date, "dept_id")
-        done_list, submission_list, unsubmission_list =[], [], []
+        done_list, submission_list, unsubmission_list = [], [], []
         dept_name_list = dict()
 
         for dept in branch_dept_list:

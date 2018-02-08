@@ -9,7 +9,7 @@ class Performance(object):
     def __init__(self, dept_id, date, submit_user='', extra_fields=None):
         self._dept_id = dept_id
         self._date = date
-        self._submit_date = datetime.today()
+        self._submit_date = datetime.today().strftime('%Y-%m-%d')
         self._submit_user = submit_user
         self._extra_fields = extra_fields
 

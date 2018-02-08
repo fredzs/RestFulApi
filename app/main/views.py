@@ -4,8 +4,6 @@ import logging
 from os import abort
 from datetime import datetime
 from flask import request
-from flask import render_template
-
 from app.api.Service.DeptInfoService import DeptInfoService
 from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
@@ -29,10 +27,12 @@ def create_performance():
     logging.info('---------收到POST请求：/api/submit----------')
     service = PerformanceService()
     performance = PerformanceService.read_json(request.json)
-    service.submit_performance(performance)
+    result = service.submit_performance(performance)
     logging.info('---------POST请求处理完毕-----------')
-
-    return request.json['dept_id'], 201  # 并返回这个添加的task内容，和状态码
+    if result:
+        return request.json['dept_id'], 201  # 并返回这个添加的task内容，和状态码
+    else:
+        return request.json['dept_id'], 500
 
 
 @main.route('/api/check', methods=['GET'])
@@ -72,6 +72,17 @@ def get_fields():
     logging.info('---------收到GET请求：/api/fields----------')
     fields_info_service = FieldsInfoService()
     fields_list = fields_info_service.find_fields_list()
+    logging.info('---------POST请求处理完毕-----------')
+
+    return fields_list, 201  # 并返回这个添加的task内容，和状态码
+
+
+@main.route('/api/fields_name', methods=['GET'])
+def get_fields_name():
+    """GET，用于获取所有字段"""
+    logging.info('---------收到GET请求：/api/fields_name----------')
+    fields_info_service = FieldsInfoService()
+    fields_list = fields_info_service.find_fields_name()
     logging.info('---------POST请求处理完毕-----------')
 
     return fields_list, 201  # 并返回这个添加的task内容，和状态码
