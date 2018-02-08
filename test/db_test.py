@@ -13,8 +13,8 @@ fileConfig('../logging_config.ini')
 LOGGER = logging.getLogger()
 
 p = {
-        'dept_id': 2,
-        'date': '2018-02-07',
+        'dept_id': 1,
+        'date': '2018-02-08',
         "submit_user": "fred",
         "extra_fields": {
             "field_1": {
@@ -38,13 +38,13 @@ p = {
 
 if __name__ == "__main__":
     LOGGER.info('-----------------------------------程序开始执行-----------------------------------')
-    # SERVICE = PerformanceService()
-    # PERFORMANCE = PerformanceService.read_json(p)
-    # SERVICE.submit_performance(PERFORMANCE)
+    SERVICE = PerformanceService()
+    PERFORMANCE = PerformanceService.read_json(p)
+    SERVICE.submit_performance(PERFORMANCE)
     # date = datetime.strptime("2018-02-07", "%Y-%m-%d")
     # p = PerformanceService()
     # check_result = p.check_submission(date)
-    fields_info_service = FieldsInfoService()
-    fields_list = fields_info_service.find_fields_list()
-    LOGGER.info(fields_list)
+    #fields_info_service = FieldsInfoService()
+    #fields_list = fields_info_service.find_fields_list()
+    #LOGGER.info(fields_list)
     LOGGER.info('-----------------------------------程序执行结束-----------------------------------')

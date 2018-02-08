@@ -1,5 +1,6 @@
 import json
 
+from app.api.ORM.DBDeptInfo import DBDeptInfo
 from app.api.Service.DBService import DBService
 
 
@@ -10,8 +11,5 @@ class DeptInfoService(object):
 
     def find_branch_list(self, branch_name):
         branch_dept_list = self._db_dept_info_service.db_find_list_by_attribute("dept_type", 2)
-        dept_name_list = dict()
-        for dept in branch_dept_list:
-            dept_name_list[dept.dept_id] = dept.dept_name
-        result = json.dumps(dept_name_list, ensure_ascii=False)
+        result = json.dumps(branch_dept_list, default=DBDeptInfo.obj_2_json, sort_keys=False, ensure_ascii=False, indent=4)
         return result

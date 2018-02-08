@@ -27,8 +27,3 @@ class DBFieldsInfo(Base):
                 "field_type": obj.field_type,
                 "order_index": obj.order_index,
                 "status": obj.status}
-
-
-
-
-

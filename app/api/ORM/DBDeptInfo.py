@@ -21,7 +21,10 @@ class DBDeptInfo(Base):
     dept_vice_1 = Column(String(20))
     dept_vice_2 = Column(String(20))
 
-
+    @staticmethod
+    def obj_2_json(obj):
+        return {"dept_id": obj.dept_id,
+                "dept_name": obj.dept_name}
 
 
 
