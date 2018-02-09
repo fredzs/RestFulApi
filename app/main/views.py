@@ -96,7 +96,10 @@ def display():
         request_date = datetime.today().strftime("%Y-%m-%d")
     else:
         request_date = request.args.get('date')
-    request_dept_name = request.args.get('dept_name')
+    if not request.args.get('dept_name'):
+        return "", 201
+    else:
+        request_dept_name = request.args.get('dept_name')
     date = datetime.strptime(request_date, "%Y-%m-%d")
     performance_service = PerformanceService()
     performance = performance_service.display(date, request_dept_name)
