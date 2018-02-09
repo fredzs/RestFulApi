@@ -86,3 +86,20 @@ def get_fields_name():
     logging.info('---------POST请求处理完毕-----------')
 
     return fields_list, 201  # 并返回这个添加的task内容，和状态码
+
+
+@main.route('/api/display', methods=['GET'])
+def display():
+    """GET，用于检查未提交业绩的网点"""
+    logging.info('---------收到GET请求：/api/display----------')
+    if not request.args.get('date'):
+        request_date = datetime.today().strftime("%Y-%m-%d")
+    else:
+        request_date = request.args.get('date')
+    request_dept_name = request.args.get('dept_name')
+    date = datetime.strptime(request_date, "%Y-%m-%d")
+    performance_service = PerformanceService()
+    performance = performance_service.display(date, request_dept_name)
+    logging.info('---------POST请求处理完毕-----------')
+
+    return performance, 201  # 并返回这个添加的task内容，和状态码

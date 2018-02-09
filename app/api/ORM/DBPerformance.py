@@ -21,7 +21,11 @@ class DBPerformance(Base):
     submit_user = Column(String(30))
     extra_fields = Column(JSON())
 
-
+    @staticmethod
+    def obj_2_json(obj):
+        return {"submit_date": str(obj.submit_date),
+                "submit_user": obj.submit_user,
+                "extra_fields": obj.extra_fields}
 
 
 

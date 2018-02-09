@@ -90,6 +90,15 @@ class DBService(object):
         result = query.all()
         return result
 
+    def db_find_list_by_attribute_list(self, attribute_list, search_content_list):
+        self._db_session = DBFactory().get_db_session()
+        query = self._db_session.query(self._db_class)
+        for attr, content in zip(attribute_list, search_content_list):
+            query = query.filter(getattr(self._db_class, attr) == content)
+        logging.debug(query)
+        result = query.all()
+        return result
+
     def db_find_column_by_attribute(self, attribute, search_content, column):
         self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(getattr(self._db_class, column)).filter(

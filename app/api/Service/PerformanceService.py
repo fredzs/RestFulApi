@@ -2,6 +2,7 @@ import logging
 import json
 
 from app.api.Entity.Performance import Performance
+from app.api.ORM.DBPerformance import DBPerformance
 from app.api.Service.DBService import DBService
 
 
@@ -67,4 +68,10 @@ class PerformanceService(object):
         result = json.dumps(json_data, ensure_ascii=False)
         # logging.info("%s已提交业绩的网点有：%s" % (date.strftime('%Y-%m-%d'), submission_list))
         # logging.info("%s尚未提交业绩的网点有：%s" % (date.strftime('%Y-%m-%d'), unsubmission_list))
+        return result
+
+    def display(self, date, dept_name):
+        dept_id = self._db_dept_info_service.db_find_column_by_attribute("dept_name", dept_name, "dept_id")[0].dept_id
+        performance = self._db_performance_service.db_find_list_by_attribute_list(["date", "dept_id"], [date, dept_id])
+        result = json.dumps(performance, default=DBPerformance.obj_2_json, sort_keys=False, ensure_ascii=False, indent=4)
         return result
