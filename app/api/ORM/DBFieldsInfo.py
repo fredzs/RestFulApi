@@ -13,7 +13,8 @@ class DBFieldsInfo(Base):
     __tablename__ = 'fields_info'
 
     # 表的结构:
-    field_id = Column(Integer(), primary_key=True)
+    id = Column(Integer(), primary_key=True)
+    field_id = Column(String(30))
     field_name = Column(String(30))
     business = Column(String(20))
     field_type = Column(Integer())
@@ -22,7 +23,8 @@ class DBFieldsInfo(Base):
 
     @staticmethod
     def obj_2_json(obj):
-        return {"field_id": obj.field_id,
+        return {"id": obj.id,
+                "field_id": obj.field_id,
                 "field_name": obj.field_name,
                 "business": obj.business,
                 "field_type": obj.field_type,
