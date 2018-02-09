@@ -30,9 +30,9 @@ def create_performance():
     result = service.submit_performance(performance)
     logging.info('---------POST请求处理完毕-----------')
     if result:
-        return request.json['dept_id'], 201  # 并返回这个添加的task内容，和状态码
+        return str(request.json['dept_id']), 201  # 并返回这个添加的task内容，和状态码
     else:
-        return request.json['dept_id'], 500
+        return str(request.json['dept_id']), 500
 
 
 @main.route('/api/check', methods=['GET'])
