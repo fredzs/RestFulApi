@@ -1,10 +1,4 @@
-Log.log
-.idea/misc.xml
-.idea/modules.xml
-.idea/Python-RestFulApi.iml
-.idea/vcs.xml
-.idea/workspace.xml
-.idea/inspectionProfiles/Project_Default.xml
-app/__pycache__/__init__.cpython-36.pyc
-app/__pycache__/views.cpython-36.pyc
+*.log
+.idea/*
 *.pyc
+.vscode/*
