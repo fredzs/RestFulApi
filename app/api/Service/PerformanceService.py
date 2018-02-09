@@ -46,19 +46,23 @@ class PerformanceService(object):
 
     def check_submission(self, date):
         branch_dept_list = self._db_dept_info_service.db_find_list_by_attribute("dept_type", 2)
-        performance_list = self._db_performance_service.db_find_column_by_attribute("date", date, "dept_id")
+        performance_list = self._db_performance_service.db_find_list_by_attribute("date", date)
         done_list, submission_list, unsubmission_list = [], [], []
         dept_name_list = dict()
 
         for dept in branch_dept_list:
             dept_name_list[dept.dept_id] = dept.dept_name
         for performance in performance_list:
-            done_list.append(performance.dept_id)
+            done_list.append({"dept_id": performance.dept_id, "submit_user": performance.submit_user})
         for item in dept_name_list:
-            if item in done_list:
-                submission_list.append(dept_name_list[item])
-            else:
-                unsubmission_list.append(dept_name_list[item])
+            c = False
+            for i, p in enumerate(performance_list):
+                if item == p.dept_id:
+                    submission_list.append({"dept_name": dept_name_list[p.dept_id], "submit_user": p.submit_user})
+                    c = True
+                    break
+            if not c:
+                unsubmission_list.append({"dept_name": dept_name_list[item]})
         json_data = {"date": date.strftime("%Y-%m-%d"), "submission_list": submission_list, "unsubmission_list": unsubmission_list}
         result = json.dumps(json_data, ensure_ascii=False)
         # logging.info("%s已提交业绩的网点有：%s" % (date.strftime('%Y-%m-%d'), submission_list))
