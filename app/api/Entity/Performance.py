@@ -34,9 +34,6 @@ class Performance(object):
     def set_extra_fields(self, extra_fields):
         self._extra_fields = extra_fields
 
-    def set_extra_fields_full(self, extra_fields_full):
-        self._extra_fields_full = extra_fields_full
-
     @property
     def get_dept_id(self):
         return self._dept_id
@@ -56,7 +53,3 @@ class Performance(object):
     @property
     def get_extra_fields(self):
         return self._extra_fields
-
-    @property
-    def get_extra_fields_full(self):
-        return self._extra_fields_full
