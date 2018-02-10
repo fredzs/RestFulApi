@@ -2,14 +2,15 @@ import logging
 import json
 
 from app.api.Entity.Performance import Performance
-from app.api.ORM.DBPerformance import DBPerformance
 from app.api.Service.DBService import DBService
+from app.api.Service.FieldsInfoService import FieldsInfoService
 
 
 class PerformanceService(object):
     def __init__(self):
         self._db_performance_service = DBService("DBPerformance")
         self._db_dept_info_service = DBService("DBDeptInfo")
+        self._db_fields_info_service = DBService("DBFieldsInfo")
 
     """Class Performance"""
     def submit_performance(self, performance):
@@ -78,7 +79,21 @@ class PerformanceService(object):
             d = db[0]
             performance = {"submit_user": d.submit_user,
                            "submit_date": str(d.submit_date),
-                           "extra_fields": Performance.rewrite_extra_fields(d.extra_fields)}
+                           "extra_fields": self.rewrite_extra_fields(d.extra_fields)}
 
         result = json.dumps(performance, ensure_ascii=False)
         return result
+
+    def rewrite_extra_fields(self, extra_fields):
+        extra_fields_full = []
+        fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status"],
+                                                                                           ["corporate", "1"],
+                                                                                           "order_index")
+        name_list = {}
+        for item in fields_list:
+            name_list[item.field_id]=item.field_name
+        for field in extra_fields:
+            extra_fields_full.append({"field_name": name_list[field], "field_value": extra_fields[field]})
+            # {"field_1": "300", "field_2": "100", "field_3": "15"}
+            # [{"field_id": "field_1", "field_value": 300}, {"field_id": "field_2", "field_value": 100}, {"field_id": "field_3", "field_value": 15}]
+        return extra_fields_full

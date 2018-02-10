@@ -13,15 +13,6 @@ class Performance(object):
         self._submit_user = submit_user
         self._extra_fields = extra_fields
 
-    @staticmethod
-    def rewrite_extra_fields(extra_fields):
-        extra_fields_full = []
-        for field in extra_fields:
-            extra_fields_full.append({"field_id": field, "field_value": extra_fields[field]})
-            # {"field_1": "300", "field_2": "100", "field_3": "15"}
-            # [{"field_id": "field_1", "field_value": 300}, {"field_id": "field_2", "field_value": 100}, {"field_id": "field_3", "field_value": 15}]
-        return extra_fields_full
-
     def set_dept_id(self, dept_id):
         self._dept_id = dept_id
 
