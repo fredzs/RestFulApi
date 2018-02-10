@@ -38,6 +38,23 @@ def create_performance():
         return str(request.json['dept_id']), 500
 
 
+@main.route('/api/update_field', methods=['POST'])
+def update_field():
+    """POST方法，用于更新字段"""
+    logger.info(request.json)
+    if not request.json or 'field_id' not in request.json:
+        # 如果请求里面没有JSON数据，或者在JSON数据里面，title的内容是空的
+        abort(404)  # 返回404报错
+    logger.info('---------收到POST请求：/api/update_field----------')
+    service = FieldsInfoService()
+    result = service.update_field(request.json)
+    logger.info('---------POST请求处理完毕-----------')
+    if result:
+        return str(request.json['field_id']), 201  # 并返回这个添加的task内容，和状态码
+    else:
+        return str(request.json['field_id']), 500
+
+
 @main.route('/api/check', methods=['GET'])
 def check_submit():
     """GET，用于检查未提交业绩的网点"""

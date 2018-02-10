@@ -53,6 +53,16 @@ class DBService(object):
         logging.info("已写入数据库缓存")
         return True
 
+    def db_update_db(self, db_obj):
+        try:
+            self._db_session.merge(db_obj)
+        except Exception as e:
+            logging.info("写入数据库缓存失败:%s" % e)
+            return False
+        logging.info("已写入数据库缓存")
+        self.db_commit()
+        return True
+
     def db_commit(self):
         self._db_session = DBFactory.get_db_session()
         try:
@@ -105,6 +115,14 @@ class DBService(object):
             getattr(self._db_class, attribute) == search_content)
         logging.debug(query)
         result = query.all()
+        return result
+
+    def db_find_one_by_attribute(self, attribute, search_content):
+        self._db_session = DBFactory().get_db_session()
+        query = self._db_session.query(self._db_class).filter(
+            getattr(self._db_class, attribute) == search_content)
+        logging.debug(query)
+        result = query.first()
         return result
 
     def db_find_column_by_attribute_list(self, attribute_list, search_content_list, column):

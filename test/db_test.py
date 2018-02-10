@@ -4,7 +4,6 @@
 from datetime import datetime
 import logging
 from logging.config import fileConfig
-
 from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
 from app.api.Service.DBService import DBService

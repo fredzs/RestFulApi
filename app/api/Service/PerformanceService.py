@@ -94,6 +94,4 @@ class PerformanceService(object):
             name_list[item.field_id]=item.field_name
         for field in extra_fields:
             extra_fields_full.append({"field_name": name_list[field], "field_value": extra_fields[field]})
-            # {"field_1": "300", "field_2": "100", "field_3": "15"}
-            # [{"field_id": "field_1", "field_value": 300}, {"field_id": "field_2", "field_value": 100}, {"field_id": "field_3", "field_value": 15}]
         return extra_fields_full
