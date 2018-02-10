@@ -72,6 +72,7 @@ class PerformanceService(object):
 
     def display(self, date, dept_name):
         dept_id = self._db_dept_info_service.db_find_column_by_attribute("dept_name", dept_name, "dept_id")[0].dept_id
-        performance = self._db_performance_service.db_find_list_by_attribute_list(["date", "dept_id"], [date, dept_id])
-        result = json.dumps(performance, default=DBPerformance.obj_2_json, sort_keys=False, ensure_ascii=False, indent=4)
+        db = self._db_performance_service.db_find_list_by_attribute_list(["date", "dept_id"], [date, dept_id])[0]
+        db.extra_fields = Performance.rewrite_extra_fields(db.extra_fields)
+        result = json.dumps(db, default=DBPerformance.obj_2_json, sort_keys=False, ensure_ascii=False, indent=4)
         return result
