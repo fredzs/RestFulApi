@@ -4,12 +4,14 @@ import logging
 from os import abort
 from datetime import datetime
 from flask import request
+from logging.config import fileConfig
 from app.api.Service.DeptInfoService import DeptInfoService
 from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
 from . import main
 
 
+fileConfig('logging_config.ini')
 logger = logging.getLogger()
 
 
@@ -41,10 +43,11 @@ def create_performance():
 @main.route('/api/update_field', methods=['POST'])
 def update_field():
     """POST方法，用于更新字段"""
-    logger.info(request.json)
+    logger.info(request)
     if not request.json or 'field_id' not in request.json:
         # 如果请求里面没有JSON数据，或者在JSON数据里面，title的内容是空的
         abort(404)  # 返回404报错
+        pass
     logger.info('---------收到POST请求：/api/update_field----------')
     service = FieldsInfoService()
     result = service.update_field(request.json)
@@ -92,7 +95,7 @@ def get_fields():
     logger.info('---------收到GET请求：/api/fields----------')
     fields_info_service = FieldsInfoService()
     fields_list = fields_info_service.find_fields_list()
-    logger.info('---------POST请求处理完毕-----------')
+    logger.info('---------GET请求处理完毕-----------')
 
     return fields_list, 201  # 并返回这个添加的task内容，和状态码
 

@@ -29,7 +29,7 @@ class DBFieldsInfo(Base):
                 "business": obj.business,
                 "field_type": obj.field_type,
                 "order_index": obj.order_index,
-                "status": obj.status}
+                "status": True if obj.status == 1 else False}
 
     @staticmethod
     def obj_2_json_simple(obj):
