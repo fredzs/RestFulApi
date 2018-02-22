@@ -4,6 +4,7 @@ import logging
 from os import abort
 from datetime import datetime
 from flask import request
+from flask import render_template
 from logging.config import fileConfig
 from app.api.Service.DeptInfoService import DeptInfoService
 from app.api.Service.FieldsInfoService import FieldsInfoService
@@ -15,11 +16,12 @@ fileConfig('logging_config.ini')
 logger = logging.getLogger()
 
 
-@main.route('/')
-@main.route('/index')
+@main.route('/api')
+@main.route('/api/index')
 def index():
     """默认的Get请求"""
-    return "Hello, World!"
+    request_date = datetime.today().strftime("%Y-%m-%d")
+    return render_template("index.html", title='api List', date=request_date, dept_name='支行营业室')
 
 
 @main.route('/api/submit', methods=['POST'])
