@@ -80,7 +80,7 @@ class DBService(object):
     def db_find_list_by_attribute(self, attribute, search_content):
         self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(self._db_class).filter(getattr(self._db_class, attribute) == search_content)
-        logging.info(query)
+        logging.debug(query)
         result = query.all()
         return result
 

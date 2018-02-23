@@ -96,7 +96,8 @@ def get_fields():
     fields_info_service = FieldsInfoService()
     fields_list = fields_info_service.find_fields_list()
     logger.info('---------GET请求处理完毕-----------')
-
+    logger.info('\n')
+    logger.info('\n')
     return fields_list, 201  # 并返回这个添加的task内容，和状态码
 
 
