@@ -42,9 +42,9 @@ class DBService(object):
         logging.info("已写入数据库缓存")
         return True
 
-    def db_update(self, performance, update_id):
+    def db_update(self, field, update_id):
         self._db_session = DBFactory.get_db_session()
-        db_service = self.copy_to_db(performance, update_id)
+        db_service = self.copy_to_db(field, update_id)
         try:
             self._db_session.merge(db_service)
         except Exception as e:

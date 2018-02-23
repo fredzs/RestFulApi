@@ -1,3 +1,4 @@
+import logging
 import json
 
 from app.api.ORM.DBFieldsInfo import DBFieldsInfo
@@ -24,3 +25,32 @@ class FieldsInfoService(object):
         setattr(old_fields, request_json["update_k"], request_json["update_v"])
         self._db_fields_info_service.db_update_db(old_fields)
         return True
+
+    def sort_field(self, request_json):
+        if isinstance(request_json, str):
+            new_order = json.loads(request_json)
+        else:
+            new_order = request_json
+        try:
+            for item in new_order["new_order"]:
+                id = item["id"]
+                new = item["new"]
+                field = self._db_fields_info_service.db_find_one_by_attribute("id", id)
+                field.order_index = new
+                # update_id = self.check_exist(old)
+                result = self._db_fields_info_service.db_update(field, id)
+                if result:
+                    self._db_fields_info_service.db_commit()
+        except Exception as e:
+            logging.error(e)
+            return False
+        else:
+            self._db_fields_info_service.db_commit()
+        return True
+
+    def check_exist(self, new_order):
+        exist = None
+        result = self._db_fields_info_service.db_find_column_by_attribute("new_order", new_order, id)
+        if len(result) > 0:
+            exist = result[0].id
+        return exist
