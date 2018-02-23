@@ -34,7 +34,7 @@ class FieldsInfoService(object):
         try:
             for item in new_order["new_order"]:
                 id = item["id"]
-                new = item["new"]
+                new = item["new_order"]
                 field = self._db_fields_info_service.db_find_one_by_attribute("id", id)
                 field.order_index = new
                 # update_id = self.check_exist(old)
