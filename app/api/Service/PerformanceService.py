@@ -13,7 +13,8 @@ class PerformanceService(object):
         self._db_fields_info_service = DBService("DBFieldsInfo")
 
     """Class Performance"""
-    def submit_performance(self, performance):
+    def submit_performance(self, request_json):
+        performance = PerformanceService.read_json(request_json)
         check = self.check_exist(performance.get_date, performance.get_dept_id)
         if check is not None:
             logging.info("该条记录已存在！")

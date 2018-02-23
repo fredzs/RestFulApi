@@ -139,3 +139,15 @@ class DBService(object):
         query = self._db_session.query(func.count('*'))
         result = query.filter(self._db_class.submit_date == date).first()
         return result[0]
+
+    def db_find_max_id(self):
+        self._db_session = DBFactory().get_db_session()
+        query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, "id").desc())
+        result = query.first()
+        return result
+
+    def db_find_max_order(self):
+        self._db_session = DBFactory().get_db_session()
+        query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, "order_index").desc())
+        result = query.first()
+        return result

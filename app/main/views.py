@@ -23,8 +23,8 @@ def index():
     logger.info('---------收到index页面请求：/api----------')
     request_date = datetime.today().strftime("%Y-%m-%d")
     logger.info('---------index页面请求处理完毕-----------')
-    logger.info('\n')
-    logger.info('\n')
+    logger.info('')
+    logger.info('')
     return render_template("index.html", title='api List', date=request_date, dept_name='支行营业室')
 
 
@@ -37,11 +37,10 @@ def create_performance():
         abort(404)  # 返回404报错
     logger.info('---------收到POST请求：/api/submit----------')
     service = PerformanceService()
-    performance = PerformanceService.read_json(request.json)
-    result = service.submit_performance(performance)
+    result = service.submit_performance(request.json)
     logger.info('---------POST请求处理完毕-----------')
-    logger.info('\n')
-    logger.info('\n')
+    logger.info('')
+    logger.info('')
     if result:
         return str(request.json['dept_id']), 201  # 并返回这个添加的task内容，和状态码
     else:
@@ -60,12 +59,32 @@ def update_field():
     service = FieldsInfoService()
     result = service.update_field(request.json)
     logger.info('---------POST请求处理完毕-----------')
-    logger.info('\n')
-    logger.info('\n')
+    logger.info('')
+    logger.info('')
     if result:
         return str(request.json['field_id']), 201  # 并返回这个添加的task内容，和状态码
     else:
         return str(request.json['field_id']), 500
+
+
+@main.route('/api/create_field', methods=['POST'])
+def create_field():
+    """POST方法，用于更新字段"""
+    logger.info(request)
+    if not request.json or 'field_name' not in request.json:
+        # 如果请求里面没有JSON数据，或者在JSON数据里面，title的内容是空的
+        abort(404)  # 返回404报错
+        pass
+    logger.info('---------收到POST请求：/api/create_field----------')
+    service = FieldsInfoService()
+    result = service.create_field(request.json)
+    logger.info('---------POST请求处理完毕-----------')
+    logger.info('')
+    logger.info('')
+    if result:
+        return str(request.json['field_name']), 201  # 并返回这个添加的task内容，和状态码
+    else:
+        return str(request.json['field_name']), 500
 
 
 @main.route('/api/sort_field', methods=['POST'])
@@ -80,8 +99,8 @@ def sort_field():
     service = FieldsInfoService()
     result = service.sort_field(request.json)
     logger.info('---------POST请求处理完毕-----------')
-    logger.info('\n')
-    logger.info('\n')
+    logger.info('')
+    logger.info('')
     if result:
         return "", 201  # 并返回这个添加的task内容，和状态码
     else:
@@ -100,8 +119,8 @@ def check_submit():
     performance_service = PerformanceService()
     check_result = performance_service.check_submission(date)
     logger.info('---------GET请求处理完毕-----------')
-    logger.info('\n')
-    logger.info('\n')
+    logger.info('')
+    logger.info('')
     return check_result, 201  # 并返回这个添加的task内容，和状态码
 
 
@@ -116,8 +135,8 @@ def get_branches():
     dept_info_service = DeptInfoService()
     branch_list = dept_info_service.find_branch_list(branch_name)
     logger.info('---------GET请求处理完毕-----------')
-    logger.info('\n')
-    logger.info('\n')
+    logger.info('')
+    logger.info('')
     return branch_list, 201  # 并返回这个添加的task内容，和状态码
 
 
@@ -128,8 +147,8 @@ def get_fields():
     fields_info_service = FieldsInfoService()
     fields_list = fields_info_service.find_fields_list()
     logger.info('---------GET请求处理完毕-----------')
-    logger.info('\n')
-    logger.info('\n')
+    logger.info('')
+    logger.info('')
     return fields_list, 201  # 并返回这个添加的task内容，和状态码
 
 
@@ -140,8 +159,8 @@ def get_fields_name():
     fields_info_service = FieldsInfoService()
     fields_list = fields_info_service.find_fields_name()
     logger.info('---------GET请求处理完毕-----------')
-    logger.info('\n')
-    logger.info('\n')
+    logger.info('')
+    logger.info('')
     return fields_list, 201  # 并返回这个添加的task内容，和状态码
 
 
@@ -161,6 +180,6 @@ def display():
     performance_service = PerformanceService()
     performance = performance_service.display(date, request_dept_name)
     logger.info('---------GET请求处理完毕-----------')
-    logger.info('\n')
-    logger.info('\n')
+    logger.info('')
+    logger.info('')
     return performance, 201  # 并返回这个添加的task内容，和状态码

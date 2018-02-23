@@ -1,6 +1,7 @@
 import logging
 import json
 
+from app.api.Entity.FieldsInfo import FieldsInfo
 from app.api.ORM.DBFieldsInfo import DBFieldsInfo
 from app.api.Service.DBService import DBService
 
@@ -25,6 +26,15 @@ class FieldsInfoService(object):
         setattr(old_fields, request_json["update_k"], request_json["update_v"])
         self._db_fields_info_service.db_update_db(old_fields)
         return True
+
+    def create_field(self, request_json):
+        field = self.fill_full_field(request_json)
+        result = self._db_fields_info_service.db_save(field)
+        if result:
+            self._db_fields_info_service.db_commit()
+            return True
+        else:
+            return False
 
     def sort_field(self, request_json):
         if isinstance(request_json, str):
@@ -54,3 +64,17 @@ class FieldsInfoService(object):
         if len(result) > 0:
             exist = result[0].id
         return exist
+
+    def fill_full_field(self, json_raw):
+        if isinstance(json_raw, str):
+            json_obj = json.loads(json_raw)
+        else:
+            json_obj = json_raw
+        max_id_field = self._db_fields_info_service.db_find_max_id()
+        field_id = max_id_field.field_id.split('_')[0] + "_" + str(int(max_id_field.field_id.split('_')[1])+1)
+        field_name = json_obj['field_name']
+        field_type = json_obj['field_type']
+        max_order_field = self._db_fields_info_service.db_find_max_order()
+        order_index = max_order_field.order_index + 1
+        field = FieldsInfo(field_id, field_name, "corporate", field_type, order_index, 1)
+        return field
