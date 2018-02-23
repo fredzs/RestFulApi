@@ -90,8 +90,11 @@ class PerformanceService(object):
                                                                                            ["corporate", "1"],
                                                                                            "order_index")
         name_list = {}
+        status_list = []
         for item in fields_list:
-            name_list[item.field_id]=item.field_name
+            name_list[item.field_id] = item.field_name
+            status_list.append(item.field_id)
         for field in extra_fields:
-            extra_fields_full.append({"field_name": name_list[field], "field_value": extra_fields[field]})
+            if field in status_list:
+                extra_fields_full.append({"field_name": name_list[field], "field_value": extra_fields[field]})
         return extra_fields_full
