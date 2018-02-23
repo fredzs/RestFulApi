@@ -47,7 +47,7 @@ class PerformanceService(object):
         performance = Performance(dept_id, date, submit_user, extra_fields)
         return performance
 
-    def check_submission(self, date):
+    def pre_check_submission(self, date):
         branch_dept_list = self._db_dept_info_service.db_find_list_by_attribute("dept_type", 2)
         performance_list = self._db_performance_service.db_find_list_by_attribute("date", date)
         done_list, submission_list, unsubmission_list = [], [], []
@@ -66,13 +66,21 @@ class PerformanceService(object):
                     break
             if not c:
                 unsubmission_list.append({"dept_name": dept_name_list[item]})
-        json_data = {"date": date.strftime("%Y-%m-%d"), "submission_list": submission_list, "unsubmission_list": unsubmission_list}
+
+        return submission_list, unsubmission_list
+
+    def check_submission(self, date):
+        submission_list, unsubmission_list = self.pre_check_submission(date)
+        json_data = {"date": date.strftime("%Y-%m-%d"), "submission_list": submission_list,
+                     "unsubmission_list": unsubmission_list}
         result = json.dumps(json_data, ensure_ascii=False)
-        # logging.info("%s已提交业绩的网点有：%s" % (date.strftime('%Y-%m-%d'), submission_list))
-        # logging.info("%s尚未提交业绩的网点有：%s" % (date.strftime('%Y-%m-%d'), unsubmission_list))
         return result
 
     def display(self, date, dept_name):
+        result = json.dumps(self.pre_display(date, dept_name), ensure_ascii=False)
+        return result
+
+    def pre_display(self, date, dept_name):
         dept_id = self._db_dept_info_service.db_find_column_by_attribute("dept_name", dept_name, "dept_id")[0].dept_id
         db = self._db_performance_service.db_find_list_by_attribute_list(["date", "dept_id"], [date, dept_id])
         performance = {}
@@ -81,9 +89,7 @@ class PerformanceService(object):
             performance = {"submit_user": d.submit_user,
                            "submit_date": str(d.submit_date),
                            "extra_fields": self.rewrite_extra_fields(d.extra_fields)}
-
-        result = json.dumps(performance, ensure_ascii=False)
-        return result
+        return performance
 
     def rewrite_extra_fields(self, extra_fields):
         extra_fields_full = []
