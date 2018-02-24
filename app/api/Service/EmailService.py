@@ -12,7 +12,7 @@ class EmailService(object):
     def __init__(self):
         self._db_fields_info_service = DBService("DBFieldsInfo")
         self._from_addr = "fredzs@vip.qq.com"
-        self._password = "Fred1234,."
+        self._password = "lfojfpmtjermbijj"
         self._to_addr = ["fred_zs_icbc@163.com", "38425449@qq.com", "wangjj_wj@bj.icbc.com.cn", "yuwen_wj@bj.icbc.com.cn"]
         self._smtp_server = "smtp.qq.com"
 
