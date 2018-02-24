@@ -77,19 +77,20 @@ class PerformanceService(object):
         return result
 
     def display(self, date, dept_name):
-        result = json.dumps(self.pre_display(date, dept_name), ensure_ascii=False)
-        return result
-
-    def pre_display(self, date, dept_name):
-        dept_id = self._db_dept_info_service.db_find_column_by_attribute("dept_name", dept_name, "dept_id")[0].dept_id
-        db = self._db_performance_service.db_find_list_by_attribute_list(["date", "dept_id"], [date, dept_id])
         performance = {}
-        if len(db) > 0:
-            d = db[0]
+        obj = self.find_performance_by_date_dept_name(date, dept_name)
+        if len(obj) > 0:
+            d = obj[0]
             performance = {"submit_user": d.submit_user,
                            "submit_date": str(d.submit_date),
                            "extra_fields": self.rewrite_extra_fields(d.extra_fields)}
-        return performance
+        result = json.dumps(performance, ensure_ascii=False)
+        return result
+
+    def find_performance_by_date_dept_name(self, date, dept_name):
+        dept_id = self._db_dept_info_service.db_find_column_by_attribute("dept_name", dept_name, "dept_id")[0].dept_id
+        db = self._db_performance_service.db_find_list_by_attribute_list(["date", "dept_id"], [date, dept_id])
+        return db
 
     def rewrite_extra_fields(self, extra_fields):
         extra_fields_full = []

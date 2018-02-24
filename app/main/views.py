@@ -7,6 +7,7 @@ from flask import request
 from flask import render_template
 from logging.config import fileConfig
 from app.api.Service.DeptInfoService import DeptInfoService
+from app.api.Service.EmailService import EmailService
 from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
 from . import main
@@ -111,13 +112,13 @@ def sort_field():
 def send_email():
     """POST方法，用于给字段排序"""
     logger.info(request)
-    if not request.json or 'new_order' not in request.json:
+    if not request.json or 'date' not in request.json:
         # 如果请求里面没有JSON数据，或者在JSON数据里面，title的内容是空的
         abort(404)  # 返回404报错
         pass
-    logger.info('---------收到POST请求：/api/sort_field----------')
-    service = FieldsInfoService()
-    result = service.sort_field(request.json)
+    logger.info('---------收到POST请求：/api/send_email----------')
+    service = EmailService()
+    result = service.send_email(request.json["date"])
     logger.info('---------POST请求处理完毕-----------')
     logger.info('')
     logger.info('')
@@ -173,11 +174,11 @@ def get_fields():
 
 
 @main.route('/api/fields_name', methods=['GET'])
-def get_fields_name():
+def get_available_fields_name():
     """GET，用于获取所有字段"""
     logger.info('---------收到GET请求：/api/fields_name----------')
     fields_info_service = FieldsInfoService()
-    fields_list = fields_info_service.find_fields_name()
+    fields_list = fields_info_service.find_available_fields_name()
     logger.info('---------GET请求处理完毕-----------')
     logger.info('')
     logger.info('')

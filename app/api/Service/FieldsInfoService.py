@@ -16,7 +16,7 @@ class FieldsInfoService(object):
         result = json.dumps(fields_list, default=DBFieldsInfo.obj_2_json, sort_keys=False, ensure_ascii=False, indent=4)
         return result
 
-    def find_fields_name(self):
+    def find_available_fields_name(self):
         fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status"], ["corporate", "1"], "order_index")
         result = json.dumps(fields_list, default=DBFieldsInfo.obj_2_json_simple, sort_keys=False, ensure_ascii=False, indent=4)
         return result
