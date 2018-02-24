@@ -108,17 +108,17 @@ def sort_field():
         return "", 500
 
 
-@main.route('/api/send_email', methods=['POST'])
-def send_email():
+@main.route('/api/send_daily_email', methods=['POST'])
+def send_daily_email():
     """POST方法，用于给字段排序"""
     logger.info(request)
     if not request.json or 'date' not in request.json:
         # 如果请求里面没有JSON数据，或者在JSON数据里面，title的内容是空的
         abort(404)  # 返回404报错
         pass
-    logger.info('---------收到POST请求：/api/send_email----------')
+    logger.info('---------收到POST请求：/api/send_daily_email----------')
     service = EmailService()
-    result = service.send_email(request.json["date"])
+    result = service.send_daily_email(request.json["date"])
     logger.info('---------POST请求处理完毕-----------')
     logger.info('')
     logger.info('')

@@ -16,24 +16,24 @@ class EmailService(object):
     def __init__(self):
         self._db_fields_info_service = DBService("DBFieldsInfo")
 
-    def send_email(self, date):
+    def send_daily_email(self, date):
         from_addr = "fredzs@vip.qq.com"
         password = "Fred1234,."
-        to_addr = "fred_zs_icbc@163.com"
-        #to_addr = ["fred_zs_icbc@163.com", "38425449@qq.com", "yuwen_wj@bj.icbc.com.cn"]
+        #to_addr = "fred_zs_icbc@163.com"
+        to_addr = ["fred_zs_icbc@163.com", "38425449@qq.com", "wangjj_wj@bj.icbc.com.cn", "yuwen_wj@bj.icbc.com.cn"]
         smtp_server = "smtp.qq.com"
 
         try:
-            msg = MIMEText(self.make_content(date), 'html', 'utf-8')
+            msg = MIMEText(self.make_daily_content(date), 'html', 'utf-8')
             msg['From'] = self.format_addr('每日对公业绩统计 <%s>' % from_addr)
-            msg['To'] = self.format_addr('管理员 <%s>' % to_addr)
+            msg['To'] = self.format_addr('管理员 <%s>' % to_addr[0])
             #msg['To'] = self.format_addr('管理员 <%s>' % to_addr[1])
             msg['Subject'] = Header('每日对公业绩统计_' + date, 'utf-8').encode()
 
             server = smtplib.SMTP_SSL(smtp_server, 465)
             # server.set_debuglevel(2)
             server.login(from_addr, password)
-            server.sendmail(from_addr, [to_addr], msg.as_string())
+            server.sendmail(from_addr, to_addr, msg.as_string())
         except Exception as e:
             logging.error(e)
             return False
@@ -46,19 +46,21 @@ class EmailService(object):
         name, addr = parseaddr(s)
         return formataddr((Header(name, 'utf-8').encode(), addr))
 
-    def make_content(self, date):
+    def make_daily_content(self, date):
         content = "<html><body>"
         content += "<h2>" + date + " 对公业绩汇总：</h2>"
         content += "<table border=\"1\" style= \"border-collapse: collapse; border-color: #BCD1E6;\"><tbody><tr style= \"border-color: #9AA2A9;\">"
-        content += "<td width=\"50\" align=\"center\"><B>序号</B></td>"
-        content += "<td width=\"100\" align=\"center\"><B>网点</B></td>"
+        content += "<td width=\"40\" align=\"center\"><B>序号</B></td>"
+        content += "<td width=\"110\" align=\"center\"><B>网点</B></td>"
 
         try:
             available_fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status"], ["corporate", "1"], "order_index")
             a_f_id_list = []
             for field in available_fields_list:
-                content += "<td width=\"100\" align=\"center\"><B>%s</B></td>" % field.field_name
+                content += "<td width=\"70\" align=\"center\"><B>%s</B></td>" % field.field_name
                 a_f_id_list.append(field.field_id)
+
+            content += "<td width=\"100\" align=\"center\"><B>%s</B></td>" % "报送人"
             content += "</tr>"
 
             performance_service = PerformanceService()
@@ -78,7 +80,9 @@ class EmailService(object):
                         if a_f_id in extra_fields:
                             content += "<td align=\"center\">%s</td>" % extra_fields[a_f_id]
                         else:
-                            content += "<td></td>"
+                            content += "<td align=\"center\">-</td>"
+
+                    content += "<td align=\"center\">%s</td>" % p["submit_user"]
                     content += "</tr>"
                 else:
                     pass
