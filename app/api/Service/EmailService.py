@@ -7,6 +7,7 @@ from app.api.Service.DBService import DBService
 from app.api.Service.PerformanceService import PerformanceService
 import logging
 
+
 class EmailService(object):
     """Class EmailService"""
     def __init__(self):
