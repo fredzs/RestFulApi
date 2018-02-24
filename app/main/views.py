@@ -6,6 +6,8 @@ from datetime import datetime
 from flask import request
 from flask import render_template
 from logging.config import fileConfig
+
+from app.api.Service.ConfigService import ConfigService
 from app.api.Service.DeptInfoService import DeptInfoService
 from app.api.Service.EmailService import EmailService
 from app.api.Service.FieldsInfoService import FieldsInfoService
@@ -204,3 +206,24 @@ def display():
     logger.info('')
     logger.info('')
     return performance, 201  # 并返回这个添加的task内容，和状态码
+
+
+@main.route('/api/admin', methods=['GET'])
+def admin():
+    result = False
+    admin_password = ""
+    """GET，用于检查未提交业绩的网点"""
+    logger.info('---------收到GET请求：/api/admin----------')
+    if not request.args.get('admin_password'):
+        abort(404)
+    else:
+        admin_password = request.args.get('admin_password')
+    config_service = ConfigService()
+    result = config_service.check_password(admin_password)
+    logger.info('---------GET请求处理完毕-----------')
+    logger.info('')
+    logger.info('')
+    if result:
+        return "access", 201
+    else:
+        return "forbid", 201  # 并返回这个添加的task内容，和状态码

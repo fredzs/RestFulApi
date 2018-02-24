@@ -1,39 +1,31 @@
-from datetime import datetime
-from email import encoders
 from email.header import Header
 from email.mime.text import MIMEText
 from email.utils import parseaddr, formataddr
 import smtplib
 
 from app.api.Service.DBService import DBService
-from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
-from app.api.Entity.FieldsInfo import FieldsInfo
 import logging
 
 class EmailService(object):
     """Class EmailService"""
     def __init__(self):
         self._db_fields_info_service = DBService("DBFieldsInfo")
+        self._from_addr = "fredzs@vip.qq.com"
+        self._password = "Fred1234,."
+        self._to_addr = ["fred_zs_icbc@163.com", "38425449@qq.com", "wangjj_wj@bj.icbc.com.cn", "yuwen_wj@bj.icbc.com.cn"]
+        self._smtp_server = "smtp.qq.com"
 
     def send_daily_email(self, date):
-        from_addr = "fredzs@vip.qq.com"
-        password = "Fred1234,."
-        #to_addr = "fred_zs_icbc@163.com"
-        to_addr = ["fred_zs_icbc@163.com", "38425449@qq.com", "wangjj_wj@bj.icbc.com.cn", "yuwen_wj@bj.icbc.com.cn"]
-        smtp_server = "smtp.qq.com"
-
         try:
             msg = MIMEText(self.make_daily_content(date), 'html', 'utf-8')
-            msg['From'] = self.format_addr('每日对公业绩统计 <%s>' % from_addr)
-            msg['To'] = self.format_addr('管理员 <%s>' % to_addr[0])
-            #msg['To'] = self.format_addr('管理员 <%s>' % to_addr[1])
+            msg['From'] = self.format_addr('每日对公业绩统计 <%s>' % self._from_addr)
+            msg['To'] = self.format_addr('管理员 <%s>' % self._to_addr[0])
             msg['Subject'] = Header('每日对公业绩统计_' + date, 'utf-8').encode()
 
-            server = smtplib.SMTP_SSL(smtp_server, 465)
-            # server.set_debuglevel(2)
-            server.login(from_addr, password)
-            server.sendmail(from_addr, to_addr, msg.as_string())
+            server = smtplib.SMTP_SSL(self._smtp_server, 465)
+            server.login(self._from_addr, self._password)
+            server.sendmail(self._from_addr, self._to_addr, msg.as_string())
         except Exception as e:
             logging.error(e)
             return False
