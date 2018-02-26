@@ -1,19 +1,18 @@
 """数据库测试文件"""
 
-import logging
-from logging.config import fileConfig
 import os
+from app.api.Factory.LogFactory import LogFactory
 
-dir1 = os.path.abspath("logging_config.ini").replace("\\","/")
-fileConfig('../logging_config.ini')
-LOGGER = logging.getLogger()
+logger = LogFactory().get_logger()
 
 
 if __name__ == "__main__":
-    LOGGER.info('-----------------------------------程序开始执行-----------------------------------')
+    logger.info('-----------------------------------程序开始执行-----------------------------------')
     log_dir = os.path.join(os.getcwd(), "logging_config.ini").replace("\\","/")
-    LOGGER.info(log_dir)
+    logger.info(log_dir)
     dir1 = os.path.abspath("logging_config.ini")
-    LOGGER.info(dir1)
+    logger.info(dir1)
+    base_dir = os.path.dirname(__file__)
+    logger.info(os.path.join(base_dir, "logging_config.ini"))
 
-    LOGGER.info('-----------------------------------程序执行结束-----------------------------------')
+    logger.info('-----------------------------------程序执行结束-----------------------------------')

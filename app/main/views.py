@@ -216,15 +216,17 @@ def admin():
     logger.info('')
     logger.info('---------收到GET请求：/api/admin----------')
 
+    logger.info(request.args)
     admin_password = ""
     if not request.args.get('admin_password'):
         abort(404)
     else:
         admin_password = request.args.get('admin_password')
-    logger.info("args: admin_password=" + request.args.get('admin_password'))
+    logger.info("args: admin_password=" + admin_password)
 
     config_service = ConfigService()
     result = config_service.check_password(admin_password)
+    logger.info('密码验证结果：' + result)
     logger.info('---------GET请求处理完毕-----------')
     if result:
         return "access", 201
