@@ -86,7 +86,7 @@ def create_field():
     logger.info('')
     logger.info('---------收到POST请求：/api/create_field----------')
 
-    if not request.json or 'field_name' not in request.json or 'filed_type' not in request.json or 'filed_unit' not in request.json:
+    if not request.json or 'field_name' not in request.json or 'field_type' not in request.json or 'field_unit' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
     logger.info("args: " + str(request.json))
