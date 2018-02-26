@@ -5,7 +5,9 @@ import smtplib
 
 from app.api.Service.DBService import DBService
 from app.api.Service.PerformanceService import PerformanceService
-from app.api.Factory.LogFactory import logger
+from app.api.Factory.LogFactory import LogFactory
+
+logger = LogFactory().get_logger()
 
 
 class EmailService(object):
@@ -18,6 +20,7 @@ class EmailService(object):
         self._smtp_server = "smtp.qq.com"
 
     def send_daily_email(self, date):
+        server = None
         try:
             msg = MIMEText(self.make_daily_content(date), 'html', 'utf-8')
             msg['From'] = self.format_addr('每日对公业绩统计 <%s>' % self._from_addr)
@@ -81,7 +84,7 @@ class EmailService(object):
                 else:
                     pass
         except Exception as e:
-            logging.error(e)
+            logger.error(e)
 
         content += "</tbody></table>"
         content += "</body></html>"

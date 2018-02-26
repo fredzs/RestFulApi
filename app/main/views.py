@@ -10,8 +10,10 @@ from app.api.Service.DeptInfoService import DeptInfoService
 from app.api.Service.EmailService import EmailService
 from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
-from app.api.Factory.LogFactory import logger
 from . import main
+from app.api.Factory.LogFactory import LogFactory
+
+logger = LogFactory().get_logger()
 
 
 @main.route('/api')

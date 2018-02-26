@@ -1,5 +1,3 @@
-import logging
-
 import sys
 
 from sqlalchemy import func
@@ -9,6 +7,9 @@ from app.api.Factory.DBFactory import DBFactory
 from app.api.ORM.DBPerformance import DBPerformance
 from app.api.ORM.DBDeptInfo import DBDeptInfo
 from app.api.ORM.DBFieldsInfo import DBFieldsInfo
+from app.api.Factory.LogFactory import LogFactory
+
+logger = LogFactory().get_logger()
 
 
 class DBService(object):
@@ -35,9 +36,9 @@ class DBService(object):
         try:
             self._db_session.add(db_service)
         except Exception as e:
-            logging.info("写入数据库缓存失败:%s" % e)
+            logger.info("写入数据库缓存失败:%s" % e)
             return False
-        logging.info("已写入数据库缓存")
+        logger.info("已写入数据库缓存")
         return True
 
     def db_update(self, field, update_id):
@@ -45,18 +46,18 @@ class DBService(object):
         try:
             self._db_session.merge(db_service)
         except Exception as e:
-            logging.info("写入数据库缓存失败:%s" % e)
+            logger.info("写入数据库缓存失败:%s" % e)
             return False
-        logging.info("已写入数据库缓存")
+        logger.info("已写入数据库缓存")
         return True
 
     def db_update_db(self, db_obj):
         try:
             self._db_session.merge(db_obj)
         except Exception as e:
-            logging.info("写入数据库缓存失败:%s" % e)
+            logger.info("写入数据库缓存失败:%s" % e)
             return False
-        logging.info("已写入数据库缓存")
+        logger.info("已写入数据库缓存")
         self.db_commit()
         return True
 
@@ -64,24 +65,24 @@ class DBService(object):
         try:
             self._db_session.flush()
             self._db_session.commit()
-            logging.info("已提交数据库")
+            logger.info("已提交数据库")
         except IntegrityError as e:
             self._db_session.rollback()
-            logging.error("记录重复")
-            logging.error(e)
+            logger.error("记录重复")
+            logger.error(e)
         except Exception as e:
-            logging.error("提交数据库失败！")
-            logging.error(e)
+            logger.error("提交数据库失败！")
+            logger.error(e)
 
     def db_find_list_by_attribute(self, attribute, search_content):
         query = self._db_session.query(self._db_class).filter(getattr(self._db_class, attribute) == search_content)
-        logging.debug(query)
+        logger.debug(query)
         result = query.all()
         return result
 
     def db_find_list_by_attribute_order_by(self, attribute, search_content, order_by):
         query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, order_by).asc()).filter(getattr(self._db_class, attribute) == search_content)
-        logging.debug(query)
+        logger.debug(query)
         result = query.all()
         return result
 
@@ -89,7 +90,7 @@ class DBService(object):
         query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, order_by).asc())
         for attr, content in zip(attribute_list, search_content_list):
             query = query.filter(getattr(self._db_class, attr) == content)
-        logging.debug(query)
+        logger.debug(query)
         result = query.all()
         return result
 
@@ -97,21 +98,21 @@ class DBService(object):
         query = self._db_session.query(self._db_class)
         for attr, content in zip(attribute_list, search_content_list):
             query = query.filter(getattr(self._db_class, attr) == content)
-        logging.debug(query)
+        logger.debug(query)
         result = query.all()
         return result
 
     def db_find_column_by_attribute(self, attribute, search_content, column):
         query = self._db_session.query(getattr(self._db_class, column)).filter(
             getattr(self._db_class, attribute) == search_content)
-        logging.debug(query)
+        logger.debug(query)
         result = query.all()
         return result
 
     def db_find_one_by_attribute(self, attribute, search_content):
         query = self._db_session.query(self._db_class).filter(
             getattr(self._db_class, attribute) == search_content)
-        logging.debug(query)
+        logger.debug(query)
         result = query.first()
         return result
 
@@ -119,7 +120,7 @@ class DBService(object):
         query = self._db_session.query(getattr(self._db_class, column))
         for attr, content in zip(attribute_list, search_content_list):
             query = query.filter(getattr(self._db_class, attr) == content)
-        logging.debug(query)
+        logger.debug(query)
         result = query.all()
         return result
 
