@@ -1,27 +1,29 @@
 """数据库工厂"""
 
-
-import logging
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
+from app.api.Factory.LogFactory import LogFactory
 
 
 class DBFactory(object):
     """数据库工厂"""
-    # 初始化数据库连接:
-    engine = create_engine('mysql+mysqlconnector://fred_zs:some_pass@123.207.136.133:3306/ICBC', pool_recycle=50)
-    # 创建DBSession类型:
-    DBSession = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
-    # 创建session对象:
-    db_session = DBSession()
+    def __init__(self):
+        # 初始化数据库连接:
+        self._logger = LogFactory().get_logger()
+        engine = create_engine('mysql+mysqlconnector://fred_zs:some_pass@123.207.136.133:3306/ICBC', pool_recycle=50)
+        # 创建DBSession类型:
+        session_class = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+        # 创建session对象:
+        self._logger.info("创建数据库连接。")
+        self._db_session = session_class()
 
-    @staticmethod
-    def get_db_session():
+    def get_db_session(self):
         """获取数据库连接"""
-        return DBFactory.db_session
+        self._logger.info("获取数据库连接。")
+        return self._db_session
 
-    @staticmethod
-    def close_session():
+    def close_session(self):
         """关闭数据库连接"""
-        DBFactory.db_session.close()
-        logging.info("关闭数据库连接。")
+        self._db_session.close()
+        self._logger.info("关闭数据库连接。")
+        return

@@ -31,7 +31,6 @@ class DBService(object):
         return db_obj
 
     def db_save(self, performance):
-        self._db_session = DBFactory.get_db_session()
         db_service = self.copy_to_db(performance)
         try:
             self._db_session.add(db_service)
@@ -42,7 +41,6 @@ class DBService(object):
         return True
 
     def db_update(self, field, update_id):
-        self._db_session = DBFactory.get_db_session()
         db_service = self.copy_to_db(field, update_id)
         try:
             self._db_session.merge(db_service)
@@ -63,7 +61,6 @@ class DBService(object):
         return True
 
     def db_commit(self):
-        self._db_session = DBFactory.get_db_session()
         try:
             self._db_session.flush()
             self._db_session.commit()
@@ -77,21 +74,18 @@ class DBService(object):
             logging.error(e)
 
     def db_find_list_by_attribute(self, attribute, search_content):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(self._db_class).filter(getattr(self._db_class, attribute) == search_content)
         logging.debug(query)
         result = query.all()
         return result
 
     def db_find_list_by_attribute_order_by(self, attribute, search_content, order_by):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, order_by).asc()).filter(getattr(self._db_class, attribute) == search_content)
         logging.debug(query)
         result = query.all()
         return result
 
     def db_find_list_by_attribute_list_order_by(self, attribute_list, search_content_list, order_by):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, order_by).asc())
         for attr, content in zip(attribute_list, search_content_list):
             query = query.filter(getattr(self._db_class, attr) == content)
@@ -100,7 +94,6 @@ class DBService(object):
         return result
 
     def db_find_list_by_attribute_list(self, attribute_list, search_content_list):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(self._db_class)
         for attr, content in zip(attribute_list, search_content_list):
             query = query.filter(getattr(self._db_class, attr) == content)
@@ -109,7 +102,6 @@ class DBService(object):
         return result
 
     def db_find_column_by_attribute(self, attribute, search_content, column):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(getattr(self._db_class, column)).filter(
             getattr(self._db_class, attribute) == search_content)
         logging.debug(query)
@@ -117,7 +109,6 @@ class DBService(object):
         return result
 
     def db_find_one_by_attribute(self, attribute, search_content):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(self._db_class).filter(
             getattr(self._db_class, attribute) == search_content)
         logging.debug(query)
@@ -125,7 +116,6 @@ class DBService(object):
         return result
 
     def db_find_column_by_attribute_list(self, attribute_list, search_content_list, column):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(getattr(self._db_class, column))
         for attr, content in zip(attribute_list, search_content_list):
             query = query.filter(getattr(self._db_class, attr) == content)
@@ -134,19 +124,16 @@ class DBService(object):
         return result
 
     def db_find_date_total(self, date):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(func.count('*'))
         result = query.filter(self._db_class.submit_date == date).first()
         return result[0]
 
     def db_find_max_id(self):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, "id").desc())
         result = query.first()
         return result
 
     def db_find_max_order(self):
-        self._db_session = DBFactory().get_db_session()
         query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, "order_index").desc())
         result = query.first()
         return result
