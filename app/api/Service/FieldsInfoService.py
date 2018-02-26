@@ -74,7 +74,8 @@ class FieldsInfoService(object):
         field_id = max_id_field.field_id.split('_')[0] + "_" + str(int(max_id_field.field_id.split('_')[1])+1)
         field_name = json_obj['field_name']
         field_type = json_obj['field_type']
+        field_unit = json_obj['field_unit']
         max_order_field = self._db_fields_info_service.db_find_max_order()
         order_index = max_order_field.order_index + 1
-        field = FieldsInfo(field_id, field_name, "corporate", field_type, order_index, 1)
+        field = FieldsInfo(field_id, field_name, "corporate", field_type, field_unit, order_index, 1)
         return field

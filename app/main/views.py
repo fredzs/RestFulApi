@@ -17,7 +17,6 @@ logger = LogFactory().get_logger()
 
 
 @main.route('/api')
-@main.route('/api/index')
 def index():
     """默认的Get请求"""
     logger.info('')
@@ -25,7 +24,7 @@ def index():
 
     request_date = datetime.today().strftime("%Y-%m-%d")
     logger.info('---------index页面请求处理完毕-----------')
-    return render_template("index.html", title='api List', date=request_date, dept_name='支行营业室')
+    return render_template("index.html", title='api List', date=request_date, dept_name='支行营业室', admin_password="159357")
 
 
 @main.route('/api/submit', methods=['POST'])
@@ -36,16 +35,23 @@ def create_performance():
 
     if not request.json or 'dept_id' not in request.json:
         # 如果请求里面没有JSON数据，或者在JSON数据里面dept_id的内容是空的
-        abort(404)  # 返回404报错
+        logger.info("传入参数错误！")
+        return "args_missing", 500
     logger.info("args: " + str(request.json))
 
-    service = PerformanceService()
-    result = service.submit_performance(request.json)
-    logger.info('---------POST请求处理完毕-----------')
-    if result:
-        return str(request.json['dept_id']), 201  # 并返回这个添加的task内容，和状态码
-    else:
-        return str(request.json['dept_id']), 500
+    result = False
+    try:
+        service = PerformanceService()
+        result = service.submit_performance(request.json)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+    finally:
+        logger.info('---------POST请求处理完毕-----------')
+        if result:
+            return "success", 201  # 并返回这个添加的task内容，和状态码
+        else:
+            return "fail", 500
 
 
 @main.route('/api/update_field', methods=['POST'])
@@ -55,16 +61,23 @@ def update_field():
     logger.info('---------收到POST请求：/api/update_field----------')
 
     if not request.json or 'field_id' not in request.json:
-        abort(404)
+        logger.info("传入参数错误！")
+        return "args_missing", 500
     logger.info("args: " + str(request.json))
 
-    service = FieldsInfoService()
-    result = service.update_field(request.json)
-    logger.info('---------POST请求处理完毕-----------')
-    if result:
-        return str(request.json['field_id']), 201
-    else:
-        return str(request.json['field_id']), 500
+    result = False
+    try:
+        service = FieldsInfoService()
+        result = service.update_field(request.json)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+    finally:
+        logger.info('---------POST请求处理完毕-----------')
+        if result:
+            return "success", 201
+        else:
+            return "fail", 500
 
 
 @main.route('/api/create_field', methods=['POST'])
@@ -73,17 +86,24 @@ def create_field():
     logger.info('')
     logger.info('---------收到POST请求：/api/create_field----------')
 
-    if not request.json or 'field_name' not in request.json:
-        abort(404)
+    if not request.json or 'field_name' not in request.json or 'filed_type' not in request.json or 'filed_unit' not in request.json:
+        logger.info("传入参数错误！")
+        return "args_missing", 500
     logger.info("args: " + str(request.json))
 
-    service = FieldsInfoService()
-    result = service.create_field(request.json)
-    logger.info('---------POST请求处理完毕-----------')
-    if result:
-        return str(request.json['field_name']), 201
-    else:
-        return str(request.json['field_name']), 500
+    result = False
+    try:
+        service = FieldsInfoService()
+        result = service.create_field(request.json)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+    finally:
+        logger.info('---------POST请求处理完毕-----------')
+        if result:
+            return "success", 201
+        else:
+            return "fail", 500
 
 
 @main.route('/api/sort_field', methods=['POST'])
@@ -93,16 +113,23 @@ def sort_field():
     logger.info('---------收到POST请求：/api/sort_field----------')
 
     if not request.json or 'new_order' not in request.json:
-        abort(404)
+        logger.info("传入参数错误！")
+        return "args_missing", 500
     logger.info("args: " + str(request.json))
 
-    service = FieldsInfoService()
-    result = service.sort_field(request.json)
-    logger.info('---------POST请求处理完毕-----------')
-    if result:
-        return "", 201
-    else:
-        return "", 500
+    result = False
+    try:
+        service = FieldsInfoService()
+        result = service.sort_field(request.json)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+    finally:
+        logger.info('---------POST请求处理完毕-----------')
+        if result:
+            return "success", 201
+        else:
+            return "fail", 500
 
 
 @main.route('/api/send_daily_email', methods=['POST'])
@@ -112,17 +139,23 @@ def send_daily_email():
     logger.info('---------收到POST请求：/api/send_daily_email----------')
 
     if not request.json or 'date' not in request.json:
-        abort(404)
-        pass
+        logger.info("传入参数错误！")
+        return "args_missing", 500
     logger.info("Data:" + str(request.json))
 
-    service = EmailService()
-    result = service.send_daily_email(request.json["date"])
-    logger.info('---------POST请求处理完毕-----------')
-    if result:
-        return "", 201
-    else:
-        return "", 500
+    result = False
+    try:
+        service = EmailService()
+        result = service.send_daily_email(request.json["date"])
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+    finally:
+        logger.info('---------POST请求处理完毕-----------')
+        if result:
+            return "success", 201
+        else:
+            return "fail", 500
 
 
 @main.route('/api/check', methods=['GET'])
@@ -136,12 +169,18 @@ def check_submit():
     else:
         request_date = request.args.get('date')
     logger.info("args: date=" + request_date)
-
-    date = datetime.strptime(request_date, "%Y-%m-%d")
-    performance_service = PerformanceService()
-    check_result = performance_service.check_submission(date)
-    logger.info('---------GET请求处理完毕-----------')
-    return check_result, 201
+    check_result = {}
+    try:
+        date = datetime.strptime(request_date, "%Y-%m-%d")
+        performance_service = PerformanceService()
+        check_result = performance_service.check_submission(date)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+        return {}, 500
+    finally:
+        logger.info('---------GET请求处理完毕-----------')
+        return check_result, 201
 
 
 @main.route('/api/branches', methods=['GET'])
@@ -156,10 +195,17 @@ def get_branches():
         branch_name = "wangjing"
     logger.info("args: branch_name=wangjing")
 
-    dept_info_service = DeptInfoService()
-    branch_list = dept_info_service.find_branch_list(branch_name)
-    logger.info('---------GET请求处理完毕-----------')
-    return branch_list, 201
+    branch_list = []
+    try:
+        dept_info_service = DeptInfoService()
+        branch_list = dept_info_service.find_branch_list(branch_name)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+        return [], 500
+    finally:
+        logger.info('---------GET请求处理完毕-----------')
+        return branch_list, 201
 
 
 @main.route('/api/fields', methods=['GET'])
@@ -168,10 +214,17 @@ def get_fields():
     logger.info('')
     logger.info('---------收到GET请求：/api/fields----------')
 
-    fields_info_service = FieldsInfoService()
-    fields_list = fields_info_service.find_fields_list()
-    logger.info('---------GET请求处理完毕-----------')
-    return fields_list, 201
+    fields_list = []
+    try:
+        fields_info_service = FieldsInfoService()
+        fields_list = fields_info_service.find_fields_list()
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+        return [], 500
+    finally:
+        logger.info('---------GET请求处理完毕-----------')
+        return fields_list, 201
 
 
 @main.route('/api/fields_name', methods=['GET'])
@@ -180,10 +233,17 @@ def get_available_fields_name():
     logger.info('')
     logger.info('---------收到GET请求：/api/fields_name----------')
 
-    fields_info_service = FieldsInfoService()
-    fields_list = fields_info_service.find_available_fields_name()
-    logger.info('---------GET请求处理完毕-----------')
-    return fields_list, 201
+    fields_list = []
+    try:
+        fields_info_service = FieldsInfoService()
+        fields_list = fields_info_service.find_available_fields_name()
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+        return [], 500
+    finally:
+        logger.info('---------GET请求处理完毕-----------')
+        return fields_list, 201
 
 
 @main.route('/api/display', methods=['GET'])
@@ -198,16 +258,24 @@ def display():
         request_date = request.args.get('date')
 
     if not request.args.get('dept_name'):
-        return "", 201
+        logger.info("传入参数错误！")
+        return "args_missing", 500
     else:
         request_dept_name = request.args.get('dept_name')
     logger.info("args: date=" + request.args.get('date') + ", dept_name=" + request.args.get('dept_name'))
 
     date = datetime.strptime(request_date, "%Y-%m-%d")
-    performance_service = PerformanceService()
-    performance = performance_service.display(date, request_dept_name)
-    logger.info('---------GET请求处理完毕-----------')
-    return performance, 201
+    performance = {}
+    try:
+        performance_service = PerformanceService()
+        performance = performance_service.display(date, request_dept_name)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+        return {}, 500
+    finally:
+        logger.info('---------GET请求处理完毕-----------')
+        return performance, 201
 
 
 @main.route('/api/admin', methods=['GET'])
@@ -220,16 +288,22 @@ def admin():
     admin_password = ""
     if not request.args.get('admin_password'):
         logger.info("传入参数错误！")
-        return "args_error", 500
+        return "args_missing", 500
     else:
         admin_password = request.args.get('admin_password')
-    # logger.info("args: admin_password=" + admin_password)
 
-    config_service = ConfigService()
-    result = config_service.check_password(admin_password)
-    logger.info('密码验证结果：' + str(result))
-    logger.info('---------GET请求处理完毕-----------')
-    if result:
-        return "access", 201
-    else:
-        return "forbid", 201
+    result = False
+    try:
+        config_service = ConfigService()
+        result = config_service.check_password(admin_password)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+        return "error", 500
+    finally:
+        logger.info('密码验证结果：' + str(result))
+        logger.info('---------GET请求处理完毕-----------')
+        if result:
+            return "access", 201
+        else:
+            return "forbid", 201

@@ -3,11 +3,12 @@
 
 class FieldsInfo(object):
     """Class FieldsInfo"""
-    def __init__(self, field_id, field_name, business, field_type, order_index, status):
+    def __init__(self, field_id, field_name, business, field_type, field_unit, order_index, status):
         self._field_id = field_id
         self._field_name = field_name
         self._business = business
         self._field_type = field_type
+        self._field_unit = field_unit
         self._order_index = order_index
         self._status = status
 
@@ -22,6 +23,9 @@ class FieldsInfo(object):
 
     def set_field_type(self, field_type):
         self._field_type = field_type
+
+    def set_field_unit(self, field_unit):
+        self._field_unit = field_unit
 
     def set_order_index(self, order_index):
         self._order_index = order_index
@@ -44,6 +48,10 @@ class FieldsInfo(object):
     @property
     def get_field_type(self):
         return self._field_type
+
+    @property
+    def get_field_unit(self):
+        return self._field_unit
 
     @property
     def get_order_index(self):

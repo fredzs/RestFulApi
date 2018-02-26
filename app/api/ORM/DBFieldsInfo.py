@@ -18,6 +18,7 @@ class DBFieldsInfo(Base):
     field_name = Column(String(30))
     business = Column(String(20))
     field_type = Column(Integer())
+    field_unit = Column(String(10))
     order_index = Column(Integer())
     status = Column(Integer())
 
@@ -28,9 +29,10 @@ class DBFieldsInfo(Base):
                 "field_name": obj.field_name,
                 "business": obj.business,
                 "field_type": obj.field_type,
+                "field_unit": obj.field_unit,
                 "order_index": obj.order_index,
                 "status": True if obj.status == 1 else False}
 
     @staticmethod
     def obj_2_json_simple(obj):
-        return {"field_id": obj.field_id, "field_name": obj.field_name, "field_type": obj.field_type}
+        return {"field_id": obj.field_id, "field_name": obj.field_name, "field_type": obj.field_type, "field_unit": obj.field_unit}
