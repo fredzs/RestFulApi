@@ -19,8 +19,8 @@ class DBService(object):
         self._db_session = self._db_factory.get_db_session()
 
     def __del__(self):
-        pass
-        # self._db_factory.close_session()
+        logging.info("session关闭！")
+        self._db_factory.close_session()
 
     def copy_to_db(self, instance, update_id=None):
         db_obj = self._db_instance
