@@ -5,7 +5,7 @@ import smtplib
 
 from app.api.Service.DBService import DBService
 from app.api.Service.PerformanceService import PerformanceService
-import logging
+from app.api.Factory.LogFactory import logger
 
 
 class EmailService(object):
@@ -27,8 +27,9 @@ class EmailService(object):
             server = smtplib.SMTP_SSL(self._smtp_server, 465)
             server.login(self._from_addr, self._password)
             server.sendmail(self._from_addr, self._to_addr, msg.as_string())
+            logger.info("发送邮件成功：" + str(self._to_addr))
         except Exception as e:
-            logging.error(e)
+            logger.error(e)
             return False
         finally:
             server.quit()
