@@ -1,16 +1,14 @@
 """数据库测试文件"""
 
 
-import logging
-from logging.config import fileConfig
 from app.api.Service.EmailService import EmailService
+from app.api.Factory.LogFactory import LogFactory
 
-fileConfig('../logging_config.ini')
-LOGGER = logging.getLogger()
+logger = LogFactory().get_logger()
 
 
 if __name__ == "__main__":
-    LOGGER.info('-----------------------------------程序开始执行-----------------------------------')
-    SERVICE = EmailService()
-    check_result = SERVICE.send_daily_email("2018-02-23")
-    LOGGER.info('-----------------------------------程序执行结束-----------------------------------')
+    logger.info('-----------------------------------程序开始执行-----------------------------------')
+    service = EmailService()
+    check_result = service.send_daily_email("2018-02-23")
+    logger.info('-----------------------------------程序执行结束-----------------------------------')
