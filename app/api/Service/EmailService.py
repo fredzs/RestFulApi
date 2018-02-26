@@ -54,7 +54,13 @@ class EmailService(object):
             available_fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status"], ["corporate", "1"], "order_index")
             a_f_id_list = []
             for field in available_fields_list:
-                content += "<td width=\"70\" align=\"center\"><B>%s</B></td>" % field.field_name
+                content += "<td width=\"70\" align=\"center\">"
+                logger.info("field.field_type:" + field.field_type)
+                if field.field_type == "int":
+                    content += "<p><B>%s</B></p><p><B>（%s）</B></p>" % (field.field_name, field.field_unit)
+                else:
+                    content += "<p><B>%s</B></p>" % field.field_name
+                content += "</td>"
                 a_f_id_list.append(field.field_id)
 
             content += "<td width=\"100\" align=\"center\"><B>%s</B></td>" % "报送人"
