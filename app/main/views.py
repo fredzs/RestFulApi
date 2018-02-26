@@ -220,7 +220,7 @@ def admin():
     admin_password = ""
     if not request.args.get('admin_password'):
         logger.info("传入参数错误！")
-        abort(404)
+        return "args_error", 500
     else:
         admin_password = request.args.get('admin_password')
     # logger.info("args: admin_password=" + admin_password)
