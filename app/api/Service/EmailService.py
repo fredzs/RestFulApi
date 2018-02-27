@@ -14,7 +14,7 @@ class EmailService(object):
     """Class EmailService"""
     def __init__(self):
         self._db_fields_info_service = DBService("DBFieldsInfo")
-        self._from_addr = "fredzs@vip.qq.com"
+        self._from_addr = "38425449@qq.com"
         self._password = "lfojfpmtjermbijj"
         self._to_addr = ["wangjj_wj@bj.icbc.com.cn", "yuwen_wj@bj.icbc.com.cn", "fred_zs_icbc@163.com", "38425449@qq.com"]
         self._smtp_server = "smtp.qq.com"
@@ -23,8 +23,8 @@ class EmailService(object):
         server = None
         try:
             msg = MIMEText(self.make_daily_content(date), 'html', 'utf-8')
-            msg['From'] = self.format_addr('每日对公业绩统计 <%s>' % self._from_addr)
-            msg['To'] = self.format_addr('管理员 <%s>' % self._to_addr[0])
+            msg['From'] = self.format_addr('每日对公营销业绩统计 <%s>' % self._from_addr)
+            msg['To'] = self.format_addr('望京支行对公营销团队')
             msg['Subject'] = Header('每日对公业绩统计_' + date, 'utf-8').encode()
 
             server = smtplib.SMTP_SSL(self._smtp_server, 465)
@@ -55,7 +55,6 @@ class EmailService(object):
             a_f_id_list = []
             for field in available_fields_list:
                 content += "<td width=\"70\" align=\"center\">"
-                logger.info("field.field_type:" + field.field_type)
                 if field.field_type == "int":
                     content += "<p><B>%s</B></p><p><B>（%s）</B></p>" % (field.field_name, field.field_unit)
                 else:
@@ -74,7 +73,7 @@ class EmailService(object):
                 content += "<td align=\"center\">" + str(i+1) + "</td>"
                 content += "<td align=\"center\">" + p["dept_name"] + "</td>"
 
-                performance_list = performance_service.find_performance_by_date_dept_name(date, p["dept_name"])
+                performance_list = performance_service.find_performance_by_date(date, "dept_name", p["dept_name"])
                 if len(performance_list) > 0:
                     performance = performance_list[0]
                     extra_fields = performance.extra_fields
