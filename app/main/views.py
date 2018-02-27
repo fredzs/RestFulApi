@@ -169,15 +169,18 @@ def check_submit():
     else:
         request_date = request.args.get('date')
     logger.info("args: date=" + request_date)
-    check_result = {}
+    check_result = {"date": "", "submission_list": [], "unsubmission_list": []}
     try:
         date = datetime.strptime(request_date, "%Y-%m-%d")
         performance_service = PerformanceService()
         check_result = performance_service.check_submission(date)
+    except ValueError:
+        logger.warning('日期选择错误')
+        return check_result, 201
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
-        return {}, 500
+        return check_result, 500
     finally:
         logger.info('---------GET请求处理完毕-----------')
         return check_result, 201
