@@ -281,6 +281,35 @@ def display():
         return performance, 201
 
 
+@main.route('/api/find', methods=['GET'])
+def find():
+    """GET，用于查找一条业绩"""
+    logger.info('')
+    logger.info('---------收到GET请求：/api/find----------')
+
+    if not request.args.get('date') or not request.args.get("dept_id"):
+        logger.info("传入参数错误！")
+        return "args_missing", 500
+    else:
+        request_date = request.args.get('date')
+        request_dept_id = request.args.get('dept_id')
+
+    logger.info("args: date=" + request_date + ", dept_id=" + request_dept_id)
+
+    date = datetime.strptime(request_date, "%Y-%m-%d")
+    result = {}
+    try:
+        performance_service = PerformanceService()
+        result = performance_service.find(date, request_dept_id)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+        return {}, 500
+    finally:
+        logger.info('---------GET请求处理完毕-----------')
+        return result, 201
+
+
 @main.route('/api/admin', methods=['GET'])
 def admin():
     """GET，用于检查管理员密码是否正确"""

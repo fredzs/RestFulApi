@@ -82,17 +82,27 @@ class PerformanceService(object):
 
     def display(self, date, dept_name):
         performance = {}
-        obj = self.find_performance_by_date_dept_name(date, dept_name)
+        obj = self.find_performance_by_date(date, "dept_name", dept_name)
         if len(obj) > 0:
             d = obj[0]
             performance = {"submit_user": d.submit_user,
-                           "submit_date": str(d.submit_date),
+                           "date": str(d.date),
+                           "submit_time": str(d.submit_time),
                            "extra_fields": self.rewrite_extra_fields(d.extra_fields)}
         result = self.obj_2_json(performance)
         return result
 
-    def find_performance_by_date_dept_name(self, date, dept_name):
-        dept_id = self._db_dept_info_service.db_find_column_by_attribute("dept_name", dept_name, "dept_id")[0].dept_id
+    def find(self, date, dept_id):
+        performance = {"submit_user": "", "submit_time": ""}
+        obj = self.find_performance_by_date(date, "dept_id",  dept_id)
+        if len(obj) > 0:
+            d = obj[0]
+            performance = {"submit_user": d.submit_user, "submit_time": str(d.submit_time)}
+        result = self.obj_2_json(performance)
+        return result
+
+    def find_performance_by_date(self, date, attribute, content):
+        dept_id = self._db_dept_info_service.db_find_column_by_attribute(attribute, content, "dept_id")[0].dept_id
         db = self._db_performance_service.db_find_list_by_attribute_list(["date", "dept_id"], [date, dept_id])
         return db
 
