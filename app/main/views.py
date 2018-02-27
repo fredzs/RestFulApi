@@ -169,7 +169,7 @@ def check_submit():
     else:
         request_date = request.args.get('date')
     logger.info("args: date=" + request_date)
-    check_result = {"date": "", "submission_list": [], "unsubmission_list": []}
+    check_result = PerformanceService().obj_2_json({"date": "", "submission_list": [], "unsubmission_list": []})
     try:
         date = datetime.strptime(request_date, "%Y-%m-%d")
         performance_service = PerformanceService()

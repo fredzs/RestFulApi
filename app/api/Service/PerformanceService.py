@@ -73,8 +73,12 @@ class PerformanceService(object):
         submission_list, unsubmission_list = self.pre_check_submission(date)
         json_data = {"date": date.strftime("%Y-%m-%d"), "submission_list": submission_list,
                      "unsubmission_list": unsubmission_list}
-        result = json.dumps(json_data, ensure_ascii=False)
+        result = self.obj_2_json(json_data)
         return result
+
+    @staticmethod
+    def obj_2_json(obj):
+        return json.dumps(obj, ensure_ascii=False)
 
     def display(self, date, dept_name):
         performance = {}
@@ -84,7 +88,7 @@ class PerformanceService(object):
             performance = {"submit_user": d.submit_user,
                            "submit_date": str(d.submit_date),
                            "extra_fields": self.rewrite_extra_fields(d.extra_fields)}
-        result = json.dumps(performance, ensure_ascii=False)
+        result = self.obj_2_json(performance)
         return result
 
     def find_performance_by_date_dept_name(self, date, dept_name):
