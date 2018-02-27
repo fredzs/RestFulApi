@@ -28,6 +28,7 @@ class EmailService(object):
             msg['Subject'] = Header('每日对公业绩统计_' + date, 'utf-8').encode()
 
             server = smtplib.SMTP_SSL(self._smtp_server, 465)
+            # server.set_debuglevel(1)
             server.login(self._from_addr, self._password)
             server.sendmail(self._from_addr, self._to_addr, msg.as_string())
             logger.info("发送邮件成功：" + str(self._to_addr))
@@ -90,6 +91,7 @@ class EmailService(object):
                     pass
         except Exception as e:
             logger.error(e)
+            return ""
 
         content += "</tbody></table>"
         content += "</body></html>"
