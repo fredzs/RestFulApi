@@ -15,16 +15,16 @@ class DBFactory(object):
         # 创建DBSession类型:
         session_class = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
         # 创建session对象:
-        logger.info("创建数据库连接。")
+        logger.debug("创建数据库连接。")
         self._db_session = session_class()
 
     def get_db_session(self):
         """获取数据库连接"""
-        logger.info("获取数据库连接。")
+        logger.debug("获取数据库连接。")
         return self._db_session
 
     def close_session(self):
         """关闭数据库连接"""
         self._db_session.close()
-        logger.info("关闭数据库连接。")
+        # logger.info("关闭数据库连接。")
         return
