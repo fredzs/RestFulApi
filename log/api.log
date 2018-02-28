@@ -1,0 +1,55 @@
+[INFO][2018-02-28 10:16:26][views.py][line:164] 
+[INFO][2018-02-28 10:16:26][views.py][line:165] ---------收到GET请求：/api/check----------
+[INFO][2018-02-28 10:16:26][views.py][line:171] args: date=2018-02-28
+[INFO][2018-02-28 10:16:26][views.py][line:185] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:26][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:26] "GET /api/check HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:27][views.py][line:255] 
+[INFO][2018-02-28 10:16:27][views.py][line:256] ---------收到GET请求：/api/display----------
+[INFO][2018-02-28 10:16:27][views.py][line:268] args: date=2018-02-28, dept_name=支行营业室
+[INFO][2018-02-28 10:16:27][views.py][line:280] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:27][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:27] "GET /api/display?date=2018-02-28&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4 HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:28][views.py][line:164] 
+[INFO][2018-02-28 10:16:28][views.py][line:165] ---------收到GET请求：/api/check----------
+[INFO][2018-02-28 10:16:28][views.py][line:171] args: date=2018-2-28
+[INFO][2018-02-28 10:16:28][views.py][line:185] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:28][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:28] "GET /api/check?date=2018-2-28 HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:28][views.py][line:255] 
+[INFO][2018-02-28 10:16:28][views.py][line:256] ---------收到GET请求：/api/display----------
+[INFO][2018-02-28 10:16:28][views.py][line:268] args: date=2018-2-28, dept_name=首都机场支行
+[INFO][2018-02-28 10:16:28][views.py][line:280] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:28][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:28] "GET /api/display?date=2018-2-28&dept_name=%E9%A6%96%E9%83%BD%E6%9C%BA%E5%9C%BA%E6%94%AF%E8%A1%8C HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:29][views.py][line:164] 
+[INFO][2018-02-28 10:16:29][views.py][line:165] ---------收到GET请求：/api/check----------
+[INFO][2018-02-28 10:16:29][views.py][line:171] args: date=2018-2-28
+[INFO][2018-02-28 10:16:29][views.py][line:185] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:29][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:29] "GET /api/check?date=2018-2-28 HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:29][views.py][line:255] 
+[INFO][2018-02-28 10:16:29][views.py][line:256] ---------收到GET请求：/api/display----------
+[INFO][2018-02-28 10:16:29][views.py][line:268] args: date=2018-2-28, dept_name=四元桥支行
+[INFO][2018-02-28 10:16:29][views.py][line:280] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:29][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:29] "GET /api/display?date=2018-2-28&dept_name=%E5%9B%9B%E5%85%83%E6%A1%A5%E6%94%AF%E8%A1%8C HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:31][views.py][line:164] 
+[INFO][2018-02-28 10:16:31][views.py][line:165] ---------收到GET请求：/api/check----------
+[INFO][2018-02-28 10:16:31][views.py][line:171] args: date=2018-02-28
+[INFO][2018-02-28 10:16:31][views.py][line:185] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:31][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:31] "GET /api/check HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:33][views.py][line:164] 
+[INFO][2018-02-28 10:16:33][views.py][line:165] ---------收到GET请求：/api/check----------
+[INFO][2018-02-28 10:16:33][views.py][line:171] args: date=2018-02-28
+[INFO][2018-02-28 10:16:33][views.py][line:185] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:33][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:33] "GET /api/check HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:34][views.py][line:255] 
+[INFO][2018-02-28 10:16:34][views.py][line:256] ---------收到GET请求：/api/display----------
+[INFO][2018-02-28 10:16:34][views.py][line:268] args: date=2018-02-28, dept_name=支行营业室
+[INFO][2018-02-28 10:16:34][views.py][line:280] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:34][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:34] "GET /api/display?date=2018-02-28&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4 HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:36][views.py][line:164] 
+[INFO][2018-02-28 10:16:36][views.py][line:165] ---------收到GET请求：/api/check----------
+[INFO][2018-02-28 10:16:36][views.py][line:171] args: date=2018-2-28
+[INFO][2018-02-28 10:16:36][views.py][line:185] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:36][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:36] "GET /api/check?date=2018-2-28 HTTP/1.0" 201 -
+[INFO][2018-02-28 10:16:36][views.py][line:255] 
+[INFO][2018-02-28 10:16:36][views.py][line:256] ---------收到GET请求：/api/display----------
+[INFO][2018-02-28 10:16:36][views.py][line:268] args: date=2018-2-28, dept_name=四元桥支行
+[INFO][2018-02-28 10:16:36][views.py][line:280] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:16:36][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:16:36] "GET /api/display?date=2018-2-28&dept_name=%E5%9B%9B%E5%85%83%E6%A1%A5%E6%94%AF%E8%A1%8C HTTP/1.0" 201 -
