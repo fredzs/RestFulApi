@@ -1,1 +1,1 @@
-nohup python manage.py 
+nohup python manage.py > nohup_output.log 2>&1 &
