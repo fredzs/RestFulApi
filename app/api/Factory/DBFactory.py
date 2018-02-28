@@ -26,5 +26,5 @@ class DBFactory(object):
     def close_session(self):
         """关闭数据库连接"""
         self._db_session.close()
-        # logger.info("关闭数据库连接。")
+        logger.debug("关闭数据库连接。")
         return
