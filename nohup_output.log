@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/WorkStation/RestFulApi/manage.py", line 3, in <module>
+    app = create_app('default')
+  File "/home/ubuntu/WorkStation/RestFulApi/app/__init__.py", line 16, in create_app
+    from .main import main as main_blueprint
+  File "/home/ubuntu/WorkStation/RestFulApi/app/main/__init__.py", line 5, in <module>
+    from . import views
+  File "/home/ubuntu/WorkStation/RestFulApi/app/main/views.py", line 9, in <module>
+    from app.api.Service.DeptInfoService import DeptInfoService
+  File "/home/ubuntu/WorkStation/RestFulApi/app/api/Service/DeptInfoService.py", line 4, in <module>
+    from app.api.Service.DBService import DBService
+  File "/home/ubuntu/WorkStation/RestFulApi/app/api/Service/DBService.py", line 6, in <module>
+    from app.api.Factory.DBFactory import DBFactory
+  File "/home/ubuntu/WorkStation/RestFulApi/app/api/Factory/DBFactory.py", line 7, in <module>
+    logger = LogFactory().get_logger()
+  File "/home/ubuntu/WorkStation/RestFulApi/app/api/Factory/LogFactory.py", line 12, in __init__
+    fileConfig('logging_config.ini')
+  File "/home/ubuntu/anaconda3/lib/python3.6/logging/config.py", line 76, in fileConfig
+    formatters = _create_formatters(cp)
+  File "/home/ubuntu/anaconda3/lib/python3.6/logging/config.py", line 109, in _create_formatters
+    flist = cp["formatters"]["keys"]
+  File "/home/ubuntu/anaconda3/lib/python3.6/configparser.py", line 959, in __getitem__
+    raise KeyError(key)
+KeyError: 'formatters'
