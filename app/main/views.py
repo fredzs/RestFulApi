@@ -23,20 +23,27 @@ def index():
 
     request_date = datetime.today().strftime("%Y-%m-%d")
     logger.info('---------index页面请求处理完毕-----------')
-    return render_template("index.html", title='api List', date=request_date, dept_name='支行营业室', admin_password="159357")
+    return render_template("index.html", title='api List', date=request_date, dept_name='支行营业室',
+                           admin_password="159357")
 
 
 @main.route('/api/submit', methods=['POST'])
 def create_performance():
     """POST方法，用于提交业绩"""
     logger.info('')
-    logger.info('---------收到来自[%s]的[POST]请求：/api/submit----------' % request.json["user_name"])
+    logger.info('---------收到来POST请求：/api/submit----------')
 
     if not request.json or 'dept_id' not in request.json:
         # 如果请求里面没有JSON数据，或者在JSON数据里面dept_id的内容是空的
         logger.info("传入参数错误！")
         return "args_missing", 500
-    logger.info("args: " + str(request.json))
+    if 'user_name' not in request.json:
+        user_name = request.json["user_name"]
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]提交业绩：' % user_name)
+    logger.info("data: dept_id='%s', date='%s', submit_user='%s', extra_fields='%s'" % (
+        request.json["dept_id"], request.json["date"], request.json["submit_user"], request.json["extra_fields"]))
 
     result = False
     try:
@@ -46,10 +53,11 @@ def create_performance():
         logger.error('发生错误!')
         logger.error(e)
     finally:
-        logger.info('---------POST请求处理完毕-----------')
         if result:
+            logger.info('POST请求/api/submit处理完毕，返回值%s' % "success")
             return "success", 201  # 并返回这个添加的task内容，和状态码
         else:
+            logger.info('POST请求/api/submit处理完毕，返回值%s' % "fail")
             return "fail", 500
 
 
@@ -57,13 +65,18 @@ def create_performance():
 def update_field():
     """POST方法，用于更新字段"""
     logger.info('')
-    logger.info('---------收到来自[%s]的[POST]请求：/api/update_field----------' % request.json["user_name"])
+    logger.info('---------收到POST请求：/api/update_field----------')
 
     if not request.json or 'field_id' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
-    logger.info("args: " + str(request.json))
-
+    if 'user_name' not in request.json:
+        user_name = request.json["user_name"]
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]修改字段：' % user_name)
+    logger.info("data: field_id=%s, update_key=%s, submit_user=%s" % (
+        request.json["dept_id"], request.json["update_k"], request.json["update_v"]))
     result = False
     try:
         service = FieldsInfoService()
@@ -72,10 +85,11 @@ def update_field():
         logger.error('发生错误!')
         logger.error(e)
     finally:
-        logger.info('---------POST请求处理完毕-----------')
         if result:
+            logger.info('POST请求/api/update_field处理完毕，返回值%s' % "success")
             return "success", 201
         else:
+            logger.info('POST请求/api/update_field处理完毕，返回值%s' % "fail")
             return "fail", 500
 
 
@@ -83,12 +97,18 @@ def update_field():
 def create_field():
     """POST方法，用于更新字段"""
     logger.info('')
-    logger.info('---------收到来自[%s]的[POST]请求：/api/create_field----------' % request.json["user_name"])
+    logger.info('---------收到POST请求：/api/create_field----------')
 
     if not request.json or 'field_name' not in request.json or 'field_type' not in request.json or 'field_unit' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
-    logger.info("args: " + str(request.json))
+    if 'user_name' not in request.json:
+        user_name = request.json["user_name"]
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]新增字段：' % user_name)
+    logger.info("data: field_name=%s, field_type=%s, field_unit=%s" % (
+        request.json["field_name"], request.json["field_type"], request.json["field_unit"]))
 
     result = False
     try:
@@ -98,10 +118,11 @@ def create_field():
         logger.error('发生错误!')
         logger.error(e)
     finally:
-        logger.info('---------POST请求处理完毕-----------')
         if result:
+            logger.info('POST请求/api/create_field处理完毕，返回值%s' % "success")
             return "success", 201
         else:
+            logger.info('POST请求/api/create_field处理完毕，返回值%s' % "fail")
             return "fail", 500
 
 
@@ -109,12 +130,17 @@ def create_field():
 def sort_field():
     """POST方法，用于给字段排序"""
     logger.info('')
-    logger.info('---------收到来自[%s]的[POST]请求：/api/sort_field----------' % request.json["user_name"])
+    logger.info('---------收到POST请求：/api/sort_field----------')
 
     if not request.json or 'new_order' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
-    logger.info("args: " + str(request.json))
+    if 'user_name' not in request.json:
+        user_name = request.json["user_name"]
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]重新排序字段：' % user_name)
+    logger.info("data: new_order=%s" % request.json["new_order"])
 
     result = False
     try:
@@ -124,10 +150,11 @@ def sort_field():
         logger.error('发生错误!')
         logger.error(e)
     finally:
-        logger.info('---------POST请求处理完毕-----------')
         if result:
+            logger.info('POST请求/api/sort_field处理完毕，返回值%s' % "success")
             return "success", 201
         else:
+            logger.info('POST请求/api/sort_field处理完毕，返回值%s' % "fail")
             return "fail", 500
 
 
@@ -135,12 +162,17 @@ def sort_field():
 def send_daily_email():
     """POST方法，用于给字段排序"""
     logger.info('')
-    logger.info('---------收到来自[%s]的[POST]请求：/api/send_daily_email----------' % request.json["user_name"])
+    logger.info('---------收到POST请求：/api/send_daily_email----------')
 
     if not request.json or 'date' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
-    logger.info("Data:" + str(request.json))
+    if 'user_name' not in request.json:
+        user_name = request.json["user_name"]
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]发送当日统计邮件：' % user_name)
+    logger.info("data: date=%s" % request.json["date"])
 
     result = False
     try:
@@ -150,10 +182,11 @@ def send_daily_email():
         logger.error('发生错误!')
         logger.error(e)
     finally:
-        logger.info('---------POST请求处理完毕-----------')
         if result:
+            logger.info('POST请求/api/send_daily_email处理完毕，返回值%s' % "success")
             return "success", 201
         else:
+            logger.info('POST请求/api/send_daily_email处理完毕，返回值%s' % "fail")
             return "fail", 500
 
 
@@ -167,7 +200,13 @@ def check_submit():
         request_date = datetime.today().strftime("%Y-%m-%d")
     else:
         request_date = request.args.get('date')
-    logger.info("args: date=" + request_date)
+    if request.args.get('user_name') is not None:
+        user_name = request.args.get('user_name')
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]查询当日业绩报送情况。' % user_name)
+    logger.info("data: date=%s" % request_date)
+
     check_result = PerformanceService().obj_2_json({"date": "", "submission_list": [], "unsubmission_list": []})
     try:
         date = datetime.strptime(request_date, "%Y-%m-%d")
@@ -179,9 +218,10 @@ def check_submit():
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
+        logger.info('POST请求/api/check处理完毕，返回值正常。')
         return check_result, 500
     finally:
-        logger.info('---------GET请求处理完毕-----------')
+        logger.info('POST请求/api/check处理失败')
         return check_result, 201
 
 
@@ -195,7 +235,12 @@ def get_branches():
         branch_name = "wangjing"
     else:
         branch_name = "wangjing"
-    logger.info("args: branch_name=wangjing")
+    if request.args.get('user_name') is not None:
+        user_name = request.args.get('user_name')
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]查询所有网点：' % user_name)
+    logger.info("data: date=%s" % branch_name)
 
     branch_list = []
     try:
@@ -206,7 +251,7 @@ def get_branches():
         logger.error(e)
         return [], 500
     finally:
-        logger.info('---------GET请求处理完毕-----------')
+        logger.info('POST请求/api/branches处理完毕，返回值正常。')
         return branch_list, 201
 
 
@@ -215,7 +260,11 @@ def get_fields():
     """GET，用于获取所有字段"""
     logger.info('')
     logger.info('---------收到GET请求：/api/fields----------')
-
+    if request.args.get('user_name') is not None:
+        user_name = request.args.get('user_name')
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]修改字段：' % user_name)
     fields_list = []
     try:
         fields_info_service = FieldsInfoService()
@@ -225,7 +274,7 @@ def get_fields():
         logger.error(e)
         return [], 500
     finally:
-        logger.info('---------GET请求处理完毕-----------')
+        logger.info('POST请求/api/fields处理完毕，返回值正常。')
         return fields_list, 201
 
 
@@ -234,7 +283,11 @@ def get_available_fields_name():
     """GET，用于获取所有可用字段"""
     logger.info('')
     logger.info('---------收到GET请求：/api/fields_name----------')
-
+    if request.args.get('user_name') is not None:
+        user_name = request.args.get('user_name')
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]查询所有字段名。' % user_name)
     fields_list = []
     try:
         fields_info_service = FieldsInfoService()
@@ -244,13 +297,13 @@ def get_available_fields_name():
         logger.error(e)
         return [], 500
     finally:
-        logger.info('---------GET请求处理完毕-----------')
+        logger.info('POST请求/api/fields_name处理完毕，返回值正常。')
         return fields_list, 201
 
 
 @main.route('/api/display', methods=['GET'])
 def display():
-    """GET，用于检查未提交业绩的网点"""
+    """GET，用于查询单日业绩"""
     logger.info('')
     logger.info('---------收到GET请求：/api/display----------')
 
@@ -264,9 +317,14 @@ def display():
         return "args_missing", 500
     else:
         request_dept_name = request.args.get('dept_name')
-    logger.info("args: date=" + request.args.get('date') + ", dept_name=" + request.args.get('dept_name'))
-
     date = datetime.strptime(request_date, "%Y-%m-%d")
+    if request.args.get('user_name') is not None:
+        user_name = request.args.get('user_name')
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]查询单日业绩。' % user_name)
+    logger.info("data: date=%s, dept_name=%s" % (request_date, request.args.get('dept_name')))
+
     performance = {}
     try:
         performance_service = PerformanceService()
@@ -276,7 +334,7 @@ def display():
         logger.error(e)
         return {}, 500
     finally:
-        logger.info('---------GET请求处理完毕-----------')
+        logger.info('POST请求/api/display处理完毕，返回值正常。')
         return performance, 201
 
 
@@ -293,9 +351,14 @@ def find():
         request_date = request.args.get('date')
         request_dept_id = request.args.get('dept_id')
 
-    logger.info("args: date=" + request_date + ", dept_id=" + request_dept_id)
-
     date = datetime.strptime(request_date, "%Y-%m-%d")
+    if request.args.get('user_name') is not None:
+        user_name = request.args.get('user_name')
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]预提交业绩查询。' % user_name)
+    logger.info("data: date=%s, dept_id=%s" % (request_date, request_dept_id))
+
     result = {}
     try:
         performance_service = PerformanceService()
@@ -305,7 +368,7 @@ def find():
         logger.error(e)
         return {}, 500
     finally:
-        logger.info('---------GET请求处理完毕-----------')
+        logger.info('POST请求/api/find处理完毕，返回值%s' % str(result))
         return result, 201
 
 
@@ -321,6 +384,12 @@ def admin():
         return "args_missing", 500
     else:
         admin_password = request.args.get('admin_password')
+    if request.args.get('user_name') is not None:
+        user_name = request.args.get('user_name')
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]请求登陆管理员界面。' % user_name)
+    logger.info("data: admin_password=%s" % admin_password)
 
     result = False
     try:
@@ -334,6 +403,8 @@ def admin():
         logger.info('密码验证结果：' + str(result))
         logger.info('---------GET请求处理完毕-----------')
         if result:
+            logger.info('POST请求/api/admin处理完毕，返回值%s' % "access")
             return "access", 201
         else:
+            logger.info('POST请求/api/admin处理完毕，返回值%s' % "forbid")
             return "forbid", 201
