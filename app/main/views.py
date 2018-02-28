@@ -75,8 +75,8 @@ def update_field():
     else:
         user_name = "admin"
     logger.info('用户[%s]修改字段：' % user_name)
-    logger.info("data: field_id=%s, update_key=%s, submit_user=%s" % (
-        request.json["dept_id"], request.json["update_k"], request.json["update_v"]))
+    logger.info("data: field_id=%s, update_key=%s, update_value=%s" % (
+        request.json["field_id"], request.json["update_k"], request.json["update_v"]))
     result = False
     try:
         service = FieldsInfoService()
@@ -218,10 +218,10 @@ def check_submit():
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
-        logger.info('POST请求/api/check处理完毕，返回值正常。')
+        logger.info('POST请求/api/check处理完毕。')
         return check_result, 500
     finally:
-        logger.info('POST请求/api/check处理失败')
+        logger.info('POST请求/api/check处理完毕')
         return check_result, 201
 
 
