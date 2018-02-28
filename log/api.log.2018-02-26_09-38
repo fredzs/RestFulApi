@@ -1,8 +1,0 @@
-[INFO][2018-02-26 09:38:55][views.py][line:163] ---------收到GET请求：/api/fields_name----------
-[INFO][2018-02-26 09:38:55][views.py][line:166] ---------GET请求处理完毕-----------
-[INFO][2018-02-26 09:38:55][DBFactory.py][line:27] 关闭数据库连接。
-[INFO][2018-02-26 09:38:55][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 09:38:55] "GET /api/fields_name HTTP/1.0" 201 -
-[INFO][2018-02-26 09:38:55][views.py][line:139] ---------收到GET请求：/api/branches----------
-[INFO][2018-02-26 09:38:55][views.py][line:146] ---------GET请求处理完毕-----------
-[INFO][2018-02-26 09:38:55][DBFactory.py][line:27] 关闭数据库连接。
-[INFO][2018-02-26 09:38:55][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 09:38:55] "GET /api/branches HTTP/1.0" 201 -
