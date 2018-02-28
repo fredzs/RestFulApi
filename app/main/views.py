@@ -37,7 +37,7 @@ def create_performance():
         # 如果请求里面没有JSON数据，或者在JSON数据里面dept_id的内容是空的
         logger.info("传入参数错误！")
         return "args_missing", 500
-    if 'user_name' not in request.json:
+    if 'user_name' in request.json:
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
@@ -70,7 +70,7 @@ def update_field():
     if not request.json or 'field_id' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
-    if 'user_name' not in request.json:
+    if 'user_name' in request.json:
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
@@ -102,7 +102,7 @@ def create_field():
     if not request.json or 'field_name' not in request.json or 'field_type' not in request.json or 'field_unit' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
-    if 'user_name' not in request.json:
+    if 'user_name' in request.json:
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
@@ -135,7 +135,7 @@ def sort_field():
     if not request.json or 'new_order' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
-    if 'user_name' not in request.json:
+    if 'user_name' in request.json:
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
@@ -167,7 +167,7 @@ def send_daily_email():
     if not request.json or 'date' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
-    if 'user_name' not in request.json:
+    if 'user_name' in request.json:
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
