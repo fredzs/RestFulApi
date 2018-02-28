@@ -16,7 +16,8 @@ class EmailService(object):
         self._db_fields_info_service = DBService("DBFieldsInfo")
         self._from_addr = "fredzs@vip.qq.com"
         self._password = "lfojfpmtjermbijj"
-        self._to_addr = ["wangjj_wj@bj.icbc.com.cn", "yuwen_wj@bj.icbc.com.cn", "fred_zs_icbc@163.com", "38425449@qq.com"]
+        self._to_addr = ["fredzs@vip.qq.com"]
+        # self._to_addr = ["wangjj_wj@bj.icbc.com.cn", "yuwen_wj@bj.icbc.com.cn", "fred_zs_icbc@163.com", "38425449@qq.com"]
         self._smtp_server = "smtp.qq.com"
 
     def send_daily_email(self, date):
@@ -24,7 +25,9 @@ class EmailService(object):
         try:
             msg = MIMEText(self.make_daily_content(date), 'html', 'utf-8')
             msg['From'] = self.format_addr('望京支行机构金融业务部<%s>' % self._from_addr)
+            # msg['From'] = self.format_addr('望京支行机构金融业务部<%s>' % self._from_addr)
             msg['To'] = self.format_addr('望京支行对公营销团队<%s>' % self._to_addr[0])
+            # msg['To'] = self.format_addr('望京支行对公营销团队<%s>' % self._to_addr[0])
             msg['Subject'] = Header('每日对公业绩统计_' + date, 'utf-8').encode()
 
             server = smtplib.SMTP_SSL(self._smtp_server, 465)

@@ -264,7 +264,7 @@ def get_fields():
         user_name = request.args.get('user_name')
     else:
         user_name = "admin"
-    logger.info('用户[%s]修改字段：' % user_name)
+    logger.info('用户[%s]查看所有字段：' % user_name)
     fields_list = []
     try:
         fields_info_service = FieldsInfoService()
