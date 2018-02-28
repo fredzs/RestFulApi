@@ -2,3 +2,37 @@
 [INFO][2018-02-28 10:28:52][_internal.py][line:87]  * Restarting with stat
 [WARNING][2018-02-28 10:28:52][_internal.py][line:87]  * Debugger is active!
 [INFO][2018-02-28 10:28:52][_internal.py][line:87]  * Debugger PIN: 800-832-600
+[INFO][2018-02-28 10:32:21][_internal.py][line:87]  * Running on https://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO][2018-02-28 10:32:21][_internal.py][line:87]  * Restarting with stat
+[WARNING][2018-02-28 10:32:21][_internal.py][line:87]  * Debugger is active!
+[INFO][2018-02-28 10:32:21][_internal.py][line:87]  * Debugger PIN: 800-832-600
+[INFO][2018-02-28 10:34:59][_internal.py][line:87]  * Running on https://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO][2018-02-28 10:34:59][_internal.py][line:87]  * Restarting with stat
+[WARNING][2018-02-28 10:34:59][_internal.py][line:87]  * Debugger is active!
+[INFO][2018-02-28 10:34:59][_internal.py][line:87]  * Debugger PIN: 800-832-600
+[INFO][2018-02-28 10:35:36][_internal.py][line:87]  * Running on https://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO][2018-02-28 10:35:36][_internal.py][line:87]  * Restarting with stat
+[WARNING][2018-02-28 10:35:37][_internal.py][line:87]  * Debugger is active!
+[INFO][2018-02-28 10:35:37][_internal.py][line:87]  * Debugger PIN: 800-832-600
+[INFO][2018-02-28 10:35:47][views.py][line:192] 
+[INFO][2018-02-28 10:35:47][views.py][line:193] ---------收到GET请求：/api/branches----------
+[INFO][2018-02-28 10:35:47][views.py][line:199] args: branch_name=wangjing
+[INFO][2018-02-28 10:35:48][views.py][line:210] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:35:48][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:35:48] "GET /api/branches HTTP/1.0" 201 -
+[INFO][2018-02-28 10:39:24][views.py][line:22] 
+[INFO][2018-02-28 10:39:24][views.py][line:23] ---------收到index页面请求：/api----------
+[INFO][2018-02-28 10:39:24][views.py][line:26] ---------index页面请求处理完毕-----------
+[INFO][2018-02-28 10:39:24][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:39:24] "GET /api HTTP/1.0" 200 -
+[INFO][2018-02-28 10:47:41][_internal.py][line:87]  * Running on https://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO][2018-02-28 10:47:41][_internal.py][line:87]  * Restarting with stat
+[WARNING][2018-02-28 10:47:42][_internal.py][line:87]  * Debugger is active!
+[INFO][2018-02-28 10:47:42][_internal.py][line:87]  * Debugger PIN: 800-832-600
+[INFO][2018-02-28 10:47:45][views.py][line:22] 
+[INFO][2018-02-28 10:47:45][views.py][line:23] ---------收到index页面请求：/api----------
+[INFO][2018-02-28 10:47:45][views.py][line:26] ---------index页面请求处理完毕-----------
+[INFO][2018-02-28 10:47:45][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:47:45] "GET /api HTTP/1.0" 200 -
+[INFO][2018-02-28 10:47:48][views.py][line:192] 
+[INFO][2018-02-28 10:47:48][views.py][line:193] ---------收到GET请求：/api/branches----------
+[INFO][2018-02-28 10:47:48][views.py][line:199] args: branch_name=wangjing
+[INFO][2018-02-28 10:47:48][views.py][line:210] ---------GET请求处理完毕-----------
+[INFO][2018-02-28 10:47:48][_internal.py][line:87] 127.0.0.1 - - [28/Feb/2018 10:47:48] "GET /api/branches HTTP/1.0" 201 -
