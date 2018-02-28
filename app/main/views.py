@@ -1,6 +1,5 @@
 """request api"""
 
-from os import abort
 from datetime import datetime
 from flask import request
 from flask import render_template
@@ -31,7 +30,7 @@ def index():
 def create_performance():
     """POST方法，用于提交业绩"""
     logger.info('')
-    logger.info('---------收到POST请求：/api/submit----------')
+    logger.info('---------收到来自[%s]的[POST]请求：/api/submit----------' % request.json["user_name"])
 
     if not request.json or 'dept_id' not in request.json:
         # 如果请求里面没有JSON数据，或者在JSON数据里面dept_id的内容是空的
@@ -58,7 +57,7 @@ def create_performance():
 def update_field():
     """POST方法，用于更新字段"""
     logger.info('')
-    logger.info('---------收到POST请求：/api/update_field----------')
+    logger.info('---------收到来自[%s]的[POST]请求：/api/update_field----------' % request.json["user_name"])
 
     if not request.json or 'field_id' not in request.json:
         logger.info("传入参数错误！")
@@ -84,7 +83,7 @@ def update_field():
 def create_field():
     """POST方法，用于更新字段"""
     logger.info('')
-    logger.info('---------收到POST请求：/api/create_field----------')
+    logger.info('---------收到来自[%s]的[POST]请求：/api/create_field----------' % request.json["user_name"])
 
     if not request.json or 'field_name' not in request.json or 'field_type' not in request.json or 'field_unit' not in request.json:
         logger.info("传入参数错误！")
@@ -110,7 +109,7 @@ def create_field():
 def sort_field():
     """POST方法，用于给字段排序"""
     logger.info('')
-    logger.info('---------收到POST请求：/api/sort_field----------')
+    logger.info('---------收到来自[%s]的[POST]请求：/api/sort_field----------' % request.json["user_name"])
 
     if not request.json or 'new_order' not in request.json:
         logger.info("传入参数错误！")
@@ -136,7 +135,7 @@ def sort_field():
 def send_daily_email():
     """POST方法，用于给字段排序"""
     logger.info('')
-    logger.info('---------收到POST请求：/api/send_daily_email----------')
+    logger.info('---------收到来自[%s]的[POST]请求：/api/send_daily_email----------' % request.json["user_name"])
 
     if not request.json or 'date' not in request.json:
         logger.info("传入参数错误！")
@@ -317,7 +316,6 @@ def admin():
     logger.info('---------收到GET请求：/api/admin----------')
 
     logger.info(request.args)
-    admin_password = ""
     if not request.args.get('admin_password'):
         logger.info("传入参数错误！")
         return "args_missing", 500

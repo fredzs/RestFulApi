@@ -1,11 +1,14 @@
-'''
-request api
-
-'''
+"""request api"""
 
 
 from flask import Flask
+
+from app.api.Entity.Config import Config
+from app.api.Factory.ConfigFactory import ConfigFactory
 from config import config
+
+
+CONFIG = ConfigFactory.read_config("config.txt")
 
 
 def create_app(config_name):
