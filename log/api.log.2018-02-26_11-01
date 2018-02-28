@@ -1,0 +1,18 @@
+[INFO][2018-02-26 11:01:30][views.py][line:139] ---------收到GET请求：/api/branches----------
+[INFO][2018-02-26 11:01:30][views.py][line:146] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 11:01:30][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 11:01:30][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 11:01:30] "GET /api/branches HTTP/1.0" 201 -
+[INFO][2018-02-26 11:01:30][views.py][line:163] ---------收到GET请求：/api/fields_name----------
+[INFO][2018-02-26 11:01:30][views.py][line:166] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 11:01:30][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 11:01:30][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 11:01:30] "GET /api/fields_name HTTP/1.0" 201 -
+[INFO][2018-02-26 11:02:08][views.py][line:194] ---------收到GET请求：/api/admin----------
+[INFO][2018-02-26 11:02:08][views.py][line:201] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 11:02:08][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 11:02:08] "GET /api/admin?admin_password=159357 HTTP/1.0" 201 -
+[INFO][2018-02-26 11:02:11][views.py][line:153] ---------收到GET请求：/api/fields----------
+[INFO][2018-02-26 11:02:11][views.py][line:156] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 11:02:11][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 11:02:11][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 11:02:11] "GET /api/fields HTTP/1.0" 201 -
+[INFO][2018-02-26 11:02:17][views.py][line:26] ---------收到index页面请求：/api----------
+[INFO][2018-02-26 11:02:17][views.py][line:28] ---------index页面请求处理完毕-----------
+[INFO][2018-02-26 11:02:17][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 11:02:17] "GET /api HTTP/1.0" 200 -

@@ -1,0 +1,30 @@
+[INFO][2018-02-26 09:42:47][views.py][line:173] ---------收到GET请求：/api/display----------
+[INFO][2018-02-26 09:42:47][views.py][line:185] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 09:42:47][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:47][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:47][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:47][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 09:42:47] "GET /api/display?date=2018-02-26&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4 HTTP/1.0" 201 -
+[INFO][2018-02-26 09:42:49][views.py][line:124] ---------收到GET请求：/api/check----------
+[INFO][2018-02-26 09:42:49][views.py][line:132] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 09:42:49][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:49][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:49][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:49][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 09:42:49] "GET /api/check HTTP/1.0" 201 -
+[INFO][2018-02-26 09:42:51][views.py][line:139] ---------收到GET请求：/api/branches----------
+[INFO][2018-02-26 09:42:51][views.py][line:146] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 09:42:51][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:51][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 09:42:51] "GET /api/branches HTTP/1.0" 201 -
+[INFO][2018-02-26 09:42:52][views.py][line:153] ---------收到GET请求：/api/fields----------
+[INFO][2018-02-26 09:42:52][views.py][line:156] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 09:42:52][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:52][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 09:42:52] "GET /api/fields HTTP/1.0" 201 -
+[INFO][2018-02-26 09:42:54][views.py][line:163] ---------收到GET请求：/api/fields_name----------
+[INFO][2018-02-26 09:42:54][views.py][line:166] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 09:42:54][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:54][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 09:42:54] "GET /api/fields_name HTTP/1.0" 201 -
+[INFO][2018-02-26 09:42:56][views.py][line:173] ---------收到GET请求：/api/display----------
+[INFO][2018-02-26 09:42:56][views.py][line:185] ---------GET请求处理完毕-----------
+[INFO][2018-02-26 09:42:56][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:56][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:56][DBFactory.py][line:27] 关闭数据库连接。
+[INFO][2018-02-26 09:42:56][_internal.py][line:87] 127.0.0.1 - - [26/Feb/2018 09:42:56] "GET /api/display?date=2018-02-26&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4 HTTP/1.0" 201 -
