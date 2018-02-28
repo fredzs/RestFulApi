@@ -1,14 +1,14 @@
 """request api"""
 
 
+import os
 from flask import Flask
-
 from app.api.Entity.Config import Config
 from app.api.Factory.ConfigFactory import ConfigFactory
 from config import config
 
 
-CONFIG = ConfigFactory.read_config("config.txt")
+CONFIG = ConfigFactory.read_config(os.path.join(os.path.dirname(os.getcwd()), "config.txt").replace("\\","/"))
 
 
 def create_app(config_name):
