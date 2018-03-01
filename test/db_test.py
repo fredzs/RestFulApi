@@ -28,7 +28,7 @@ if __name__ == "__main__":
     #PERFORMANCE = PerformanceService.read_json(p2)
     #PERFORMANCE.rewrite_extra_fields()
     #SERVICE.submit_performance(PERFORMANCE)
-    date = datetime.strptime("2018-02-09", "%Y-%m-%d")
+    date = datetime.strptime("2018-02-28", "%Y-%m-%d")
     p = PerformanceService()
     check_result = p.display(date, "支行营业室")
     #fields_info_service = FieldsInfoService()

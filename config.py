@@ -1,37 +1,35 @@
 import os
+import configparser
+# from app.api.Factory.LogFactory import LogFactory
+# logging = LogFactory().get_logger()
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 
-
-class config(object):
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'this is a secret string'
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+class Config(object):
 
     @staticmethod
-    def init_app(app):
-        pass
+    def get_config(section, key):
+        cfg = configparser.ConfigParser()
+        path = os.path.join(os.path.split(os.path.realpath(__file__))[0] + '/config.ini')
+        # logging.error("在路径%s寻找配置文件。。。" % path)
+        try:
+            cfg.read(path)
+            result = cfg.get(section, key)
+        except Exception as e:
+            # logging.error("读取配置文件错误！")
+            raise
+        # logging.error("读取配置文件:%s" % result)
+        return result
 
-
-class DevelopmentConfig(config):
-    DEBUG = True
-    #SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-    #'sqlite:///' + os.path.join(basedir, 'dev')
-
-
-class TestingConfig(config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-    'sqlite:///' + os.path.join(basedir, 'test')
-
-
-class ProductionConfig(config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-    'sqlite:///' + os.path.join(basedir, 'data.sqlite')
-
-
-config = {
-    'development': DevelopmentConfig,
-    'testing': TestingConfig,
-    'production': ProductionConfig,
-    'default': DevelopmentConfig
-}
+    @staticmethod
+    def get_section(section):
+        cfg = configparser.ConfigParser()
+        path = os.path.join(os.path.split(os.path.realpath(__file__))[0] + '/config.ini')
+        # logging.error("在路径%s寻找配置文件。。。" % path)
+        try:
+            cfg.read(path)
+            result = cfg.items(section)
+        except Exception as e:
+            # logging.error("读取配置文件错误！")
+            raise
+        # logging.error("读取配置文件:%s" % result)
+        return result
