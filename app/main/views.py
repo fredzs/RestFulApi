@@ -16,6 +16,7 @@ logger = LogFactory().get_logger()
 
 
 @main.route('/api')
+@main.route('/test/api')
 def index():
     """默认的Get请求"""
     logger.info('')
@@ -28,6 +29,7 @@ def index():
 
 
 @main.route('/api/submit', methods=['POST'])
+@main.route('/test/api/submit', methods=['POST'])
 def create_performance():
     """POST方法，用于提交业绩"""
     logger.info('')
@@ -62,6 +64,7 @@ def create_performance():
 
 
 @main.route('/api/update_field', methods=['POST'])
+@main.route('/test/api/update_field', methods=['POST'])
 def update_field():
     """POST方法，用于更新字段"""
     logger.info('')
@@ -94,6 +97,7 @@ def update_field():
 
 
 @main.route('/api/create_field', methods=['POST'])
+@main.route('/test/api/create_field', methods=['POST'])
 def create_field():
     """POST方法，用于更新字段"""
     logger.info('')
@@ -127,6 +131,7 @@ def create_field():
 
 
 @main.route('/api/sort_field', methods=['POST'])
+@main.route('/test/api/sort_field', methods=['POST'])
 def sort_field():
     """POST方法，用于给字段排序"""
     logger.info('')
@@ -159,6 +164,7 @@ def sort_field():
 
 
 @main.route('/api/send_daily_email', methods=['POST'])
+@main.route('/test/api/send_daily_email', methods=['POST'])
 def send_daily_email():
     """POST方法，用于给字段排序"""
     logger.info('')
@@ -191,6 +197,7 @@ def send_daily_email():
 
 
 @main.route('/api/check', methods=['GET'])
+@main.route('/test/api/check', methods=['GET'])
 def check_submit():
     """GET，用于检查未提交业绩的网点"""
     logger.info('')
@@ -226,6 +233,7 @@ def check_submit():
 
 
 @main.route('/api/branches', methods=['GET'])
+@main.route('/test/api/branches', methods=['GET'])
 def get_branches():
     """GET，用于获取所有网点"""
     logger.info('')
@@ -256,6 +264,7 @@ def get_branches():
 
 
 @main.route('/api/fields', methods=['GET'])
+@main.route('/test/api/fields', methods=['GET'])
 def get_fields():
     """GET，用于获取所有字段"""
     logger.info('')
@@ -279,6 +288,7 @@ def get_fields():
 
 
 @main.route('/api/fields_name', methods=['GET'])
+@main.route('/test/api/fields_name', methods=['GET'])
 def get_available_fields_name():
     """GET，用于获取所有可用字段"""
     logger.info('')
@@ -302,6 +312,7 @@ def get_available_fields_name():
 
 
 @main.route('/api/display', methods=['GET'])
+@main.route('/test/api/display', methods=['GET'])
 def display():
     """GET，用于查询单日业绩"""
     logger.info('')
@@ -339,6 +350,7 @@ def display():
 
 
 @main.route('/api/find', methods=['GET'])
+@main.route('/test/api/find', methods=['GET'])
 def find():
     """GET，用于查找一条业绩"""
     logger.info('')
@@ -373,6 +385,7 @@ def find():
 
 
 @main.route('/api/admin', methods=['GET'])
+@main.route('/test/api/admin', methods=['GET'])
 def admin():
     """GET，用于检查管理员密码是否正确"""
     logger.info('')
