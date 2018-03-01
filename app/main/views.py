@@ -15,7 +15,9 @@ from app.api.Factory.LogFactory import LogFactory
 logger = LogFactory().get_logger()
 
 
+@main.route('/')
 @main.route('/api')
+@main.route('/test')
 @main.route('/test/api')
 def index():
     """默认的Get请求"""

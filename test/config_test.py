@@ -3,7 +3,7 @@
 import os
 import configparser
 from app.api.Factory.LogFactory import LogFactory
-from config import Config
+from Config import Config
 logging = LogFactory().get_logger()
 
 

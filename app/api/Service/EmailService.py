@@ -6,7 +6,7 @@ import smtplib
 from app.api.Service.DBService import DBService
 from app.api.Service.PerformanceService import PerformanceService
 from app.api.Factory.LogFactory import LogFactory
-
+from Config import GLOBAL_CONFIG
 logger = LogFactory().get_logger()
 
 
@@ -14,20 +14,23 @@ class EmailService(object):
     """Class EmailService"""
     def __init__(self):
         self._db_fields_info_service = DBService("DBFieldsInfo")
-        self._from_addr = "fredzs@vip.qq.com"
-        self._password = "lfojfpmtjermbijj"
-        self._to_addr = ["fredzs@vip.qq.com"]
-        # self._to_addr = ["wangjj_wj@bj.icbc.com.cn", "yuwen_wj@bj.icbc.com.cn", "fred_zs_icbc@163.com", "38425449@qq.com"]
-        self._smtp_server = "smtp.qq.com"
+        self._from_addr = ""
+        self._password = ""
+        self._to_addr = []
+        self._smtp_server = ""
+
+    def read_config(self):
+        self._from_addr = GLOBAL_CONFIG.get_field("Email", "from_addr")
+        self._password = GLOBAL_CONFIG.get_field("Email", "password")
+        self._to_addr = GLOBAL_CONFIG.get_field_list("Email", "to_addr")
+        self._smtp_server = GLOBAL_CONFIG.get_field("Email", "smtp_server")
 
     def send_daily_email(self, date):
         server = None
         try:
             msg = MIMEText(self.make_daily_content(date), 'html', 'utf-8')
             msg['From'] = self.format_addr('望京支行机构金融业务部<%s>' % self._from_addr)
-            # msg['From'] = self.format_addr('望京支行机构金融业务部<%s>' % self._from_addr)
             msg['To'] = self.format_addr('望京支行对公营销团队<%s>' % self._to_addr[0])
-            # msg['To'] = self.format_addr('望京支行对公营销团队<%s>' % self._to_addr[0])
             msg['Subject'] = Header('每日对公业绩统计_' + date, 'utf-8').encode()
 
             server = smtplib.SMTP_SSL(self._smtp_server, 465)
@@ -37,9 +40,11 @@ class EmailService(object):
         except Exception as e:
             logger.error(e)
             return False
-        finally:
+        else:
             server.quit()
-        return True
+        finally:
+            pass
+            return True
 
     @staticmethod
     def format_addr(s):
