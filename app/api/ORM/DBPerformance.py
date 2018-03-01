@@ -20,4 +20,5 @@ class DBPerformance(Base):
     date = Column(Date())
     submit_time = Column(DateTime())
     submit_user = Column(String(30))
+    comments = Column(String(200))
     extra_fields = Column(JSON())

@@ -43,8 +43,9 @@ class PerformanceService(object):
         dept_id = json_obj['dept_id']
         date = json_obj['date']
         submit_user = json_obj['submit_user']
+        comments = json_obj['comments']
         extra_fields = json_obj['extra_fields']
-        performance = Performance(dept_id, date, submit_user, extra_fields)
+        performance = Performance(dept_id, date, submit_user, comments, extra_fields)
         return performance
 
     def pre_check_submission(self, date):
@@ -88,6 +89,7 @@ class PerformanceService(object):
             performance = {"submit_user": d.submit_user,
                            "date": str(d.date),
                            "submit_time": str(d.submit_time),
+                           "comments": d.comments,
                            "extra_fields": self.rewrite_extra_fields(d.extra_fields)}
         result = self.obj_2_json(performance)
         return result
