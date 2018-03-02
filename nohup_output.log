@@ -1,24 +1,640 @@
-Traceback (most recent call last):
-  File "/home/ubuntu/WorkStation/RestFulApi/manage.py", line 3, in <module>
-    app = create_app('default')
-  File "/home/ubuntu/WorkStation/RestFulApi/app/__init__.py", line 16, in create_app
-    from .main import main as main_blueprint
-  File "/home/ubuntu/WorkStation/RestFulApi/app/main/__init__.py", line 5, in <module>
-    from . import views
-  File "/home/ubuntu/WorkStation/RestFulApi/app/main/views.py", line 9, in <module>
-    from app.api.Service.DeptInfoService import DeptInfoService
-  File "/home/ubuntu/WorkStation/RestFulApi/app/api/Service/DeptInfoService.py", line 4, in <module>
-    from app.api.Service.DBService import DBService
-  File "/home/ubuntu/WorkStation/RestFulApi/app/api/Service/DBService.py", line 6, in <module>
-    from app.api.Factory.DBFactory import DBFactory
-  File "/home/ubuntu/WorkStation/RestFulApi/app/api/Factory/DBFactory.py", line 7, in <module>
-    logger = LogFactory().get_logger()
-  File "/home/ubuntu/WorkStation/RestFulApi/app/api/Factory/LogFactory.py", line 12, in __init__
-    fileConfig('logging_config.ini')
-  File "/home/ubuntu/anaconda3/lib/python3.6/logging/config.py", line 76, in fileConfig
-    formatters = _create_formatters(cp)
-  File "/home/ubuntu/anaconda3/lib/python3.6/logging/config.py", line 109, in _create_formatters
-    flist = cp["formatters"]["keys"]
-  File "/home/ubuntu/anaconda3/lib/python3.6/configparser.py", line 959, in __getitem__
-    raise KeyError(key)
-KeyError: 'formatters'
+[INFO][20:56:12][_internal.py][line:87]  * Running on https://127.0.0.1:5000/ (Press CTRL+C to quit)
+[INFO][20:56:12][_internal.py][line:87]  * Restarting with stat
+[WARNING][20:56:12][_internal.py][line:87]  * Debugger is active!
+[INFO][20:56:12][_internal.py][line:87]  * Debugger PIN: 800-832-600
+[INFO][21:44:04][views.py][line:297] 
+[INFO][21:44:04][views.py][line:298] ---------收到GET请求：/api/fields_name----------
+[INFO][21:44:04][views.py][line:303] 用户[null]查询所有字段名。
+[INFO][21:44:04][views.py][line:313] POST请求/api/fields_name处理完毕，返回值正常。
+[INFO][21:44:04][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:44:04] "GET /api/fields_name?user_name=null HTTP/1.0" 201 -
+[INFO][21:44:04][views.py][line:242] 
+[INFO][21:44:04][views.py][line:243] ---------收到GET请求：/api/branches----------
+[INFO][21:44:04][views.py][line:253] 用户[null]查询所有网点：
+[INFO][21:44:04][views.py][line:254] data: date=wangjing
+[INFO][21:44:04][views.py][line:265] POST请求/api/branches处理完毕，返回值正常。
+[INFO][21:44:04][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:44:04] "GET /api/branches?user_name=null HTTP/1.0" 201 -
+[INFO][21:46:24][views.py][line:394] 
+[INFO][21:46:24][views.py][line:395] ---------收到GET请求：/api/admin----------
+[INFO][21:46:24][views.py][line:397] ImmutableMultiDict([('admin_password', '159357'), ('user_name', '张晟')])
+[INFO][21:46:24][views.py][line:407] 用户[张晟]请求登陆管理员界面。
+[INFO][21:46:24][views.py][line:408] data: admin_password=159357
+[INFO][21:46:24][views.py][line:419] 密码验证结果：True
+[INFO][21:46:24][views.py][line:420] ---------GET请求处理完毕-----------
+[INFO][21:46:24][views.py][line:422] POST请求/api/admin处理完毕，返回值access
+[INFO][21:46:24][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:46:24] "GET /api/admin?admin_password=159357&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:46:25][views.py][line:206] 
+[INFO][21:46:25][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:46:25][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:46:25][views.py][line:218] data: date=2018-03-02
+[INFO][21:46:25][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:46:25][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:46:25] "GET /api/check?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:46:32][views.py][line:206] 
+[INFO][21:46:32][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:46:32][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:46:32][views.py][line:218] data: date=2018-03-02
+[INFO][21:46:32][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:46:32][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:46:32] "GET /api/check?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:46:32][views.py][line:321] 
+[INFO][21:46:32][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:46:32][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:46:32][views.py][line:340] data: date=2018-03-02, dept_name=支行营业室
+[INFO][21:46:32][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:46:32][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:46:32] "GET /api/display?date=2018-03-02&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:49:13][views.py][line:394] 
+[INFO][21:49:13][views.py][line:395] ---------收到GET请求：/api/admin----------
+[INFO][21:49:13][views.py][line:397] ImmutableMultiDict([('admin_password', '159357'), ('user_name', '张晟')])
+[INFO][21:49:13][views.py][line:407] 用户[张晟]请求登陆管理员界面。
+[INFO][21:49:13][views.py][line:408] data: admin_password=159357
+[INFO][21:49:13][views.py][line:419] 密码验证结果：True
+[INFO][21:49:13][views.py][line:420] ---------GET请求处理完毕-----------
+[INFO][21:49:13][views.py][line:422] POST请求/api/admin处理完毕，返回值access
+[INFO][21:49:13][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:49:13] "GET /api/admin?admin_password=159357&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:49:15][views.py][line:206] 
+[INFO][21:49:15][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:49:15][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:49:15][views.py][line:218] data: date=2018-03-02
+[INFO][21:49:15][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:49:15][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:49:15] "GET /api/check?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:49:15][views.py][line:321] 
+[INFO][21:49:15][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:49:15][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:49:15][views.py][line:340] data: date=2018-03-02, dept_name=支行营业室
+[INFO][21:49:15][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:49:15][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:49:15] "GET /api/display?date=2018-03-02&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:49:18][views.py][line:206] 
+[INFO][21:49:18][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:49:18][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:49:18][views.py][line:218] data: date=2018-3-2
+[INFO][21:49:18][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:49:18][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:49:18] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:49:18][views.py][line:321] 
+[INFO][21:49:18][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:49:18][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:49:18][views.py][line:340] data: date=2018-3-2, dept_name=首都机场支行
+[INFO][21:49:18][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:49:18][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:49:18] "GET /api/display?date=2018-3-2&dept_name=%E9%A6%96%E9%83%BD%E6%9C%BA%E5%9C%BA%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:49:20][views.py][line:206] 
+[INFO][21:49:20][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:49:20][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:49:20][views.py][line:218] data: date=2018-3-2
+[INFO][21:49:20][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:49:20][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:49:20] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:49:20][views.py][line:321] 
+[INFO][21:49:20][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:49:20][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:49:20][views.py][line:340] data: date=2018-3-2, dept_name=香河园支行
+[INFO][21:49:20][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:49:20][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:49:20] "GET /api/display?date=2018-3-2&dept_name=%E9%A6%99%E6%B2%B3%E5%9B%AD%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:46][views.py][line:394] 
+[INFO][21:50:46][views.py][line:395] ---------收到GET请求：/api/admin----------
+[INFO][21:50:46][views.py][line:397] ImmutableMultiDict([('admin_password', '159357'), ('user_name', '张晟')])
+[INFO][21:50:46][views.py][line:407] 用户[张晟]请求登陆管理员界面。
+[INFO][21:50:46][views.py][line:408] data: admin_password=159357
+[INFO][21:50:46][views.py][line:419] 密码验证结果：True
+[INFO][21:50:46][views.py][line:420] ---------GET请求处理完毕-----------
+[INFO][21:50:46][views.py][line:422] POST请求/api/admin处理完毕，返回值access
+[INFO][21:50:46][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:46] "GET /api/admin?admin_password=159357&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:47][views.py][line:206] 
+[INFO][21:50:47][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:50:47][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:50:47][views.py][line:218] data: date=2018-03-02
+[INFO][21:50:47][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:50:47][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:47] "GET /api/check?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:49][views.py][line:206] 
+[INFO][21:50:49][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:50:49][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:50:49][views.py][line:218] data: date=2018-03-02
+[INFO][21:50:49][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:50:49][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:49] "GET /api/check?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:49][views.py][line:321] 
+[INFO][21:50:49][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:50:49][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:50:49][views.py][line:340] data: date=2018-03-02, dept_name=支行营业室
+[INFO][21:50:49][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:50:49][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:49] "GET /api/display?date=2018-03-02&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:55][views.py][line:206] 
+[INFO][21:50:55][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:50:55][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:50:55][views.py][line:218] data: date=2018-3-2
+[INFO][21:50:56][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:50:56][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:56] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:56][views.py][line:321] 
+[INFO][21:50:56][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:50:56][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:50:56][views.py][line:340] data: date=2018-3-2, dept_name=首都机场支行
+[INFO][21:50:56][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:50:56][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:56] "GET /api/display?date=2018-3-2&dept_name=%E9%A6%96%E9%83%BD%E6%9C%BA%E5%9C%BA%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:58][views.py][line:206] 
+[INFO][21:50:58][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:50:58][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:50:58][views.py][line:218] data: date=2018-3-2
+[INFO][21:50:58][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:50:58][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:58] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:58][views.py][line:321] 
+[INFO][21:50:58][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:50:58][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:50:58][views.py][line:340] data: date=2018-3-2, dept_name=香河园支行
+[INFO][21:50:58][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:50:58][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:58] "GET /api/display?date=2018-3-2&dept_name=%E9%A6%99%E6%B2%B3%E5%9B%AD%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:59][views.py][line:206] 
+[INFO][21:50:59][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:50:59][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:50:59][views.py][line:218] data: date=2018-3-2
+[INFO][21:50:59][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:50:59][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:59] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:50:59][views.py][line:321] 
+[INFO][21:50:59][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:50:59][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:50:59][views.py][line:340] data: date=2018-3-2, dept_name=四元桥支行
+[INFO][21:50:59][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:50:59][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:50:59] "GET /api/display?date=2018-3-2&dept_name=%E5%9B%9B%E5%85%83%E6%A1%A5%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:01][views.py][line:206] 
+[INFO][21:51:01][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:51:01][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:51:01][views.py][line:218] data: date=2018-3-2
+[INFO][21:51:01][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:51:01][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:01] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:01][views.py][line:321] 
+[INFO][21:51:01][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:51:01][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:51:01][views.py][line:340] data: date=2018-3-2, dept_name=国展支行
+[INFO][21:51:01][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:51:01][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:01] "GET /api/display?date=2018-3-2&dept_name=%E5%9B%BD%E5%B1%95%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:03][views.py][line:206] 
+[INFO][21:51:03][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:51:03][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:51:03][views.py][line:218] data: date=2018-3-2
+[INFO][21:51:03][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:51:03][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:03] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:03][views.py][line:321] 
+[INFO][21:51:03][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:51:03][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:51:03][views.py][line:340] data: date=2018-3-2, dept_name=科技园区支行
+[INFO][21:51:04][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:51:04][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:04] "GET /api/display?date=2018-3-2&dept_name=%E7%A7%91%E6%8A%80%E5%9B%AD%E5%8C%BA%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:05][views.py][line:206] 
+[INFO][21:51:05][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:51:05][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:51:05][views.py][line:218] data: date=2018-3-2
+[INFO][21:51:06][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:51:06][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:06] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:06][views.py][line:321] 
+[INFO][21:51:06][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:51:06][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:51:06][views.py][line:340] data: date=2018-3-2, dept_name=广顺支行
+[INFO][21:51:06][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:51:06][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:06] "GET /api/display?date=2018-3-2&dept_name=%E5%B9%BF%E9%A1%BA%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:09][views.py][line:206] 
+[INFO][21:51:09][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:51:09][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:51:09][views.py][line:218] data: date=2018-3-2
+[INFO][21:51:09][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:51:09][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:09] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:09][views.py][line:321] 
+[INFO][21:51:09][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:51:09][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:51:09][views.py][line:340] data: date=2018-3-2, dept_name=酒仙桥支行
+[INFO][21:51:09][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:51:09][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:09] "GET /api/display?date=2018-3-2&dept_name=%E9%85%92%E4%BB%99%E6%A1%A5%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:12][views.py][line:297] 
+[INFO][21:51:12][views.py][line:298] ---------收到GET请求：/api/fields_name----------
+[INFO][21:51:12][views.py][line:303] 用户[张晟]查询所有字段名。
+[INFO][21:51:12][views.py][line:313] POST请求/api/fields_name处理完毕，返回值正常。
+[INFO][21:51:12][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:12] "GET /api/fields_name?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:51:12][views.py][line:242] 
+[INFO][21:51:12][views.py][line:243] ---------收到GET请求：/api/branches----------
+[INFO][21:51:12][views.py][line:253] 用户[张晟]查询所有网点：
+[INFO][21:51:12][views.py][line:254] data: date=wangjing
+[INFO][21:51:12][views.py][line:265] POST请求/api/branches处理完毕，返回值正常。
+[INFO][21:51:12][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:51:12] "GET /api/branches?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:10][views.py][line:394] 
+[INFO][21:53:10][views.py][line:395] ---------收到GET请求：/api/admin----------
+[INFO][21:53:10][views.py][line:397] ImmutableMultiDict([('admin_password', '159357'), ('user_name', '张晟')])
+[INFO][21:53:10][views.py][line:407] 用户[张晟]请求登陆管理员界面。
+[INFO][21:53:10][views.py][line:408] data: admin_password=159357
+[INFO][21:53:10][views.py][line:419] 密码验证结果：True
+[INFO][21:53:10][views.py][line:420] ---------GET请求处理完毕-----------
+[INFO][21:53:10][views.py][line:422] POST请求/api/admin处理完毕，返回值access
+[INFO][21:53:10][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:10] "GET /api/admin?admin_password=159357&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:11][views.py][line:206] 
+[INFO][21:53:11][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:53:11][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:53:11][views.py][line:218] data: date=2018-03-02
+[INFO][21:53:11][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:53:11][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:11] "GET /api/check?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:12][views.py][line:321] 
+[INFO][21:53:12][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:53:12][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:53:12][views.py][line:340] data: date=2018-03-02, dept_name=支行营业室
+[INFO][21:53:12][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:53:12][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:12] "GET /api/display?date=2018-03-02&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:50][views.py][line:206] 
+[INFO][21:53:50][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:53:50][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:53:50][views.py][line:218] data: date=2018-3-2
+[INFO][21:53:50][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:53:50][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:50] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:50][views.py][line:321] 
+[INFO][21:53:50][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:53:50][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:53:50][views.py][line:340] data: date=2018-3-2, dept_name=首都机场支行
+[INFO][21:53:50][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:53:50][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:50] "GET /api/display?date=2018-3-2&dept_name=%E9%A6%96%E9%83%BD%E6%9C%BA%E5%9C%BA%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:52][views.py][line:206] 
+[INFO][21:53:52][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:53:52][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:53:52][views.py][line:218] data: date=2018-3-2
+[INFO][21:53:52][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:53:52][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:52] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:52][views.py][line:206] 
+[INFO][21:53:52][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:53:52][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:53:52][views.py][line:218] data: date=2018-3-2
+[INFO][21:53:52][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:53:52][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:52] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:52][views.py][line:321] 
+[INFO][21:53:52][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:53:52][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:53:52][views.py][line:340] data: date=2018-3-2, dept_name=四元桥支行
+[INFO][21:53:52][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:53:52][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:52] "GET /api/display?date=2018-3-2&dept_name=%E5%9B%9B%E5%85%83%E6%A1%A5%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:52][views.py][line:321] 
+[INFO][21:53:52][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:53:52][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:53:52][views.py][line:340] data: date=2018-3-2, dept_name=四元桥支行
+[INFO][21:53:52][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:53:52][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:52] "GET /api/display?date=2018-3-2&dept_name=%E5%9B%9B%E5%85%83%E6%A1%A5%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:53][views.py][line:206] 
+[INFO][21:53:53][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:53:53][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:53:53][views.py][line:218] data: date=2018-3-2
+[INFO][21:53:53][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:53:53][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:53] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:54][views.py][line:321] 
+[INFO][21:53:54][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:53:54][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:53:54][views.py][line:340] data: date=2018-3-2, dept_name=国展支行
+[INFO][21:53:54][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:53:54][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:54] "GET /api/display?date=2018-3-2&dept_name=%E5%9B%BD%E5%B1%95%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:54][views.py][line:206] 
+[INFO][21:53:54][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:53:54][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:53:54][views.py][line:218] data: date=2018-3-2
+[INFO][21:53:54][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:53:54][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:54] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:55][views.py][line:321] 
+[INFO][21:53:55][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:53:55][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:53:55][views.py][line:340] data: date=2018-3-2, dept_name=科技园区支行
+[INFO][21:53:55][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:53:55][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:55] "GET /api/display?date=2018-3-2&dept_name=%E7%A7%91%E6%8A%80%E5%9B%AD%E5%8C%BA%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:56][views.py][line:206] 
+[INFO][21:53:56][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:53:56][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:53:56][views.py][line:218] data: date=2018-3-2
+[INFO][21:53:56][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:53:56][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:56] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:56][views.py][line:321] 
+[INFO][21:53:56][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:53:56][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:53:56][views.py][line:340] data: date=2018-3-2, dept_name=广顺支行
+[INFO][21:53:56][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:53:56][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:56] "GET /api/display?date=2018-3-2&dept_name=%E5%B9%BF%E9%A1%BA%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:57][views.py][line:206] 
+[INFO][21:53:57][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:53:57][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:53:57][views.py][line:218] data: date=2018-3-2
+[INFO][21:53:57][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:53:57][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:57] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:58][views.py][line:321] 
+[INFO][21:53:58][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:53:58][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:53:58][views.py][line:340] data: date=2018-3-2, dept_name=半岛国际支行
+[INFO][21:53:58][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:53:58][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:58] "GET /api/display?date=2018-3-2&dept_name=%E5%8D%8A%E5%B2%9B%E5%9B%BD%E9%99%85%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:59][views.py][line:206] 
+[INFO][21:53:59][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:53:59][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:53:59][views.py][line:218] data: date=2018-3-2
+[INFO][21:53:59][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:53:59][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:59] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:53:59][views.py][line:321] 
+[INFO][21:53:59][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:53:59][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:53:59][views.py][line:340] data: date=2018-3-2, dept_name=京奥嘉园支行
+[INFO][21:53:59][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:53:59][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:53:59] "GET /api/display?date=2018-3-2&dept_name=%E4%BA%AC%E5%A5%A5%E5%98%89%E5%9B%AD%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:00][views.py][line:206] 
+[INFO][21:54:00][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:00][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:00][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:01][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:01][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:01] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:01][views.py][line:321] 
+[INFO][21:54:01][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:01][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:01][views.py][line:340] data: date=2018-3-2, dept_name=酒仙桥支行
+[INFO][21:54:01][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:01][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:01] "GET /api/display?date=2018-3-2&dept_name=%E9%85%92%E4%BB%99%E6%A1%A5%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:02][views.py][line:206] 
+[INFO][21:54:02][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:02][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:02][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:02][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:02][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:02] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:02][views.py][line:321] 
+[INFO][21:54:02][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:02][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:02][views.py][line:340] data: date=2018-3-2, dept_name=东坝支行
+[INFO][21:54:02][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:02][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:02] "GET /api/display?date=2018-3-2&dept_name=%E4%B8%9C%E5%9D%9D%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:03][views.py][line:206] 
+[INFO][21:54:03][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:03][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:03][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:03][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:03][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:03] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:03][views.py][line:321] 
+[INFO][21:54:03][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:03][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:03][views.py][line:340] data: date=2018-3-2, dept_name=福熙大道支行
+[INFO][21:54:03][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:03][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:03] "GET /api/display?date=2018-3-2&dept_name=%E7%A6%8F%E7%86%99%E5%A4%A7%E9%81%93%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:05][views.py][line:206] 
+[INFO][21:54:05][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:05][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:05][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:05][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:05][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:05] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:05][views.py][line:321] 
+[INFO][21:54:05][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:05][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:05][views.py][line:340] data: date=2018-3-2, dept_name=南湖东园支行
+[INFO][21:54:05][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:05][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:05] "GET /api/display?date=2018-3-2&dept_name=%E5%8D%97%E6%B9%96%E4%B8%9C%E5%9B%AD%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:06][views.py][line:206] 
+[INFO][21:54:06][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:06][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:06][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:06][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:06][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:06] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:06][views.py][line:321] 
+[INFO][21:54:06][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:06][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:06][views.py][line:340] data: date=2018-3-2, dept_name=大山子支行
+[INFO][21:54:06][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:06][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:06] "GET /api/display?date=2018-3-2&dept_name=%E5%A4%A7%E5%B1%B1%E5%AD%90%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:07][views.py][line:206] 
+[INFO][21:54:07][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:07][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:07][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:07][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:07][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:07] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:07][views.py][line:321] 
+[INFO][21:54:07][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:07][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:07][views.py][line:340] data: date=2018-3-2, dept_name=南十里居支行
+[INFO][21:54:07][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:07][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:07] "GET /api/display?date=2018-3-2&dept_name=%E5%8D%97%E5%8D%81%E9%87%8C%E5%B1%85%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:09][views.py][line:206] 
+[INFO][21:54:09][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:09][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:09][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:09][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:09][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:09] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:09][views.py][line:321] 
+[INFO][21:54:09][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:09][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:09][views.py][line:340] data: date=2018-3-2, dept_name=芍药居支行
+[INFO][21:54:09][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:09][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:09] "GET /api/display?date=2018-3-2&dept_name=%E8%8A%8D%E8%8D%AF%E5%B1%85%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:10][views.py][line:206] 
+[INFO][21:54:10][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:10][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:10][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:10][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:10][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:10] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:10][views.py][line:321] 
+[INFO][21:54:10][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:10][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:10][views.py][line:340] data: date=2018-3-2, dept_name=香河园储蓄所
+[INFO][21:54:10][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:10][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:10] "GET /api/display?date=2018-3-2&dept_name=%E9%A6%99%E6%B2%B3%E5%9B%AD%E5%82%A8%E8%93%84%E6%89%80&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:12][views.py][line:206] 
+[INFO][21:54:12][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:12][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:12][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:12][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:12][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:12] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:12][views.py][line:321] 
+[INFO][21:54:12][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:12][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:12][views.py][line:340] data: date=2018-3-2, dept_name=青年沟路储蓄所
+[INFO][21:54:12][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:12][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:12] "GET /api/display?date=2018-3-2&dept_name=%E9%9D%92%E5%B9%B4%E6%B2%9F%E8%B7%AF%E5%82%A8%E8%93%84%E6%89%80&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:16][views.py][line:206] 
+[INFO][21:54:16][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:16][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:16][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:16][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:16][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:16] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:16][views.py][line:321] 
+[INFO][21:54:16][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:16][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:16][views.py][line:340] data: date=2018-3-2, dept_name=支行营业室
+[INFO][21:54:16][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:16][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:16] "GET /api/display?date=2018-3-2&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:20][views.py][line:206] 
+[INFO][21:54:20][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:54:20][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:54:20][views.py][line:218] data: date=2018-3-2
+[INFO][21:54:21][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:54:21][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:21] "GET /api/check?date=2018-3-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:54:21][views.py][line:321] 
+[INFO][21:54:21][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:54:21][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:54:21][views.py][line:340] data: date=2018-3-2, dept_name=香河园支行
+[INFO][21:54:21][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:54:21][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:54:21] "GET /api/display?date=2018-3-2&dept_name=%E9%A6%99%E6%B2%B3%E5%9B%AD%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:55:09][views.py][line:242] 
+[INFO][21:55:09][views.py][line:243] ---------收到GET请求：/api/branches----------
+[INFO][21:55:09][views.py][line:253] 用户[张晟]查询所有网点：
+[INFO][21:55:09][views.py][line:254] data: date=wangjing
+[INFO][21:55:09][views.py][line:265] POST请求/api/branches处理完毕，返回值正常。
+[INFO][21:55:09][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:55:09] "GET /api/branches?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:55:09][views.py][line:297] 
+[INFO][21:55:09][views.py][line:298] ---------收到GET请求：/api/fields_name----------
+[INFO][21:55:09][views.py][line:303] 用户[张晟]查询所有字段名。
+[INFO][21:55:09][views.py][line:313] POST请求/api/fields_name处理完毕，返回值正常。
+[INFO][21:55:09][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:55:09] "GET /api/fields_name?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:55:53][views.py][line:359] 
+[INFO][21:55:53][views.py][line:360] ---------收到GET请求：/api/find----------
+[INFO][21:55:53][views.py][line:374] 用户[张晟]预提交业绩查询。
+[INFO][21:55:53][views.py][line:375] data: date=2018-02-01, dept_id=24
+[INFO][21:55:54][views.py][line:386] POST请求/api/find处理完毕，返回值{"submit_user": "", "submit_time": ""}
+[INFO][21:55:54][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:55:54] "GET /api/find?dept_id=24&date=2018-02-01&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:55:54][views.py][line:37] 
+[INFO][21:55:54][views.py][line:38] ---------收到来POST请求：/api/submit----------
+[INFO][21:55:54][views.py][line:48] 用户[张晟]提交业绩：
+[INFO][21:55:54][views.py][line:50] data: dept_id='24', date='2018-02-01', submit_user='张晟', extra_fields='{'field_1': '1', 'field_2': '2', 'field_3': '3', 'field_4': '4', 'field_5': '5', 'field_6': '6', 'field_7': '7', 'field_8': '8', 'field_9': '9', 'field_10': '10', 'field_13': '11', 'field_11': '12', 'field_12': '13', 'comments': '无'}'
+[INFO][21:55:54][DBService.py][line:41] 已写入数据库缓存
+[INFO][21:55:54][DBService.py][line:68] 已提交数据库
+[INFO][21:55:54][views.py][line:61] POST请求/api/submit处理完毕，返回值success
+[INFO][21:55:54][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:55:54] "POST /api/submit HTTP/1.0" 201 -
+[INFO][21:55:59][views.py][line:394] 
+[INFO][21:55:59][views.py][line:395] ---------收到GET请求：/api/admin----------
+[INFO][21:55:59][views.py][line:397] ImmutableMultiDict([('admin_password', '159357'), ('user_name', '张晟')])
+[INFO][21:55:59][views.py][line:407] 用户[张晟]请求登陆管理员界面。
+[INFO][21:55:59][views.py][line:408] data: admin_password=159357
+[INFO][21:55:59][views.py][line:419] 密码验证结果：True
+[INFO][21:55:59][views.py][line:420] ---------GET请求处理完毕-----------
+[INFO][21:55:59][views.py][line:422] POST请求/api/admin处理完毕，返回值access
+[INFO][21:55:59][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:55:59] "GET /api/admin?admin_password=159357&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:01][views.py][line:206] 
+[INFO][21:56:01][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:56:01][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:56:01][views.py][line:218] data: date=2018-03-02
+[INFO][21:56:01][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:56:01][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:01] "GET /api/check?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:01][views.py][line:321] 
+[INFO][21:56:01][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:56:01][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:56:01][views.py][line:340] data: date=2018-03-02, dept_name=支行营业室
+[INFO][21:56:01][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:56:01][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:01] "GET /api/display?date=2018-03-02&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:03][views.py][line:206] 
+[INFO][21:56:03][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:56:03][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:56:03][views.py][line:218] data: date=2018-2-2
+[INFO][21:56:03][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:56:03][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:03] "GET /api/check?date=2018-2-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:03][views.py][line:321] 
+[INFO][21:56:03][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:56:03][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:56:03][views.py][line:340] data: date=2018-2-2, dept_name=青年沟路储蓄所
+[INFO][21:56:03][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:56:03][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:03] "GET /api/display?date=2018-2-2&dept_name=%E9%9D%92%E5%B9%B4%E6%B2%9F%E8%B7%AF%E5%82%A8%E8%93%84%E6%89%80&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:05][views.py][line:206] 
+[INFO][21:56:05][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:56:05][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:56:05][views.py][line:218] data: date=2018-2-1
+[INFO][21:56:05][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:56:05][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:05] "GET /api/check?date=2018-2-1&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:05][views.py][line:321] 
+[INFO][21:56:05][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:56:05][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:56:05][views.py][line:340] data: date=2018-2-1, dept_name=支行营业室
+[INFO][21:56:05][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:56:05][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:05] "GET /api/display?date=2018-2-1&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:07][views.py][line:206] 
+[INFO][21:56:07][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:56:07][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:56:07][views.py][line:218] data: date=2018-2-2
+[INFO][21:56:07][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:56:07][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:07] "GET /api/check?date=2018-2-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:07][views.py][line:321] 
+[INFO][21:56:07][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:56:07][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:56:07][views.py][line:340] data: date=2018-2-2, dept_name=青年沟路储蓄所
+[INFO][21:56:07][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:56:07][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:07] "GET /api/display?date=2018-2-2&dept_name=%E9%9D%92%E5%B9%B4%E6%B2%9F%E8%B7%AF%E5%82%A8%E8%93%84%E6%89%80&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:10][views.py][line:206] 
+[INFO][21:56:10][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:56:10][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:56:10][views.py][line:218] data: date=2018-2-1
+[INFO][21:56:10][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:56:10][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:10] "GET /api/check?date=2018-2-1&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:10][views.py][line:321] 
+[INFO][21:56:10][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:56:10][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:56:10][views.py][line:340] data: date=2018-2-1, dept_name=支行营业室
+[INFO][21:56:10][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:56:10][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:10] "GET /api/display?date=2018-2-1&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:11][views.py][line:206] 
+[INFO][21:56:11][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][21:56:11][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][21:56:11][views.py][line:218] data: date=2018-2-2
+[INFO][21:56:11][views.py][line:234] POST请求/api/check处理完毕
+[INFO][21:56:11][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:11] "GET /api/check?date=2018-2-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][21:56:11][views.py][line:321] 
+[INFO][21:56:11][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][21:56:11][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][21:56:11][views.py][line:340] data: date=2018-2-2, dept_name=青年沟路储蓄所
+[INFO][21:56:11][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][21:56:11][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 21:56:11] "GET /api/display?date=2018-2-2&dept_name=%E9%9D%92%E5%B9%B4%E6%B2%9F%E8%B7%AF%E5%82%A8%E8%93%84%E6%89%80&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:03:53][views.py][line:242] 
+[INFO][22:03:53][views.py][line:243] ---------收到GET请求：/api/branches----------
+[INFO][22:03:53][views.py][line:253] 用户[张晟]查询所有网点：
+[INFO][22:03:53][views.py][line:254] data: date=wangjing
+[INFO][22:03:53][views.py][line:265] POST请求/api/branches处理完毕，返回值正常。
+[INFO][22:03:53][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:03:53] "GET /api/branches?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:03:53][views.py][line:297] 
+[INFO][22:03:53][views.py][line:298] ---------收到GET请求：/api/fields_name----------
+[INFO][22:03:53][views.py][line:303] 用户[张晟]查询所有字段名。
+[INFO][22:03:53][views.py][line:313] POST请求/api/fields_name处理完毕，返回值正常。
+[INFO][22:03:53][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:03:53] "GET /api/fields_name?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:04:43][views.py][line:359] 
+[INFO][22:04:43][views.py][line:360] ---------收到GET请求：/api/find----------
+[INFO][22:04:43][views.py][line:374] 用户[张晟]预提交业绩查询。
+[INFO][22:04:43][views.py][line:375] data: date=2018-02-02, dept_id=23
+[INFO][22:04:43][views.py][line:386] POST请求/api/find处理完毕，返回值{"submit_user": "", "submit_time": ""}
+[INFO][22:04:43][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:04:43] "GET /api/find?dept_id=23&date=2018-02-02&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:04:43][views.py][line:37] 
+[INFO][22:04:43][views.py][line:38] ---------收到来POST请求：/api/submit----------
+[INFO][22:04:43][views.py][line:48] 用户[张晟]提交业绩：
+[INFO][22:04:43][views.py][line:50] data: dept_id='23', date='2018-02-02', submit_user='张晟', extra_fields='{'field_1': '1', 'field_2': '2', 'field_3': '3', 'field_4': '无', 'field_5': '5', 'field_6': '无', 'field_7': '5', 'field_8': '6', 'field_9': '5', 'field_10': '4', 'field_13': '5', 'field_11': '8', 'field_12': '3', 'comments': '很好'}'
+[INFO][22:04:43][DBService.py][line:41] 已写入数据库缓存
+[INFO][22:04:43][DBService.py][line:68] 已提交数据库
+[INFO][22:04:43][views.py][line:61] POST请求/api/submit处理完毕，返回值success
+[INFO][22:04:43][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:04:43] "POST /api/submit HTTP/1.0" 201 -
+[INFO][22:07:05][views.py][line:394] 
+[INFO][22:07:05][views.py][line:395] ---------收到GET请求：/api/admin----------
+[INFO][22:07:05][views.py][line:397] ImmutableMultiDict([('admin_password', '159357'), ('user_name', '张晟')])
+[INFO][22:07:05][views.py][line:407] 用户[张晟]请求登陆管理员界面。
+[INFO][22:07:05][views.py][line:408] data: admin_password=159357
+[INFO][22:07:05][views.py][line:419] 密码验证结果：True
+[INFO][22:07:05][views.py][line:420] ---------GET请求处理完毕-----------
+[INFO][22:07:05][views.py][line:422] POST请求/api/admin处理完毕，返回值access
+[INFO][22:07:05][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:07:05] "GET /api/admin?admin_password=159357&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:07:07][views.py][line:206] 
+[INFO][22:07:07][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][22:07:07][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][22:07:07][views.py][line:218] data: date=2018-03-02
+[INFO][22:07:07][views.py][line:234] POST请求/api/check处理完毕
+[INFO][22:07:07][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:07:07] "GET /api/check?user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:07:07][views.py][line:321] 
+[INFO][22:07:07][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][22:07:07][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][22:07:07][views.py][line:340] data: date=2018-03-02, dept_name=支行营业室
+[INFO][22:07:07][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][22:07:07][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:07:07] "GET /api/display?date=2018-03-02&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:07:09][views.py][line:206] 
+[INFO][22:07:09][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][22:07:09][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][22:07:09][views.py][line:218] data: date=2018-2-2
+[INFO][22:07:09][views.py][line:234] POST请求/api/check处理完毕
+[INFO][22:07:09][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:07:09] "GET /api/check?date=2018-2-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:07:09][views.py][line:321] 
+[INFO][22:07:09][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][22:07:09][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][22:07:09][views.py][line:340] data: date=2018-2-2, dept_name=将台路支行
+[INFO][22:07:09][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][22:07:09][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:07:09] "GET /api/display?date=2018-2-2&dept_name=%E5%B0%86%E5%8F%B0%E8%B7%AF%E6%94%AF%E8%A1%8C&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:07:11][views.py][line:206] 
+[INFO][22:07:11][views.py][line:207] ---------收到GET请求：/api/check----------
+[INFO][22:07:11][views.py][line:217] 用户[张晟]查询当日业绩报送情况。
+[INFO][22:07:11][views.py][line:218] data: date=2018-2-2
+[INFO][22:07:11][views.py][line:234] POST请求/api/check处理完毕
+[INFO][22:07:11][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:07:11] "GET /api/check?date=2018-2-2&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:07:11][views.py][line:321] 
+[INFO][22:07:11][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][22:07:11][views.py][line:339] 用户[张晟]查询单日业绩。
+[INFO][22:07:11][views.py][line:340] data: date=2018-2-2, dept_name=青年沟路储蓄所
+[INFO][22:07:11][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][22:07:11][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:07:11] "GET /api/display?date=2018-2-2&dept_name=%E9%9D%92%E5%B9%B4%E6%B2%9F%E8%B7%AF%E5%82%A8%E8%93%84%E6%89%80&user_name=%E5%BC%A0%E6%99%9F HTTP/1.0" 201 -
+[INFO][22:31:12][views.py][line:321] 
+[INFO][22:31:12][views.py][line:322] ---------收到GET请求：/api/display----------
+[INFO][22:31:12][views.py][line:339] 用户[admin]查询单日业绩。
+[INFO][22:31:12][views.py][line:340] data: date=2018-03-02, dept_name=支行营业室
+[INFO][22:31:12][views.py][line:351] POST请求/api/display处理完毕，返回值正常。
+[INFO][22:31:12][_internal.py][line:87] 127.0.0.1 - - [02/Mar/2018 22:31:12] "GET /api/display?date=2018-03-02&dept_name=%E6%94%AF%E8%A1%8C%E8%90%A5%E4%B8%9A%E5%AE%A4 HTTP/1.0" 201 -
