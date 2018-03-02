@@ -194,7 +194,7 @@ def send_daily_email():
             logger.info('POST请求/api/send_daily_email处理完毕，返回值%s' % "success")
             return "success", 201
         else:
-            logger.info('POST请求/api/send_daily_email处理完毕，返回值%s' % "fail")
+            logger.info('POST请求/api/send_daily_email处理失败，返回值%s' % "fail")
             return "fail", 500
 
 

@@ -27,6 +27,7 @@ class EmailService(object):
 
     def send_daily_email(self, date):
         try:
+            self.read_config()
             msg = MIMEText(self.make_daily_content(date), 'html', 'utf-8')
             msg['From'] = self.format_addr('望京支行机构金融业务部<%s>' % self._from_addr)
             msg['To'] = self.format_addr('望京支行对公营销团队<%s>' % self._to_addr[0])
@@ -41,9 +42,9 @@ class EmailService(object):
             return False
         else:
             server.quit()
+            return True
         finally:
             pass
-            return True
 
     @staticmethod
     def format_addr(s):
