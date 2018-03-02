@@ -74,6 +74,7 @@ class EmailService(object):
         return formataddr((Header(name, 'utf-8').encode(), addr))
 
     def make_statistics(self, date_begin, date_end):
+        data = []
         performance_service = PerformanceService()
         dept_info_service = DeptInfoService()
         if date_begin == date_end:
@@ -85,9 +86,34 @@ class EmailService(object):
             fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status", "statistics"], ["corporate", "1", "1"], "order_index")
             branch_list = dept_info_service.find_branch_list("wangjing")
 
+        field_id_list = []
+        for field in fields_list:
+            field_id_list.append(field.field_id)
 
+        sum = []
+        for i, branch in enumerate(branch_list):
+            """第一层循环，以网点名称生成行"""
+            row = []
+            if single_day:
+                performance_list = performance_service.find_performance_by_date(date_begin, "dept_name", branch["dept_name"])
+            else:
+                performance_list = performance_service.find_performance_by_range(date_begin, date_end, "dept_name", branch["dept_name"])
 
-
+            if len(performance_list) > 0:
+                performance = performance_list[0]
+                extra_fields = performance.extra_fields
+                for a_f_id in field_id_list:
+                    """第二层循环，以可用字段生成列"""
+                    if a_f_id in extra_fields:
+                        row.append(extra_fields[a_f_id])
+                    else:
+                        row.append(extra_fields[""])
+                    row.append(extra_fields[a_f_id])
+            else:
+                pass
+            data.append(row)
+        logger.info("123123")
+        return data
 
     def make_html_content(self, date):
         content = "<html><body>"
