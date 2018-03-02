@@ -26,7 +26,6 @@ class EmailService(object):
         self._smtp_server = GLOBAL_CONFIG.get_field("Email", "smtp_server")
 
     def send_daily_email(self, date):
-        server = None
         try:
             msg = MIMEText(self.make_daily_content(date), 'html', 'utf-8')
             msg['From'] = self.format_addr('望京支行机构金融业务部<%s>' % self._from_addr)

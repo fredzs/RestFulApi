@@ -47,7 +47,6 @@ class FieldsInfoService(object):
                 new = item["new_order"]
                 field = self._db_fields_info_service.db_find_one_by_attribute("id", id)
                 field.order_index = new
-                # update_id = self.check_exist(old)
                 result = self._db_fields_info_service.db_update(field, id)
                 if result:
                     self._db_fields_info_service.db_commit()
@@ -77,5 +76,5 @@ class FieldsInfoService(object):
         field_unit = json_obj['field_unit']
         max_order_field = self._db_fields_info_service.db_find_max_order()
         order_index = max_order_field.order_index + 1
-        field = FieldsInfo(field_id, field_name, "corporate", field_type, field_unit, order_index, 1)
+        field = FieldsInfo(field_id, field_name, "corporate", field_type, field_unit, 1, order_index, 1)
         return field

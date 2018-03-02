@@ -11,5 +11,6 @@ if __name__ == "__main__":
     logger.info('-----------------------------------程序开始执行-----------------------------------')
     service = EmailService()
     service.read_config()
+    check_result = service.read_config()
     check_result = service.send_daily_email("2018-03-01")
     logger.info('-----------------------------------程序执行结束-----------------------------------')

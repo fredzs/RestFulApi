@@ -1,0 +1,3 @@
+log_dir = Log/
+log_config = logging_config.ini
+admin_password = 159357
