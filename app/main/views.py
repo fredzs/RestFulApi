@@ -199,6 +199,43 @@ def send_daily_email():
             return "fail", 500
 
 
+@main.route('/api/send_range_email', methods=['POST'])
+@main.route('/test/api/send_range_email', methods=['POST'])
+def send_range_email():
+    """POST方法，用于给字段排序"""
+    logger.info('')
+    logger.info('---------收到POST请求：/api/send_range_email----------')
+
+    if not request.json or 'date_begin' not in request.json or 'date_end' not in request.json:
+        logger.info("传入参数错误！")
+        return "args_missing", 500
+    else:
+        date_begin = request.json["date_begin"]
+        date_end = request.json["date_end"]
+    if 'user_name' in request.json:
+        user_name = request.json["user_name"]
+    else:
+        user_name = "admin"
+    logger.info('用户[%s]发送期间查询统计邮件：' % user_name)
+    logger.info("data: date_begin=%s, date_end=%s" % (date_begin, date_end))
+
+    result = False
+    try:
+        service = EmailService()
+        GLOBAL_CONFIG.reload_config_file()
+        result = service.send_range_email(date_begin, date_end)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+    finally:
+        if result:
+            logger.info('POST请求/api/send_range_email处理完毕，返回值%s' % "success")
+            return "success", 201
+        else:
+            logger.info('POST请求/api/send_range_email处理失败，返回值%s' % "fail")
+            return "fail", 500
+
+
 @main.route('/api/check', methods=['GET'])
 @main.route('/test/api/check', methods=['GET'])
 def check_submit():

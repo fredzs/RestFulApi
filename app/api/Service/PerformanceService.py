@@ -111,6 +111,11 @@ class PerformanceService(object):
         db = self._db_performance_service.db_find_list_by_attribute_list(["date", "dept_id"], [date, dept_id])
         return db
 
+    def find_performance_by_range(self, date_begin, data_end, attribute, content):
+        dept_id = self._db_dept_info_service.db_find_column_by_attribute(attribute, content, "dept_id")[0].dept_id
+        db = self._db_performance_service.db_find_list_by_attribute_list2(["date", "dept_id"], [[date_begin, data_end], dept_id])
+        return db
+
     def rewrite_extra_fields(self, extra_fields):
         extra_fields_full = []
         fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status"],
@@ -118,12 +123,12 @@ class PerformanceService(object):
                                                                                            "order_index")
         name_list = {}
         unit_list = {}
-        status_list = []
+        order_list = []
         for item in fields_list:
             name_list[item.field_id] = item.field_name
             unit_list[item.field_id] = item.field_unit
-            status_list.append(item.field_id)
-        for field in extra_fields:
-            if field in status_list:
-                extra_fields_full.append({"field_name": name_list[field], "field_value": extra_fields[field], "field_unit": unit_list[field]})
+            order_list.append(item.field_id)
+        for field_id in order_list:
+            if field_id in extra_fields:
+                extra_fields_full.append({"field_name": name_list[field_id], "field_value": extra_fields[field_id], "field_unit": unit_list[field_id]})
         return extra_fields_full
