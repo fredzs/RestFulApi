@@ -11,7 +11,7 @@ from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
 from . import main
 from app.api.Factory.LogFactory import LogFactory
-
+from Config import GLOBAL_CONFIG
 logger = LogFactory().get_logger()
 
 
@@ -185,6 +185,7 @@ def send_daily_email():
     result = False
     try:
         service = EmailService()
+        GLOBAL_CONFIG.reload_config_file()
         result = service.send_daily_email(request.json["date"])
     except Exception as e:
         logger.error('发生错误!')
