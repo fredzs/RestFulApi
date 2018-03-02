@@ -4,6 +4,7 @@ from email.utils import parseaddr, formataddr
 import smtplib
 
 from app.api.Service.DBService import DBService
+from app.api.Service.DeptInfoService import DeptInfoService
 from app.api.Service.PerformanceService import PerformanceService
 from app.api.Factory.LogFactory import LogFactory
 from Config import GLOBAL_CONFIG
@@ -28,7 +29,28 @@ class EmailService(object):
     def send_daily_email(self, date):
         try:
             self.read_config()
-            msg = MIMEText(self.make_daily_content(date), 'html', 'utf-8')
+            msg = MIMEText(self.make_html_content(date), 'html', 'utf-8')
+            msg['From'] = self.format_addr('望京支行机构金融业务部<%s>' % self._from_addr)
+            msg['To'] = self.format_addr('望京支行对公营销团队<%s>' % self._to_addr[0])
+            msg['Subject'] = Header('每日对公业绩统计_' + date, 'utf-8').encode()
+
+            server = smtplib.SMTP_SSL(self._smtp_server, 465)
+            server.login(self._from_addr, self._password)
+            server.sendmail(self._from_addr, self._to_addr, msg.as_string())
+            logger.info("发送邮件成功：" + str(self._to_addr))
+        except Exception as e:
+            logger.error(e)
+            return False
+        else:
+            server.quit()
+            return True
+        finally:
+            pass
+
+    def send_range_email(self, date_begin, date_end):
+        try:
+            self.read_config()
+            msg = MIMEText(self.make_html_content(date), 'html', 'utf-8')
             msg['From'] = self.format_addr('望京支行机构金融业务部<%s>' % self._from_addr)
             msg['To'] = self.format_addr('望京支行对公营销团队<%s>' % self._to_addr[0])
             msg['Subject'] = Header('每日对公业绩统计_' + date, 'utf-8').encode()
@@ -51,7 +73,23 @@ class EmailService(object):
         name, addr = parseaddr(s)
         return formataddr((Header(name, 'utf-8').encode(), addr))
 
-    def make_daily_content(self, date):
+    def make_statistics(self, date_begin, date_end):
+        performance_service = PerformanceService()
+        dept_info_service = DeptInfoService()
+        if date_begin == date_end:
+            single_day = True
+            fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status"], ["corporate", "1"], "order_index")
+            branch_list = performance_service.pre_check_submission(date_begin)[0]
+        else:
+            single_day = False
+            fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status", "statistics"], ["corporate", "1", "1"], "order_index")
+            branch_list = dept_info_service.find_branch_list("wangjing")
+
+
+
+
+
+    def make_html_content(self, date):
         content = "<html><body>"
         content += "<h2>" + date + " 对公业绩汇总：</h2>"
         content += "<table border=\"1\" style= \"border-collapse: collapse; border-color: #BCD1E6;\"><tbody><tr style= \"border-color: #9AA2A9;\">"
