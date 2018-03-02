@@ -43,7 +43,10 @@ class PerformanceService(object):
         dept_id = json_obj['dept_id']
         date = json_obj['date']
         submit_user = json_obj['submit_user']
-        comments = json_obj['comments']
+        if 'comments' in json_obj:
+            comments = json_obj['comments']
+        else:
+            comments = ""
         extra_fields = json_obj['extra_fields']
         performance = Performance(dept_id, date, submit_user, comments, extra_fields)
         return performance
