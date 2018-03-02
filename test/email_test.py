@@ -12,5 +12,5 @@ if __name__ == "__main__":
     service = EmailService()
     service.read_config()
     # check_result = service.read_config()
-    check_result = service.make_statistics("2018-03-01", "2018-03-01")
+    check_result = service.send_range_email("2018-03-02", "2018-03-02")
     logger.info('-----------------------------------程序执行结束-----------------------------------')

@@ -107,7 +107,7 @@ class DBService(object):
         for attr, content in zip(attribute_list, search_content_list):
             if isinstance(content, list):
                 if len(content) == 2:
-                    query = query.filter(getattr(self._db_class, attr) < content[1]).filter(content[0] < getattr(self._db_class, attr))
+                    query = query.filter(getattr(self._db_class, attr) <= content[1]).filter(content[0] <= getattr(self._db_class, attr))
             elif isinstance(content, str):
                 query = query.filter(getattr(self._db_class, attr) == content)
         logger.debug(query)
