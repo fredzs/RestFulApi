@@ -34,11 +34,11 @@ class EmailService(object):
         msg['To'] = Header('%s<%s>' % (receiver_name, self._to_addr[0]), 'utf-8')
         msg['Subject'] = Header(subject, 'utf-8')
         # 邮件正文内容
-        msg.attach(MIMEText(html_content, 'plain', 'utf-8'))
+        msg.attach(MIMEText(html_content, 'html', 'utf-8'))
         # 构造附件
         attachment = MIMEText(open(attachment_name, 'rb').read(), 'base64', 'utf-8')
         attachment["Content-Type"] = 'application/octet-stream'
-        attachment["Content-Disposition"] = 'attachment; filename="test.txt"'
+        attachment["Content-Disposition"] = 'attachment; filename=' + attachment_name
         # attachment.add_header('Content-Disposition', 'attachment', filename=attachment_name)
         msg.attach(attachment)
         return msg
@@ -65,6 +65,7 @@ class EmailService(object):
             return False
         else:
             # server.quit()
+            logger.info("发送邮件成功")
             return True
         finally:
             pass
