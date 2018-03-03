@@ -28,7 +28,7 @@ class EmailService(object):
         self._to_addr = GLOBAL_CONFIG.get_field_list("Email", "to_addr")
         self._smtp_server = GLOBAL_CONFIG.get_field("Email", "smtp_server")
 
-    def make_msg(self, subject, sender_name, receiver_name, html_content, attachment_name):
+    def make_msg(self, sender_name, receiver_name, subject, html_content, attachment_name):
         msg = MIMEMultipart()
         msg['From'] = Header('%s<%s>' % (sender_name, self._from_addr), 'utf-8')
         msg['To'] = Header('%s<%s>' % (receiver_name, self._to_addr[0]), 'utf-8')
@@ -36,10 +36,10 @@ class EmailService(object):
         # 邮件正文内容
         msg.attach(MIMEText(html_content, 'html', 'utf-8'))
         # 构造附件
-        #attachment = MIMEText(open(attachment_name, 'rb').read(), 'base64', 'utf-8')
-        #attachment["Content-Type"] = 'application/octet-stream'
-        #attachment["Content-Disposition"] = "attachment; filename=%s" % attachment_name.encode("utf-8")
-        #msg.attach(attachment)
+        attachment = MIMEText(open(attachment_name, 'rb').read(), 'base64', 'utf-8')
+        attachment["Content-Type"] = 'application/octet-stream'
+        attachment["Content-Disposition"] = "attachment; filename=%s" % attachment_name.encode("utf-8")
+        msg.attach(attachment)
         return msg
 
     def send_range_email(self, date_begin, date_end):
