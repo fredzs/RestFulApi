@@ -36,11 +36,10 @@ class EmailService(object):
         # 邮件正文内容
         msg.attach(MIMEText(html_content, 'html', 'utf-8'))
         # 构造附件
-        attachment = MIMEText(open(attachment_name, 'rb').read(), 'base64', 'utf-8')
-        attachment["Content-Type"] = 'application/octet-stream'
-        attachment["Content-Disposition"] = "attachment; filename=%s" % attachment_name.encode("utf-8")
-        # attachment.add_header('Content-Disposition', 'attachment', filename=attachment_name)
-        msg.attach(attachment)
+        #attachment = MIMEText(open(attachment_name, 'rb').read(), 'base64', 'utf-8')
+        #attachment["Content-Type"] = 'application/octet-stream'
+        #attachment["Content-Disposition"] = "attachment; filename=%s" % attachment_name.encode("utf-8")
+        #msg.attach(attachment)
         return msg
 
     def send_range_email(self, date_begin, date_end):
