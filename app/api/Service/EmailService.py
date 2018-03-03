@@ -38,7 +38,7 @@ class EmailService(object):
         # 构造附件
         attachment = MIMEText(open(attachment_name, 'rb').read(), 'base64', 'utf-8')
         attachment["Content-Type"] = 'application/octet-stream'
-        attachment["Content-Disposition"] = 'attachment; filename=' + attachment_name
+        attachment["Content-Disposition"] = "attachment; filename=%s" % attachment_name.encode("uff-8")
         # attachment.add_header('Content-Disposition', 'attachment', filename=attachment_name)
         msg.attach(attachment)
         return msg
