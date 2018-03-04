@@ -38,7 +38,7 @@ class EmailService(object):
         # 构造附件
         attachment = MIMEText(open(attachment_name, 'rb').read(), 'base64', 'utf-8')
         attachment["Content-Type"] = 'application/octet-stream'
-        attachment["Content-Disposition"] = "attachment; filename=%s" % attachment_name.encode("utf-8")
+        attachment["Content-Disposition"] = "attachment; filename=%s" % attachment_name
         msg.attach(attachment)
         return msg
 
@@ -49,14 +49,14 @@ class EmailService(object):
             if date_begin == date_end:
                 subject = "{}".format(date_begin)
             else:
-                subject = "{}至{}".format(date_begin, date_end)
-            html_content = self.data_to_html(subject, title_line, data, total_line)
+                subject = "{} ~ {}".format(date_begin, date_end)
+            #html_content = self.data_to_html(subject, title_line, data, total_line)
             attachment_name = self.data_to_xls(subject, title_line, data, total_line, type_list)
-            msg = self.make_msg('望京支行机构金融业务部', '望京支行对公团队', '每日统计_' + date_begin,  html_content, attachment_name)
+            #msg = self.make_msg('望京支行机构金融业务部', '望京支行对公团队', '每日统计_' + date_begin,  html_content, attachment_name)
 
-            server = smtplib.SMTP_SSL(self._smtp_server, 465)
-            server.login(self._from_addr, self._password)
-            server.sendmail(self._from_addr, self._to_addr, msg.as_string())
+            #server = smtplib.SMTP_SSL(self._smtp_server, 465)
+            #server.login(self._from_addr, self._password)
+            #server.sendmail(self._from_addr, self._to_addr, msg.as_string())
 
         except smtplib.SMTPException as e:
             logger.error("Error: 无法发送邮件:")
