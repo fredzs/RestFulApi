@@ -47,12 +47,12 @@ class EmailService(object):
             self.read_config()
             title_line, data, total_line, type_list = StatisticsService().make_statistics(date_begin, date_end)
             if date_begin == date_end:
-                subject = "{} 对公业绩汇总".format(date_begin)
+                subject = "{}".format(date_begin)
             else:
-                subject = "{}至{} 对公业绩汇总".format(date_begin, date_end)
+                subject = "{}至{}".format(date_begin, date_end)
             html_content = self.data_to_html(subject, title_line, data, total_line)
             attachment_name = self.data_to_xls(subject, title_line, data, total_line, type_list)
-            msg = self.make_msg('望京支行机构金融业务部', '望京支行对公营销团队', '每日对公业绩统计_' + date_begin,  html_content, attachment_name)
+            msg = self.make_msg('望京支行机构金融业务部', '望京支行对公团队', '每日统计_' + date_begin,  html_content, attachment_name)
 
             server = smtplib.SMTP_SSL(self._smtp_server, 465)
             server.login(self._from_addr, self._password)
@@ -117,10 +117,13 @@ class EmailService(object):
         # 生成数据行
         for i, row in enumerate(data):
             for j, col in enumerate(row):
-                if type_list[j] == "int":
-                    sheet.write(current_row_number, j, int(col))
-                elif type_list[j] == "float":
-                    sheet.write(current_row_number, j, float(col))
+                if col != "":
+                    if type_list[j] == "int":
+                        sheet.write(current_row_number, j, int(col))
+                    elif type_list[j] == "float":
+                        sheet.write(current_row_number, j, float(col))
+                    else:
+                        sheet.write(current_row_number, j, col)
                 else:
                     sheet.write(current_row_number, j, col)
             current_row_number += 1
