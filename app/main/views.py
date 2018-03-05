@@ -56,6 +56,8 @@ def create_performance():
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
+    if user_name == "None" or user_name == "null":
+        user_name = "unknown"
     logger.info('用户[%s]提交业绩：' % user_name)
     logger.info("data: dept_id='%s', date='%s', submit_user='%s', extra_fields='%s'" % (
         request.json["dept_id"], request.json["date"], request.json["submit_user"], request.json["extra_fields"]))
