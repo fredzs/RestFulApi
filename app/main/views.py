@@ -17,8 +17,6 @@ logger = LogFactory().get_logger()
 
 @main.route('/')
 @main.route('/api')
-@main.route('/test')
-@main.route('/test/api')
 def index():
     """默认的Get请求"""
     logger.info('')
@@ -26,7 +24,19 @@ def index():
 
     request_date = datetime.today().strftime("%Y-%m-%d")
     logger.info('---------index页面请求处理完毕-----------')
-    return render_template("index.html", title='api List', date=request_date, dept_name='支行营业室',
+    return render_template("api_list.html", base_url="", title='api List', date=request_date, dept_name='支行营业室',
+                           admin_password="159357")
+
+@main.route('/test')
+@main.route('/test/api')
+def test():
+    """默认的Get请求"""
+    logger.info('')
+    logger.info('---------收到index页面请求：/api----------')
+
+    request_date = datetime.today().strftime("%Y-%m-%d")
+    logger.info('---------index页面请求处理完毕-----------')
+    return render_template("/test/api_list.html", title='api List', date=request_date, dept_name='支行营业室',
                            admin_password="159357")
 
 
@@ -162,40 +172,6 @@ def sort_field():
             return "success", 201
         else:
             logger.info('POST请求/api/sort_field处理完毕，返回值%s' % "fail")
-            return "fail", 500
-
-
-@main.route('/api/send_daily_email', methods=['POST'])
-@main.route('/test/api/send_daily_email', methods=['POST'])
-def send_daily_email():
-    """POST方法，用于给字段排序"""
-    logger.info('')
-    logger.info('---------收到POST请求：/api/send_daily_email----------')
-
-    if not request.json or 'date' not in request.json:
-        logger.info("传入参数错误！")
-        return "args_missing", 500
-    if 'user_name' in request.json:
-        user_name = request.json["user_name"]
-    else:
-        user_name = "admin"
-    logger.info('用户[%s]发送当日统计邮件：' % user_name)
-    logger.info("data: date=%s" % request.json["date"])
-
-    result = False
-    try:
-        service = EmailService()
-        GLOBAL_CONFIG.reload_config_file()
-        result = service.send_daily_email(request.json["date"])
-    except Exception as e:
-        logger.error('发生错误!')
-        logger.error(e)
-    finally:
-        if result:
-            logger.info('POST请求/api/send_daily_email处理完毕，返回值%s' % "success")
-            return "success", 201
-        else:
-            logger.info('POST请求/api/send_daily_email处理失败，返回值%s' % "fail")
             return "fail", 500
 
 

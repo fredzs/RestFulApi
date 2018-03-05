@@ -38,7 +38,7 @@ class EmailService(object):
         # 构造附件
         attachment = MIMEText(open(attachment_name, 'rb').read(), 'base64', 'utf-8')
         attachment["Content-Type"] = 'application/octet-stream'
-        attachment["Content-Disposition"] = "attachment; filename=%s" % attachment_name.encode("utf-8")
+        attachment["Content-Disposition"] = "attachment; filename=%s" % attachment_name
         msg.attach(attachment)
         return msg
 
@@ -49,14 +49,14 @@ class EmailService(object):
             if date_begin == date_end:
                 subject = "{}".format(date_begin)
             else:
-                subject = "{}至{}".format(date_begin, date_end)
+                subject = "{} ~ {}".format(date_begin, date_end)
             html_content = self.data_to_html(subject, title_line, data, total_line)
             attachment_name = self.data_to_xls(subject, title_line, data, total_line, type_list)
             msg = self.make_msg('望京支行机构金融业务部', '望京支行对公团队', '每日统计_' + date_begin,  html_content, attachment_name)
 
-            server = smtplib.SMTP_SSL(self._smtp_server, 465)
-            server.login(self._from_addr, self._password)
-            server.sendmail(self._from_addr, self._to_addr, msg.as_string())
+            # server = smtplib.SMTP_SSL(self._smtp_server, 465)
+            # server.login(self._from_addr, self._password)
+            # server.sendmail(self._from_addr, self._to_addr, msg.as_string())
 
         except smtplib.SMTPException as e:
             logger.error("Error: 无法发送邮件:")
@@ -95,10 +95,9 @@ class EmailService(object):
                 content += "<td align=\"center\">{}</td>".format(col)
             content += "</tr>"
         # 生成汇总行
+        content += "<tr>"
         for total_td in total_line:
-            content += "<td width=\"70\" align=\"center\">"
-            content += "<p><B>{}</B></p>".format(total_td)
-            content += "</td>"
+            content += "<td><p><B>{}</B></p></td>".format(total_td)
         content += "</tr>"
         content += "</tbody></table>"
         content += "</body></html>"
@@ -134,57 +133,3 @@ class EmailService(object):
 
         xls_file.save(file_name + ".xls")
         return file_name + ".xls"
-
-    # def make_html_content(self, date):
-    #     content = "<html><body>"
-    #     content += "<h2>" + date + " 对公业绩汇总：</h2>"
-    #     content += "<table border=\"1\" style= \"border-collapse: collapse; border-color: #BCD1E6;\"><tbody><tr style= \"border-color: #9AA2A9;\">"
-    #     content += "<td width=\"40\" align=\"center\"><B>序号</B></td>"
-    #     content += "<td width=\"110\" align=\"center\"><B>网点</B></td>"
-    #
-    #     try:
-    #         available_fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
-    #             ["business", "status"], ["corporate", "1"], "order_index")
-    #         a_f_id_list = []
-    #         for field in available_fields_list:
-    #             content += "<td width=\"70\" align=\"center\">"
-    #             if field.field_type == "int":
-    #                 content += "<p><B>%s</B></p><p><B>（%s）</B></p>" % (field.field_name, field.field_unit)
-    #             else:
-    #                 content += "<p><B>%s</B></p>" % field.field_name
-    #             content += "</td>"
-    #             a_f_id_list.append(field.field_id)
-    #
-    #         content += "<td width=\"100\" align=\"center\"><B>%s</B></td>" % "报送人"
-    #         content += "</tr>"
-    #
-    #         performance_service = PerformanceService()
-    #         submission_list = performance_service.pre_check_submission(date)[0]
-    #         for i, p in enumerate(submission_list):
-    #             """第一层循环，以网点名称生成行"""
-    #             content += "<tr>"
-    #             content += "<td align=\"center\">" + str(i + 1) + "</td>"
-    #             content += "<td align=\"center\">" + p["dept_name"] + "</td>"
-    #
-    #             performance_list = performance_service.find_performance_by_date(date, "dept_name", p["dept_name"])
-    #             if len(performance_list) > 0:
-    #                 performance = performance_list[0]
-    #                 extra_fields = performance.extra_fields
-    #                 for a_f_id in a_f_id_list:
-    #                     """第二层循环，以可用字段生成列"""
-    #                     if a_f_id in extra_fields:
-    #                         content += "<td align=\"center\">%s</td>" % extra_fields[a_f_id]
-    #                     else:
-    #                         content += "<td align=\"center\">-</td>"
-    #
-    #                 content += "<td align=\"center\">%s</td>" % p["submit_user"]
-    #                 content += "</tr>"
-    #             else:
-    #                 pass
-    #     except Exception as e:
-    #         logger.error(e)
-    #         return ""
-    #
-    #     content += "</tbody></table>"
-    #     content += "</body></html>"
-    #     return content

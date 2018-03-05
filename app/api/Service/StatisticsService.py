@@ -36,11 +36,15 @@ class StatisticsService(object):
             single_day = False
             fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
                 ["business", "status", "statistics"], ["corporate", "1", "1"], "order_index")
-            branch_list = dept_info_service.find_branch_list("wangjing")
+            branch_list = dept_info_service.find_branch_kv_list("wangjing")
 
         # 生成title
         title_line.append("序号")
         title_line.append("网点")
+        if not single_day:
+            title_line.append("报送天数")
+            type_list.append("1")
+            total_line.append(0)
         for field in fields_list:
             type_list.append(field.field_type)
             if field.field_type == "int":
@@ -55,39 +59,65 @@ class StatisticsService(object):
             else:
                 total_line.append("")
             field_id_list.append(field.field_id)
-        title_line.append("报送人")
+        if single_day:
+            title_line.append("报送人")
         # 生成data
-        for i, branch in enumerate(branch_list):
-            """第一层循环，以网点名称生成行"""
-            row = [i + 1, branch["dept_name"]]
-            if single_day:
-                performance_list = performance_service.find_performance_by_date(date_begin, "dept_name",
-                                                                                branch["dept_name"])
-            else:
-                performance_list = performance_service.find_performance_by_range(date_begin, date_end, "dept_name",
-                                                                                 branch["dept_name"])
-
-            if len(performance_list) <= 1:
-                performance = performance_list[0]
-                extra_fields = performance.extra_fields
-                for j, a_f_id in enumerate(field_id_list):
-                    """第二层循环，以可用字段生成列"""
-                    if a_f_id in extra_fields:
-                        row.append(extra_fields[a_f_id])
-                        if a_f_id in field_summable_list:
-                            if extra_fields[a_f_id] != 0:
-                                if type_list[j + 2] == "int":
-                                    total_line[j + 2] += int(extra_fields[a_f_id])
-                                elif type_list[j + 2] == "float":
-                                    total_line[j + 2] += float(extra_fields[a_f_id])
+        if single_day:
+            for i, branch in enumerate(branch_list):
+                """第一层循环，以网点名称生成行"""
+                performance_list = performance_service.find_performance_by_date(date_begin, "dept_name", branch["dept_name"])
+                if len(performance_list) == 1:
+                    row = [i + 1, branch["dept_name"]]
+                    performance = performance_list[0]
+                    extra_fields = performance.extra_fields
+                    for j, a_f_id in enumerate(field_id_list):
+                        """第二层循环，以可用字段生成列"""
+                        if a_f_id in extra_fields:
+                            row.append(extra_fields[a_f_id])
+                            if a_f_id in field_summable_list:
+                                if extra_fields[a_f_id] != 0:
+                                    if type_list[j + 2] == "int":
+                                        total_line[j + 2] += int(extra_fields[a_f_id])
+                                    elif type_list[j + 2] == "float":
+                                        total_line[j + 2] += float(extra_fields[a_f_id])
+                            else:
+                                pass
                         else:
-                            pass
-                    else:
-                        row.append("")
-                row.append(branch["submit_user"])
-                type_list.append("1")
-            else:
-                pass
-            data.append(row)
+                            row.append("")
+                    row.append(branch["submit_user"])
+                    type_list.append("1")
+                else:
+                    continue
+                data.append(row)
+        else:
+            for i, branch in enumerate(branch_list):
+                """第一层循环，以网点名称生成行"""
+                performance_list = performance_service.find_performance_by_range(date_begin, date_end, "dept_name", branch["dept_name"])
+                row = [i + 1, branch["dept_name"], len(performance_list)]
+                if len(performance_list) > 0:
+                    temp_list = [0 for x in range(0, len(field_summable_list))]
+                    for k, performance in enumerate(performance_list):
+                        extra_fields = performance.extra_fields
+                        for j, a_f_id in enumerate(field_id_list):
+                            """第二层循环，以可用字段生成列"""
+                            if a_f_id in extra_fields:
+                                if a_f_id in field_summable_list:
+                                    if extra_fields[a_f_id] != 0:
+                                        if type_list[j + 3] == "int":
+                                            temp_list[j] += int(extra_fields[a_f_id])
+                                            total_line[j + 3] += int(extra_fields[a_f_id])
+                                        elif type_list[j + 3] == "float":
+                                            temp_list[j] += float(extra_fields[a_f_id])
+                                            total_line[j + 3] += float(extra_fields[a_f_id])
+                                else:
+                                    pass
+                            else:
+                                pass
+                                # row.append("" for x in range(0, len(field_summable_list)))
+                    row.extend(temp_list)
+                else:
+                    temp_list = ["" for x in range(0, len(field_summable_list))]
+                    row.extend(temp_list)
+                data.append(row)
         total_line.append("")
         return title_line, data, total_line, type_list
