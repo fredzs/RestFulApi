@@ -183,24 +183,28 @@ def send_range_email():
     logger.info('')
     logger.info('---------收到POST请求：/api/send_range_email----------')
 
-    if not request.json or 'date_begin' not in request.json or 'date_end' not in request.json:
+    if not request.json or 'date_begin' not in request.json or 'date_end' not in request.json or 'count_only' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
     else:
         date_begin = request.json["date_begin"]
         date_end = request.json["date_end"]
+        if request.json["count_only"]=="true":
+            count_only = True
+        else:
+            count_only = False
     if 'user_name' in request.json:
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
-    logger.info('用户[%s]发送期间查询统计邮件：' % user_name)
-    logger.info("data: date_begin=%s, date_end=%s" % (date_begin, date_end))
+    logger.info("用户[%s]请求统计业绩：" % user_name)
+    logger.info("data: date_begin=%s, date_end=%s, count_only=%s" % (date_begin, date_end, count_only))
 
     result = False
     try:
         service = EmailService()
         GLOBAL_CONFIG.reload_config_file()
-        result = service.send_range_email(date_begin, date_end)
+        result = service.send_range_email(date_begin, date_end, count_only)
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)

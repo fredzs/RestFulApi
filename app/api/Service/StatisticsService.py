@@ -1,8 +1,8 @@
+import xlrd, xlwt
 from app.api.Service.DBService import DBService
 from app.api.Service.DeptInfoService import DeptInfoService
 from app.api.Service.PerformanceService import PerformanceService
 from app.api.Factory.LogFactory import LogFactory
-from Config import GLOBAL_CONFIG
 
 logger = LogFactory().get_logger()
 
@@ -44,7 +44,7 @@ class StatisticsService(object):
         if not single_day:
             title_line.append("报送天数")
             type_list.append("1")
-            total_line.append(0)
+            total_line.append("")
         for field in fields_list:
             type_list.append(field.field_type)
             if field.field_type == "int":
@@ -121,3 +121,68 @@ class StatisticsService(object):
                     row.extend(temp_list)
                 data.append(row)
         return title_line, data, total_line, type_list
+
+    @staticmethod
+    def html_2_file(html, file_name):
+        with open(file_name, 'w') as f:
+            f.write(html)
+
+    @staticmethod
+    def data_to_html(subject, title_line, data, total_line):
+        content = "<html><body>"
+        content += "<h2>{}</h2>".format(subject)
+        content += "<table border=\"1\" style= \"border-collapse: collapse; border-color: #BCD1E6;\"><tbody><tr style= \"border-color: #9AA2A9;\">"
+
+        # 生成首行
+        for title_td in title_line:
+            content += "<td width=\"70\" align=\"center\">"
+            content += "<p><B>{}</B></p>".format(title_td)
+            content += "</td>"
+        content += "</tr>"
+        # 生成数据行
+        for i, row in enumerate(data):
+            """第一层循环，以网点名称生成行"""
+            content += "<tr>"
+            for col in row:
+                """第二层循环，以可用字段生成列"""
+                content += "<td align=\"center\">{}</td>".format(col)
+            content += "</tr>"
+        # 生成汇总行
+        content += "<tr>"
+        for total_td in total_line:
+            content += "<td align=\"center\"><p><B>{}</B></p></td>".format(total_td)
+        content += "</tr>"
+        content += "</tbody></table>"
+        content += "</body></html>"
+        return content
+
+    @staticmethod
+    def data_to_xls(file_name, title_line, data, total_line, type_list):
+        xls_file = xlwt.Workbook()
+        sheet = xls_file.add_sheet("业绩", cell_overwrite_ok=True)
+        current_row_number = 0
+        # 生成首行
+        for i, title_cell in enumerate(title_line):
+            sheet.write(current_row_number, i, title_cell)
+        current_row_number += 1
+
+        # 生成数据行
+        for i, row in enumerate(data):
+            for j, col in enumerate(row):
+                if col != "":
+                    if type_list[j] == "int":
+                        sheet.write(current_row_number, j, int(col))
+                    elif type_list[j] == "float":
+                        sheet.write(current_row_number, j, float(col))
+                    else:
+                        sheet.write(current_row_number, j, col)
+                else:
+                    sheet.write(current_row_number, j, col)
+            current_row_number += 1
+
+        # 生成汇总行
+        for i, total_cell in enumerate(total_line):
+            sheet.write(current_row_number, i, total_cell)
+
+        xls_file.save(file_name)
+        return file_name
