@@ -102,6 +102,18 @@ class DBService(object):
         result = query.all()
         return result
 
+    def db_find_list_by_attribute_list2(self, attribute_list, search_content_list):
+        query = self._db_session.query(self._db_class)
+        for attr, content in zip(attribute_list, search_content_list):
+            if isinstance(content, list):
+                if len(content) == 2:
+                    query = query.filter(getattr(self._db_class, attr) <= content[1]).filter(content[0] <= getattr(self._db_class, attr))
+            else:
+                query = query.filter(getattr(self._db_class, attr) == content)
+        logger.debug(query)
+        result = query.all()
+        return result
+
     def db_find_column_by_attribute(self, attribute, search_content, column):
         query = self._db_session.query(getattr(self._db_class, column)).filter(
             getattr(self._db_class, attribute) == search_content)

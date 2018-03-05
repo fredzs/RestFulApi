@@ -201,7 +201,7 @@ def send_daily_email():
 
 @main.route('/api/send_range_email', methods=['POST'])
 @main.route('/test/api/send_range_email', methods=['POST'])
-def send_daily_email():
+def send_range_email():
     """POST方法，用于给字段排序"""
     logger.info('')
     logger.info('---------收到POST请求：/api/send_range_email----------')
