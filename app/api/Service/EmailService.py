@@ -74,6 +74,7 @@ class EmailService(object):
         return formataddr((Header(name, 'utf-8').encode(), addr))
 
     def make_statistics(self, date_begin, date_end):
+        data = {}
         performance_service = PerformanceService()
         dept_info_service = DeptInfoService()
         if date_begin == date_end:
@@ -85,7 +86,7 @@ class EmailService(object):
             fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status", "statistics"], ["corporate", "1", "1"], "order_index")
             branch_list = dept_info_service.find_branch_list("wangjing")
 
-
+        for branch in branch_list
 
 
 
