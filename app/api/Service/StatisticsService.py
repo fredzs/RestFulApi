@@ -116,7 +116,8 @@ class StatisticsService(object):
                                 # row.append("" for x in range(0, len(field_summable_list)))
                     row.extend(temp_list)
                 else:
-                    row.extend([])
+                    temp_list = ["" for x in range(0, len(field_summable_list))]
+                    row.extend(temp_list)
                 data.append(row)
         total_line.append("")
         return title_line, data, total_line, type_list
