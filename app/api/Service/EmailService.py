@@ -54,9 +54,9 @@ class EmailService(object):
             attachment_name = self.data_to_xls(subject, title_line, data, total_line, type_list)
             msg = self.make_msg('望京支行机构金融业务部', '望京支行对公团队', '每日统计_' + date_begin,  html_content, attachment_name)
 
-            server = smtplib.SMTP_SSL(self._smtp_server, 465)
-            server.login(self._from_addr, self._password)
-            server.sendmail(self._from_addr, self._to_addr, msg.as_string())
+            # server = smtplib.SMTP_SSL(self._smtp_server, 465)
+            # server.login(self._from_addr, self._password)
+            # server.sendmail(self._from_addr, self._to_addr, msg.as_string())
 
         except smtplib.SMTPException as e:
             logger.error("Error: 无法发送邮件:")
@@ -95,11 +95,9 @@ class EmailService(object):
                 content += "<td align=\"center\">{}</td>".format(col)
             content += "</tr>"
         # 生成汇总行
+        content += "<tr>"
         for total_td in total_line:
-            content += "<tr>"
-            content += "<p><B>{}</B></p>".format(total_td)
-            content += "</td>"
-            content += "</tr>"
+            content += "<td><p><B>{}</B></p></td>".format(total_td)
         content += "</tr>"
         content += "</tbody></table>"
         content += "</body></html>"
