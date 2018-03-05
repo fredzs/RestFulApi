@@ -108,7 +108,7 @@ class DBService(object):
             if isinstance(content, list):
                 if len(content) == 2:
                     query = query.filter(getattr(self._db_class, attr) <= content[1]).filter(content[0] <= getattr(self._db_class, attr))
-            elif isinstance(content, str):
+            else:
                 query = query.filter(getattr(self._db_class, attr) == content)
         logger.debug(query)
         result = query.all()
