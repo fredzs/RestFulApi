@@ -46,13 +46,21 @@ class EmailService(object):
         try:
             self.read_config()
             title_line, data, total_line, type_list = StatisticsService().make_statistics(date_begin, date_end)
+            logger.info("统计数据构造成功")
             if date_begin == date_end:
-                subject = "{}".format(date_begin)
+                subject = "{} 网点报送汇总".format(date_begin)
+                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), date_begin) + ".xls"
+                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), date_begin) + ".html"
             else:
-                subject = "{} ~ {}".format(date_begin, date_end)
+                subject = "{} ~ {} 网点报送汇总".format(date_begin, date_end)
+                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"),"{} ~ {}".format(date_begin, date_end)) + ".xls"
+                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"),"{} ~ {}".format(date_begin, date_end)) + ".html"
             html_content = self.data_to_html(subject, title_line, data, total_line)
-            attachment_name = self.data_to_xls(subject, title_line, data, total_line, type_list)
-            msg = self.make_msg('望京支行机构金融业务部', '望京支行对公团队', '每日统计_' + date_begin,  html_content, attachment_name)
+            self.html_2_file(html_content, html_file_name)
+            logger.info("html内容构造成功")
+            attachment_name = self.data_to_xls(xls_file_name, title_line, data, total_line, type_list)
+            logger.info("xls内容构造成功")
+            msg = self.make_msg('望京支行机构金融业务部', '望京支行对公团队', '每日统计_' + date_begin,  html_content, xls_file_name)
 
             # server = smtplib.SMTP_SSL(self._smtp_server, 465)
             # server.login(self._from_addr, self._password)
@@ -73,6 +81,11 @@ class EmailService(object):
     def format_addr(s):
         name, addr = parseaddr(s)
         return formataddr((Header(name, 'utf-8'), addr))
+
+    @staticmethod
+    def html_2_file(html, file_name):
+        with open(file_name, 'w') as f:
+            f.write(html)
 
     @staticmethod
     def data_to_html(subject, title_line, data, total_line):
@@ -97,7 +110,7 @@ class EmailService(object):
         # 生成汇总行
         content += "<tr>"
         for total_td in total_line:
-            content += "<td><p><B>{}</B></p></td>".format(total_td)
+            content += "<td align=\"center\"><p><B>{}</B></p></td>".format(total_td)
         content += "</tr>"
         content += "</tbody></table>"
         content += "</body></html>"
@@ -131,5 +144,5 @@ class EmailService(object):
         for i, total_cell in enumerate(total_line):
             sheet.write(current_row_number, i, total_cell)
 
-        xls_file.save(file_name + ".xls")
-        return file_name + ".xls"
+        xls_file.save(file_name)
+        return file_name

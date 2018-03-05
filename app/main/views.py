@@ -27,6 +27,7 @@ def index():
     return render_template("api_list.html", base_url="", title='api List', date=request_date, dept_name='支行营业室',
                            admin_password="159357")
 
+
 @main.route('/test')
 @main.route('/test/api')
 def test():

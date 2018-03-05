@@ -89,6 +89,7 @@ class StatisticsService(object):
                 else:
                     continue
                 data.append(row)
+            total_line.append("")
         else:
             for i, branch in enumerate(branch_list):
                 """第一层循环，以网点名称生成行"""
@@ -119,5 +120,4 @@ class StatisticsService(object):
                     temp_list = ["" for x in range(0, len(field_summable_list))]
                     row.extend(temp_list)
                 data.append(row)
-        total_line.append("")
         return title_line, data, total_line, type_list
