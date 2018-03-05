@@ -31,7 +31,7 @@ class DBFieldsInfo(Base):
                 #"business": obj.business,
                 "field_type": obj.field_type,
                 "field_unit": obj.field_unit,
-                #"statistics": obj.statistics,
+                "statistics": obj.statistics,
                 "order_index": obj.order_index,
                 "status": True if obj.status == 1 else False}
 
