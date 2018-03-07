@@ -489,12 +489,12 @@ def user():
         return "args_missing", 500
     else:
         nick_name = request.args.get('nick_name')
-    if request.args.get('avatar_url') != "":
-        logger.info("用户头像URL为：[%s]" % nick_name)
-    logger.info("用户[%s]登陆，查找用户信息。" % request.args.get('avatar_url'))
+    if request.args.get('avatar_url') != "None":
+        logger.info("用户头像URL为：[%s]" % request.args.get('avatar_url'))
+    logger.info("用户[%s]登陆，查找用户信息。" % nick_name)
     logger.info("data: nick_name=%s" % nick_name)
 
-    result = False
+    result = {}
     try:
         if nick_name == 'null' or nick_name == 'None':
             nick_name = "unknown"
@@ -505,5 +505,5 @@ def user():
         logger.error(e)
         return {}, 500
     finally:
-        logger.info('POST请求/api/dept处理完毕，返回值%s' % str(result))
+        logger.info('POST请求/api/user处理完毕，返回值%s' % str(result))
         return result, 201
