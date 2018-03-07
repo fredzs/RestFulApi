@@ -38,7 +38,7 @@ class DBService(object):
             self._db_session.add(db_service)
         except Exception as e:
             logger.info("写入数据库缓存失败:%s" % e)
-            return False
+            raise Exception
         logger.info("已写入数据库缓存")
         return True
 
