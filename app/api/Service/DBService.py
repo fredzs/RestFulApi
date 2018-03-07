@@ -7,6 +7,7 @@ from app.api.Factory.DBFactory import DBFactory
 from app.api.ORM.DBPerformance import DBPerformance
 from app.api.ORM.DBDeptInfo import DBDeptInfo
 from app.api.ORM.DBFieldsInfo import DBFieldsInfo
+from app.api.ORM.DBUserInfo import DBUserInfo
 from app.api.Factory.LogFactory import LogFactory
 
 logger = LogFactory().get_logger()
@@ -149,4 +150,13 @@ class DBService(object):
     def db_find_max_order(self):
         query = self._db_session.query(self._db_class).order_by(getattr(self._db_class, "order_index").desc())
         result = query.first()
+        return result
+
+    def db_find_by_attribute_list_from_multi_table(self, attribute_list, search_content_list, query_str, class_type_2):
+        db_class_join = eval(class_type_2)
+        query = self._db_session.query(query_str)
+        for attr, content in zip(attribute_list, search_content_list):
+            query = query.filter(getattr(self._db_class, attr) == content)
+        logger.debug(query)
+        result = query.all()
         return result

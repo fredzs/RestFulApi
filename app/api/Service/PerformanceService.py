@@ -85,7 +85,7 @@ class PerformanceService(object):
         return json.dumps(obj, ensure_ascii=False)
 
     def display(self, date, dept_name):
-        performance = {}
+        performance = { "submit_user":"empty"}
         obj = self.find_performance_by_date(date, "dept_name", dept_name)
         if len(obj) > 0:
             d = obj[0]
