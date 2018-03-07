@@ -500,6 +500,8 @@ def user():
             nick_name = "unknown"
         user_service = UserInfoService()
         result = user_service.find_user_info("wx_nick_name", nick_name)
+        if request == 'null':
+            pass
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
