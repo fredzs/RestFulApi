@@ -9,6 +9,7 @@ from app.api.Service.DeptInfoService import DeptInfoService
 from app.api.Service.EmailService import EmailService
 from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
+from app.api.Service.UserInfoService import UserInfoService
 from . import main
 from app.api.Factory.LogFactory import LogFactory
 from Config import GLOBAL_CONFIG
@@ -444,3 +445,65 @@ def admin():
         else:
             logger.info('POST请求/api/admin处理完毕，返回值%s' % "forbid")
             return "forbid", 201
+
+
+@main.route('/api/dept', methods=['GET'])
+@main.route('/test/api/dept', methods=['GET'])
+def dept():
+    """GET，用于通过用户名获取所在单位"""
+    logger.info('')
+    logger.info('---------收到GET请求：/api/dept----------')
+
+    logger.info(request.args)
+    if not request.args.get('user_name'):
+        logger.info("传入参数错误！")
+        return "args_missing", 500
+    else:
+        user_name = request.args.get('user_name')
+    logger.info('用户[%s]查询所在单位。' % user_name)
+    logger.info("data: user_name=%s" % user_name)
+
+    result = False
+    try:
+        user_service = UserInfoService()
+        result = user_service.find_his_dept_name(user_name)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+        return {}, 500
+    finally:
+        logger.info('POST请求/api/dept处理完毕，返回值%s' % str(result))
+        return result, 201
+
+
+@main.route('/api/user', methods=['GET'])
+@main.route('/test/api/user', methods=['GET'])
+def user():
+    """GET，用于通过用户名获取所在单位"""
+    logger.info('')
+    logger.info('---------收到GET请求：/api/user----------')
+
+    logger.info(request.args)
+    if not request.args.get('nick_name'):
+        logger.info("传入参数错误！")
+        return "args_missing", 500
+    else:
+        nick_name = request.args.get('nick_name')
+    if request.args.get('avatar_url') != "":
+        logger.info("用户头像URL为：[%s]" % nick_name)
+    logger.info("用户[%s]登陆，查找用户信息。" % request.args.get('avatar_url'))
+    logger.info("data: nick_name=%s" % nick_name)
+
+    result = False
+    try:
+        if nick_name == 'null' or nick_name == 'None':
+            nick_name = "unknown"
+        user_service = UserInfoService()
+        result = user_service.find_user_info("wx_nick_name", nick_name)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+        return {}, 500
+    finally:
+        logger.info('POST请求/api/dept处理完毕，返回值%s' % str(result))
+        return result, 201

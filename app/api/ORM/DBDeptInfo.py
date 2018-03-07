@@ -26,7 +26,11 @@ class DBDeptInfo(Base):
         return {"dept_id": obj.dept_id,
                 "dept_name": obj.dept_name}
 
-
+    @staticmethod
+    def obj_2_json_2(obj):
+        return {"dept_id": obj.dept_id,
+                "dept_name": obj.dept_name,
+                "dept_type": obj.dept_type}
 
 
 
