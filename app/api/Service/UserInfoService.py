@@ -12,9 +12,9 @@ class UserInfoService(object):
         self._db_dept_info_service = DBService("DBDeptInfo")
 
     def find_user_info(self, attribute, content):
-        obj = {"user_id": 10, "user_name": "unknown", "dept_id": 4, "role": "visitor"}
         user_info = self._db_user_info_service.db_find_one_by_attribute(attribute, content)
         if user_info is None:
+            obj = {"user_id": 10, "user_name": content, "dept_id": 4, "role": "visitor"}
             result = self.obj_2_json(obj)
         else:
             result = json.dumps(user_info, default=DBUserInfo.obj_2_json, sort_keys=False, ensure_ascii=False, indent=4)

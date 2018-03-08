@@ -498,27 +498,26 @@ def user():
         nick_name = "unknown"
 
     emoji_pattern = re.compile(
-        u'(\ud83d[\ude00-\ude4f])|'  # emoticons
-        u'(\ud83c[\udf00-\uffff])|'  # symbols & pictographs (1 of 2)
-        u'(\ud83d[\u0000-\uddff])|'  # symbols & pictographs (2 of 2)
-        u'(\ud83d[\ude80-\udeff])|'  # transport & map symbols
-        u'(\ud83c[\udde0-\uddff])'  # flags (iOS)
+        '(\ud83d[\ude00-\ude4f])|'  # emoticons
+        '(\ud83c[\udf00-\uffff])|'  # symbols & pictographs (1 of 2)
+        '(\ud83d[\u0000-\uddff])|'  # symbols & pictographs (2 of 2)
+        '(\ud83d[\ude80-\udeff])|'  # transport & map symbols
+        '(\ud83c[\udde0-\uddff])'  # flags (iOS)
         '+', flags=re.UNICODE)
 
     new_nick_name = emoji_pattern.sub(r'', nick_name)
     logger.info("data: nick_name=%s, 过滤特殊字符后nick_name=%s" % (nick_name, new_nick_name))
 
-    result = {}
+    user_service = UserInfoService()
+    result = user_service.obj_2_json({})
     try:
-
-        user_service = UserInfoService()
         result = user_service.find_user_info("wx_nick_name", new_nick_name)
         if request == 'null':
             pass
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
-        return {}, 500
+        return user_service.obj_2_json({}), 500
     finally:
         logger.info('POST请求/api/user处理完毕，返回值%s' % str(result))
         return result, 201
