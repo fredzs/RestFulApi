@@ -455,24 +455,24 @@ def dept():
     logger.info('---------收到GET请求：/api/dept----------')
 
     logger.info(request.args)
-    if not request.args.get('user_name') :
+    if not request.args.get('user_name') or not request.args.get('dept_id'):
         logger.info("传入参数错误！")
         return "args_missing", 500
     else:
         user_name = request.args.get('user_name')
+        dept_id = request.args.get('dept_id')
     logger.info('用户[%s]查询所在单位。' % user_name)
-    logger.info("data: user_name=%s" % user_name)
+    logger.info("data: user_name=%s, dept_id=%s" % (user_name, dept_id))
 
-    user_service = UserInfoService()
+    dept_service = DeptInfoService()
     result = False
-    if user_name == "unknown":
-        return user_service.obj_2_json({}), 201
+
     try:
-        result = user_service.find_his_dept_info(user_name)
+        result = dept_service.find_dept_info(dept_id)
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
-        return user_service.obj_2_json({}), 500
+        return dept_service.obj_2_json({}), 500
     finally:
         logger.info('POST请求/api/dept处理完毕，返回值%s' % str(result))
         return result, 201
