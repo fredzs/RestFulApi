@@ -463,16 +463,16 @@ def dept():
     logger.info('用户[%s]查询所在单位。' % user_name)
     logger.info("data: user_name=%s" % user_name)
 
+    user_service = UserInfoService()
     result = False
     if user_name == "unknown":
-        return {}, 201
+        return user_service.obj_2_json({}), 201
     try:
-        user_service = UserInfoService()
         result = user_service.find_his_dept_name(user_name)
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
-        return {}, 500
+        return user_service.obj_2_json({}), 500
     finally:
         logger.info('POST请求/api/dept处理完毕，返回值%s' % str(result))
         return result, 201
