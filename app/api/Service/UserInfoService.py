@@ -21,10 +21,14 @@ class UserInfoService(object):
         return result
 
     def find_his_dept_name(self, user_name):
-        dept_id = self._db_user_info_service.db_find_one_by_attribute("user_name", user_name).dept_id
-        dept_info = self._db_dept_info_service.db_find_one_by_attribute("dept_id", dept_id)
-        result = json.dumps(dept_info, default=DBDeptInfo.obj_2_json_2, sort_keys=False, ensure_ascii=False, indent=4)
-        return result
+        try:
+            dept_id = self._db_user_info_service.db_find_one_by_attribute("user_name", user_name).dept_id
+            dept_info = self._db_dept_info_service.db_find_one_by_attribute("dept_id", dept_id)
+            result = json.dumps(dept_info, default=DBDeptInfo.obj_2_json_2, sort_keys=False, ensure_ascii=False, indent=4)
+        except Exception as e:
+            raise e
+        else:
+            return result
 
     @staticmethod
     def obj_2_json(obj):

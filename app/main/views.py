@@ -464,6 +464,8 @@ def dept():
     logger.info("data: user_name=%s" % user_name)
 
     result = False
+    if user_name == "unknown":
+        return {}, 201
     try:
         user_service = UserInfoService()
         result = user_service.find_his_dept_name(user_name)
