@@ -455,7 +455,7 @@ def dept():
     logger.info('---------收到GET请求：/api/dept----------')
 
     logger.info(request.args)
-    if not request.args.get('user_name'):
+    if not request.args.get('user_name') :
         logger.info("传入参数错误！")
         return "args_missing", 500
     else:
@@ -468,7 +468,7 @@ def dept():
     if user_name == "unknown":
         return user_service.obj_2_json({}), 201
     try:
-        result = user_service.find_his_dept_name(user_name)
+        result = user_service.find_his_dept_info(user_name)
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
