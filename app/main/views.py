@@ -1,5 +1,5 @@
 """request api"""
-
+import re
 from datetime import datetime
 from flask import request
 from flask import render_template
@@ -455,7 +455,7 @@ def dept():
     logger.info('---------收到GET请求：/api/dept----------')
 
     logger.info(request.args)
-    if not request.args.get('user_name'):
+    if not request.args.get('user_name') :
         logger.info("传入参数错误！")
         return "args_missing", 500
     else:
@@ -463,14 +463,16 @@ def dept():
     logger.info('用户[%s]查询所在单位。' % user_name)
     logger.info("data: user_name=%s" % user_name)
 
+    user_service = UserInfoService()
     result = False
+    if user_name == "unknown":
+        return user_service.obj_2_json({}), 201
     try:
-        user_service = UserInfoService()
-        result = user_service.find_his_dept_name(user_name)
+        result = user_service.find_his_dept_info(user_name)
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
-        return {}, 500
+        return user_service.obj_2_json({}), 500
     finally:
         logger.info('POST请求/api/dept处理完毕，返回值%s' % str(result))
         return result, 201
@@ -492,18 +494,30 @@ def user():
     if request.args.get('avatar_url') != "None":
         logger.info("用户头像URL为：[%s]" % request.args.get('avatar_url'))
     logger.info("用户[%s]登陆，查找用户信息。" % nick_name)
-    logger.info("data: nick_name=%s" % nick_name)
+    if nick_name == 'null' or nick_name == 'None':
+        nick_name = "unknown"
 
-    result = {}
+    emoji_pattern = re.compile(
+        '(\ud83d[\ude00-\ude4f])|'  # emoticons
+        '(\ud83c[\udf00-\uffff])|'  # symbols & pictographs (1 of 2)
+        '(\ud83d[\u0000-\uddff])|'  # symbols & pictographs (2 of 2)
+        '(\ud83d[\ude80-\udeff])|'  # transport & map symbols
+        '(\ud83c[\udde0-\uddff])'  # flags (iOS)
+        '+', flags=re.UNICODE)
+
+    new_nick_name = emoji_pattern.sub(r'', nick_name)
+    logger.info("data: nick_name=%s, 过滤特殊字符后nick_name=%s" % (nick_name, new_nick_name))
+
+    user_service = UserInfoService()
+    result = user_service.obj_2_json({})
     try:
-        if nick_name == 'null' or nick_name == 'None':
-            nick_name = "unknown"
-        user_service = UserInfoService()
-        result = user_service.find_user_info("wx_nick_name", nick_name)
+        result = user_service.find_user_info("wx_nick_name", new_nick_name)
+        if request == 'null':
+            pass
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
-        return {}, 500
+        return user_service.obj_2_json({}), 500
     finally:
         logger.info('POST请求/api/user处理完毕，返回值%s' % str(result))
         return result, 201
