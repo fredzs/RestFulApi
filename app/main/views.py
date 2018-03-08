@@ -1,5 +1,5 @@
 """request api"""
-
+import re
 from datetime import datetime
 from flask import request
 from flask import render_template
@@ -494,14 +494,25 @@ def user():
     if request.args.get('avatar_url') != "None":
         logger.info("用户头像URL为：[%s]" % request.args.get('avatar_url'))
     logger.info("用户[%s]登陆，查找用户信息。" % nick_name)
-    logger.info("data: nick_name=%s" % nick_name)
+    if nick_name == 'null' or nick_name == 'None':
+        nick_name = "unknown"
+
+    emoji_pattern = re.compile(
+        u'(\ud83d[\ude00-\ude4f])|'  # emoticons
+        u'(\ud83c[\udf00-\uffff])|'  # symbols & pictographs (1 of 2)
+        u'(\ud83d[\u0000-\uddff])|'  # symbols & pictographs (2 of 2)
+        u'(\ud83d[\ude80-\udeff])|'  # transport & map symbols
+        u'(\ud83c[\udde0-\uddff])'  # flags (iOS)
+        '+', flags=re.UNICODE)
+
+    new_nick_name = emoji_pattern.sub(r'', nick_name)
+    logger.info("data: nick_name=%s, 过滤特殊字符后nick_name=%s" % (nick_name, new_nick_name))
 
     result = {}
     try:
-        if nick_name == 'null' or nick_name == 'None':
-            nick_name = "unknown"
+
         user_service = UserInfoService()
-        result = user_service.find_user_info("wx_nick_name", nick_name)
+        result = user_service.find_user_info("wx_nick_name", new_nick_name)
         if request == 'null':
             pass
     except Exception as e:
