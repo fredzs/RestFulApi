@@ -73,6 +73,7 @@ class DBService(object):
             logger.error("记录重复")
             logger.error(e)
         except Exception as e:
+            self._db_session.rollback()
             logger.error("提交数据库失败！")
             logger.error(e)
 
