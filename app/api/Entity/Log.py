@@ -6,10 +6,11 @@ from datetime import datetime
 
 class Log(object):
     """Class Log"""
-    def __init__(self, user_name, page, method, content):
+    def __init__(self, user_name, page, resource, method, content):
         self._time = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
         self._user_name = user_name
         self._page = page
+        self._resource = resource
         self._method = method
         self._content = content
 
@@ -22,6 +23,9 @@ class Log(object):
     def set_method(self, method):
         self._method = method
 
+    def set_resource(self, resource):
+        self._resource = resource
+
     def set_content(self, content):
         self._content = content
 
@@ -32,6 +36,10 @@ class Log(object):
     @property
     def get_page(self):
         return self._page
+
+    @property
+    def get_resource(self):
+        return self._resource
 
     @property
     def get_time(self):

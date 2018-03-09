@@ -19,5 +19,6 @@ class DBLog(Base):
     time = Column(DateTime())
     user_name = Column(String(50))
     page = Column(String(50))
+    resource = Column(String(50))
     method = Column(String(50))
     content = Column(String(1000))
