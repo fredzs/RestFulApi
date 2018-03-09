@@ -8,6 +8,7 @@ from app.api.ORM.DBPerformance import DBPerformance
 from app.api.ORM.DBDeptInfo import DBDeptInfo
 from app.api.ORM.DBFieldsInfo import DBFieldsInfo
 from app.api.ORM.DBUserInfo import DBUserInfo
+from app.api.ORM.DBLog import DBLog
 from app.api.Factory.LogFactory import LogFactory
 
 logger = LogFactory().get_logger()
