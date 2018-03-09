@@ -250,7 +250,10 @@ def send_range_email():
     result = False
     try:
         service = EmailService()
+        mode = GLOBAL_CONFIG.get_field("Setting", "mode")
         GLOBAL_CONFIG.reload_config_file()
+        if mode == "test":
+            GLOBAL_CONFIG.set_field("Setting", "mode", mode)
         result = service.send_range_email(date_begin, date_end, count_only)
     except Exception as e:
         logger.error('发生错误!')
