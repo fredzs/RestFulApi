@@ -53,8 +53,8 @@ class EmailService(object):
                 html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), date_begin) + ".html"
             else:
                 subject = "{} ~ {} 网点报送汇总".format(date_begin, date_end)
-                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"),"{} ~ {}".format(date_begin, date_end)) + ".xls"
-                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"),"{} ~ {}".format(date_begin, date_end)) + ".html"
+                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), "{} ~ {}".format(date_begin, date_end)) + ".xls"
+                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), "{} ~ {}".format(date_begin, date_end)) + ".html"
             html_content = StatisticsService().data_to_html(subject, title_line, data, total_line)
             StatisticsService().html_2_file(html_content, html_file_name)
             logger.info("html内容构造成功")
@@ -81,7 +81,7 @@ class EmailService(object):
                     return True
             else:
                 return True
-            
+
     @staticmethod
     def format_addr(s):
         name, addr = parseaddr(s)

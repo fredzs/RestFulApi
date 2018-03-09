@@ -26,12 +26,13 @@ class StatisticsService(object):
         field_id_list = []
         field_summable_list = []
         type_list = ["1", "1"]
+        unsubmission_list = []
         if date_begin == date_end:
             single_day = True
             fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status"],
                                                                                                ["corporate", "1"],
                                                                                                "order_index")
-            branch_list = performance_service.pre_check_submission(date_begin)[0]
+            branch_list, unsubmission_list = performance_service.pre_check_submission(date_begin)
         else:
             single_day = False
             fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
@@ -62,12 +63,17 @@ class StatisticsService(object):
         if single_day:
             title_line.append("报送人")
         # 生成data
+        row = []
         if single_day:
+            # 简单汇总当日所有网点
+            line_num = 1
             for i, branch in enumerate(branch_list):
                 """第一层循环，以网点名称生成行"""
-                performance_list = performance_service.find_performance_by_date(date_begin, "dept_name", branch["dept_name"])
+                performance_list = performance_service.find_performance_by_date(date_begin, "dept_name",
+                                                                                branch["dept_name"])
                 if len(performance_list) == 1:
                     row = [i + 1, branch["dept_name"]]
+                    line_num += 1
                     performance = performance_list[0]
                     extra_fields = performance.extra_fields
                     for j, a_f_id in enumerate(field_id_list):
@@ -87,13 +93,21 @@ class StatisticsService(object):
                     row.append(branch["submit_user"])
                     type_list.append("1")
                 else:
-                    continue
+                    pass
+                data.append(row)
+            for i, branch in enumerate(unsubmission_list):
+                row = [i + line_num, branch["dept_name"]]
+                temp_row = ["" for x in range(0, len(field_id_list))]
+                temp_row.append("")
+                row.extend(temp_row)
                 data.append(row)
             total_line.append("")
         else:
+            # 将某时间段内，每个网点业绩求和汇总
             for i, branch in enumerate(branch_list):
                 """第一层循环，以网点名称生成行"""
-                performance_list = performance_service.find_performance_by_range(date_begin, date_end, "dept_name", branch["dept_name"])
+                performance_list = performance_service.find_performance_by_range(date_begin, date_end, "dept_name",
+                                                                                 branch["dept_name"])
                 row = [i + 1, branch["dept_name"], len(performance_list)]
                 if len(performance_list) > 0:
                     temp_list = [0 for x in range(0, len(field_summable_list))]
@@ -129,15 +143,19 @@ class StatisticsService(object):
 
     @staticmethod
     def data_to_html(subject, title_line, data, total_line):
-        content = "<html><body>"
-        content += "<h2>{}</h2>".format(subject)
+        content = "<html>"
+        content += "<head><style>tr{font-size:12px;text-align:center;}td{font-size:12px;text-align:center;width:40px;}.td1{width:90px;}.td5{width:80px;}.td15{width:50px;}</style></head>"
+
+        content += "<body><h2>{}</h2>".format(subject)
         content += "<table border=\"1\" style= \"border-collapse: collapse; border-color: #BCD1E6;\"><tbody><tr style= \"border-color: #9AA2A9;\">"
 
         # 生成首行
-        for title_td in title_line:
-            content += "<td width=\"70\" align=\"center\">"
-            content += "<p><B>{}</B></p>".format(title_td)
-            content += "</td>"
+        for i, title_td in enumerate(title_line):
+            if (i == 1) | (i == 5) | (i == len(title_line) - 1):
+                content += "<td class=\"td{}\"><p><B>{}</B></p></td>".format(i, title_td)
+            else:
+                content += "<td><p><B>{}</B></p></td>".format(title_td)
+            content += ""
         content += "</tr>"
         # 生成数据行
         for i, row in enumerate(data):
@@ -145,12 +163,15 @@ class StatisticsService(object):
             content += "<tr>"
             for col in row:
                 """第二层循环，以可用字段生成列"""
-                content += "<td align=\"center\">{}</td>".format(col)
+                if col == "":
+                    content += "<td >-</td>"
+                else:
+                    content += "<td >{}</td>".format(col)
             content += "</tr>"
         # 生成汇总行
         content += "<tr>"
         for total_td in total_line:
-            content += "<td align=\"center\"><p><B>{}</B></p></td>".format(total_td)
+            content += "<td ><p><B>{}</B></p></td>".format(total_td)
         content += "</tr>"
         content += "</tbody></table>"
         content += "</body></html>"
