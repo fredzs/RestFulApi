@@ -10,6 +10,7 @@ from app.api.Service.EmailService import EmailService
 from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
 from app.api.Service.UserInfoService import UserInfoService
+from app.api.Service.LogService import LogService
 from . import main
 from app.api.Factory.LogFactory import LogFactory
 from Config import GLOBAL_CONFIG
@@ -40,6 +41,27 @@ def test():
     logger.info('---------index页面请求处理完毕-----------')
     return render_template("/test/api_list.html", title='api List', date=request_date, dept_name='支行营业室',
                            admin_password="159357")
+
+
+@main.route('/api/log', methods=['POST'])
+@main.route('/test/api/log', methods=['POST'])
+def add_log():
+    """POST方法，用于记录日志"""
+    logger.info('---------收到POST请求：/api/log，记录日志。----------')
+    result = False
+    try:
+        service = LogService()
+        result = service.submit_log(request.json)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+    finally:
+        if result:
+            logger.info('POST请求/api/log处理完毕，返回值%s' % "success")
+            return "success", 201  # 并返回这个添加的task内容，和状态码
+        else:
+            logger.info('POST请求/api/log处理完毕，返回值%s' % "fail")
+            return "fail", 500
 
 
 @main.route('/api/submit', methods=['POST'])
