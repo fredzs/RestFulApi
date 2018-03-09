@@ -60,23 +60,28 @@ class EmailService(object):
             logger.info("html内容构造成功")
             attachment_name = StatisticsService().data_to_xls(xls_file_name, title_line, data, total_line, type_list)
             logger.info("xls内容构造成功")
-            if not count_only:
-                msg = self.make_msg('望京支行机构金融业务部', '望京支行对公团队', '每日统计_' + date_begin,  html_content, xls_file_name)
-                server = smtplib.SMTP_SSL(self._smtp_server, 465)
-                server.login(self._from_addr, self._password)
-                server.sendmail(self._from_addr, self._to_addr, msg.as_string())
-
-        except smtplib.SMTPException as e:
-            logger.error("Error: 无法发送邮件:")
+        except Exception as e:
+            logger.error("Error: 内容构造失败:")
             logger.error(e)
             return False
         else:
-            # server.quit()
-            logger.info("发送邮件成功")
-            return True
-        finally:
-            pass
-
+            if not count_only:
+                try:
+                    msg = self.make_msg('望京支行机构金融业务部', '望京支行对公团队', '每日统计_' + date_begin,  html_content, xls_file_name)
+                    server = smtplib.SMTP_SSL(self._smtp_server, 465)
+                    server.login(self._from_addr, self._password)
+                    server.sendmail(self._from_addr, self._to_addr, msg.as_string())
+                except smtplib.SMTPException as e:
+                    logger.error("Error: 无法发送邮件:")
+                    logger.error(e)
+                    return False
+                else:
+                    # server.quit()
+                    logger.info("发送邮件成功")
+                    return True
+            else:
+                return True
+            
     @staticmethod
     def format_addr(s):
         name, addr = parseaddr(s)
