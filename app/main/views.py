@@ -14,6 +14,7 @@ from app.api.Service.LogService import LogService
 from . import main
 from app.api.Factory.LogFactory import LogFactory
 from Config import GLOBAL_CONFIG
+
 logger = LogFactory().get_logger()
 
 
@@ -22,7 +23,8 @@ logger = LogFactory().get_logger()
 def index():
     """默认的Get请求"""
     logger.info('')
-    logger.info('---------收到index页面请求：/api----------')
+    LogService.submit_log("admin", "/api", "http_get", "")
+    logger.info('---------收到index页面请求：/api，已记录日志。----------')
 
     request_date = datetime.today().strftime("%Y-%m-%d")
     logger.info('---------index页面请求处理完毕-----------')
@@ -35,6 +37,7 @@ def index():
 def test():
     """默认的Get请求"""
     logger.info('')
+    LogService.submit_log("admin", "/test/api", "http_get", "")
     logger.info('---------收到index页面请求：/api----------')
 
     request_date = datetime.today().strftime("%Y-%m-%d")
@@ -49,9 +52,10 @@ def add_log():
     """POST方法，用于记录日志"""
     logger.info('---------收到POST请求：/api/log，记录日志。----------')
     result = False
+    logger.info("data: user_name='%s', page='%s', method='%s', content='%s'" % (
+        request.json["user_name"], request.json["page"], request.json["method"], request.json["content"]))
     try:
-        service = LogService()
-        result = service.submit_log(request.json)
+        result = LogService.submit_log_json(request.json)
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
@@ -79,6 +83,7 @@ def create_performance():
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/submit", "http_post", request.json)
     if user_name == "None" or user_name == "null":
         user_name = "unknown"
     logger.info('用户[%s]提交业绩：' % user_name)
@@ -115,6 +120,7 @@ def update_field():
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/update_field", "http_post", request.json)
     logger.info('用户[%s]修改字段：' % user_name)
     logger.info("data: field_id=%s, update_key=%s, update_value=%s" % (
         request.json["field_id"], request.json["update_k"], request.json["update_v"]))
@@ -148,6 +154,7 @@ def create_field():
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/create_field", "http_post", request.json)
     logger.info('用户[%s]新增字段：' % user_name)
     logger.info("data: field_name=%s, field_type=%s, field_unit=%s" % (
         request.json["field_name"], request.json["field_type"], request.json["field_unit"]))
@@ -182,6 +189,7 @@ def sort_field():
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/sort_field", "http_post", request.json)
     logger.info('用户[%s]重新排序字段：' % user_name)
     logger.info("data: new_order=%s" % request.json["new_order"])
 
@@ -214,7 +222,7 @@ def send_range_email():
     else:
         date_begin = request.json["date_begin"]
         date_end = request.json["date_end"]
-        if request.json["count_only"]=="true":
+        if request.json["count_only"] == "true":
             count_only = True
         else:
             count_only = False
@@ -222,6 +230,7 @@ def send_range_email():
         user_name = request.json["user_name"]
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/send_range_email", "http_post", request.json)
     logger.info("用户[%s]请求统计业绩：" % user_name)
     logger.info("data: date_begin=%s, date_end=%s, count_only=%s" % (date_begin, date_end, count_only))
 
@@ -257,6 +266,7 @@ def check_submit():
         user_name = request.args.get('user_name')
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/check", "http_get", request.args)
     logger.info('用户[%s]查询当日业绩报送情况。' % user_name)
     logger.info("data: date=%s" % request_date)
 
@@ -293,6 +303,7 @@ def get_branches():
         user_name = request.args.get('user_name')
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/branches", "http_get", request.args)
     logger.info('用户[%s]查询所有网点：' % user_name)
     logger.info("data: date=%s" % branch_name)
 
@@ -319,6 +330,7 @@ def get_fields():
         user_name = request.args.get('user_name')
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/fields", "http_post", request.args)
     logger.info('用户[%s]查看所有字段：' % user_name)
     fields_list = []
     try:
@@ -343,6 +355,7 @@ def get_available_fields_name():
         user_name = request.args.get('user_name')
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/fields_name", "http_get", request.args)
     logger.info('用户[%s]查询所有字段名。' % user_name)
     fields_list = []
     try:
@@ -379,6 +392,7 @@ def display():
         user_name = request.args.get('user_name')
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/display", "http_get", request.args)
     logger.info('用户[%s]查询单日业绩。' % user_name)
     logger.info("data: date=%s, dept_name=%s" % (request_date, request.args.get('dept_name')))
 
@@ -414,6 +428,7 @@ def find():
         user_name = request.args.get('user_name')
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/find", "http_get", request.args)
     logger.info('用户[%s]预提交业绩查询。' % user_name)
     logger.info("data: date=%s, dept_id=%s" % (request_date, request_dept_id))
 
@@ -447,6 +462,7 @@ def admin():
         user_name = request.args.get('user_name')
     else:
         user_name = "admin"
+    LogService.submit_log(user_name, "/api/admin", "http_get", request.args)
     logger.info('用户[%s]请求登陆管理员界面。' % user_name)
     logger.info("data: admin_password=%s" % admin_password)
 
@@ -483,6 +499,7 @@ def dept():
     else:
         user_name = request.args.get('user_name')
         dept_id = request.args.get('dept_id')
+    LogService.submit_log(user_name, "/api/dept", "http_get", request.args)
     logger.info('用户[%s]查询所在单位。' % user_name)
     logger.info("data: user_name=%s, dept_id=%s" % (user_name, dept_id))
 
@@ -518,7 +535,7 @@ def user():
     logger.info("用户[%s]登陆，查找用户信息。" % nick_name)
     if nick_name == 'null' or nick_name == 'None':
         nick_name = "unknown"
-
+    LogService.submit_log(nick_name, "/api/submit", "http_get", request.args)
     emoji_pattern = re.compile(
         '(\ud83d[\ude00-\ude4f])|'  # emoticons
         '(\ud83c[\udf00-\uffff])|'  # symbols & pictographs (1 of 2)

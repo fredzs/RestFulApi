@@ -7,13 +7,24 @@ from app.api.Service.DBService import DBService
 
 class LogService(object):
     """Class Log"""
-    def __init__(self):
-        self._db_log_service = DBService("DBLog")
+    db_log_service = DBService("DBLog")
 
-    def submit_log(self, request_json):
-        log_service = self.read_json(request_json)
-        result = self._db_log_service.db_save(log_service)
-        self._db_log_service.db_commit()
+    @staticmethod
+    def submit_log_json(request_json):
+        log = LogService.read_json(request_json)
+        result = LogService.db_log_service.db_save(log)
+        LogService.db_log_service.db_commit()
+        return result
+
+    @staticmethod
+    def submit_log(user_name, page, method, content):
+        if isinstance(content, str):
+            content_obj = json.loads(content)
+        else:
+            content_obj = str(content)
+        log = Log(user_name, page, method, content_obj)
+        result = LogService.db_log_service.db_save(log)
+        LogService.db_log_service.db_commit()
         return result
 
     @staticmethod
