@@ -42,11 +42,11 @@ class EmailService(object):
         msg.attach(attachment)
         return msg
 
-    def send_range_email(self, date_begin, date_end, count_only=True):
+    def send_range_email(self, date_begin, date_end, count_only=True, gather=False):
         try:
             self.read_config()
-            title_line, data, total_line, type_list = StatisticsService().make_statistics(date_begin, date_end)
-            logger.info("统计数据构造成功")
+            title_line, data, total_line, type_list = StatisticsService().make_statistics(date_begin, date_end, gather)
+            logger.info("统计数据Data构造成功")
             if date_begin == date_end:
                 subject = "{} 网点报送汇总".format(date_begin)
                 xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), date_begin) + ".xls"
