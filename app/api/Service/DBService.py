@@ -8,6 +8,7 @@ from app.api.ORM.DBPerformance import DBPerformance
 from app.api.ORM.DBDeptInfo import DBDeptInfo
 from app.api.ORM.DBFieldsInfo import DBFieldsInfo
 from app.api.ORM.DBUserInfo import DBUserInfo
+from app.api.ORM.DBLog import DBLog
 from app.api.Factory.LogFactory import LogFactory
 
 logger = LogFactory().get_logger()
@@ -39,7 +40,7 @@ class DBService(object):
         except Exception as e:
             logger.info("写入数据库缓存失败:%s" % e)
             raise Exception
-        logger.info("已写入数据库缓存")
+        logger.debug("已写入数据库缓存")
         return True
 
     def db_update(self, field, update_id):
@@ -49,7 +50,7 @@ class DBService(object):
         except Exception as e:
             logger.info("写入数据库缓存失败:%s" % e)
             return False
-        logger.info("已写入数据库缓存")
+        logger.debug("已写入数据库缓存")
         return True
 
     def db_update_db(self, db_obj):
@@ -58,7 +59,7 @@ class DBService(object):
         except Exception as e:
             logger.info("写入数据库缓存失败:%s" % e)
             return False
-        logger.info("已写入数据库缓存")
+        logger.debug("已写入数据库缓存")
         self.db_commit()
         return True
 
@@ -66,12 +67,13 @@ class DBService(object):
         try:
             self._db_session.flush()
             self._db_session.commit()
-            logger.info("已提交数据库")
+            logger.debug("已提交数据库")
         except IntegrityError as e:
             self._db_session.rollback()
-            logger.error("记录重复")
-            logger.error(e)
+            logger.warning("记录重复")
+            logger.warning(e)
         except Exception as e:
+            self._db_session.rollback()
             logger.error("提交数据库失败！")
             logger.error(e)
 

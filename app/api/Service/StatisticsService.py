@@ -17,7 +17,7 @@ class StatisticsService(object):
         self._to_addr = []
         self._smtp_server = ""
 
-    def make_statistics(self, date_begin, date_end):
+    def make_statistics(self, date_begin, date_end, gather=True):
         title_line = []
         data = []
         total_line = ["汇总", ""]
@@ -26,22 +26,34 @@ class StatisticsService(object):
         field_id_list = []
         field_summable_list = []
         type_list = ["1", "1"]
+        unsubmission_list = []
         if date_begin == date_end:
             single_day = True
             fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status"],
                                                                                                ["corporate", "1"],
                                                                                                "order_index")
-            branch_list = performance_service.pre_check_submission(date_begin)[0]
+            branch_list, unsubmission_list = performance_service.pre_check_submission(date_begin)
         else:
             single_day = False
-            fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
-                ["business", "status", "statistics"], ["corporate", "1", "1"], "order_index")
-            branch_list = dept_info_service.find_branch_kv_list("wangjing")
+            if gather:
+                fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
+                    ["business", "status", "statistics"], ["corporate", "1", "1"], "order_index")
+                branch_list = dept_info_service.find_branch_kv_list("wangjing")
+            else:
+                fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
+                    ["business", "status"],
+                    ["corporate", "1"],
+                    "order_index")
+                branch_list = dept_info_service.find_branch_kv_list("wangjing")
 
         # 生成title
         title_line.append("序号")
         title_line.append("网点")
-        if not single_day:
+        if (not single_day) & (not gather):
+            title_line.append("日期")
+            type_list.append("1")
+            total_line.append("")
+        elif (not single_day) & gather:
             title_line.append("报送天数")
             type_list.append("1")
             total_line.append("")
@@ -59,15 +71,21 @@ class StatisticsService(object):
             else:
                 total_line.append("")
             field_id_list.append(field.field_id)
-        if single_day:
+        if not gather:
             title_line.append("报送人")
+        logger.info("Title行生成完毕。")
         # 生成data
+        row = []
+        line_num = 1
         if single_day:
+            # 简单汇总当日所有网点
             for i, branch in enumerate(branch_list):
                 """第一层循环，以网点名称生成行"""
-                performance_list = performance_service.find_performance_by_date(date_begin, "dept_name", branch["dept_name"])
+                performance_list = performance_service.find_performance_by_date(date_begin, "dept_name",
+                                                                                branch["dept_name"])
                 if len(performance_list) == 1:
                     row = [i + 1, branch["dept_name"]]
+                    line_num += 1
                     performance = performance_list[0]
                     extra_fields = performance.extra_fields
                     for j, a_f_id in enumerate(field_id_list):
@@ -87,39 +105,80 @@ class StatisticsService(object):
                     row.append(branch["submit_user"])
                     type_list.append("1")
                 else:
-                    continue
+                    pass
+                data.append(row)
+            for i, branch in enumerate(unsubmission_list):
+                row = [i + line_num, branch["dept_name"]]
+                temp_row = ["" for x in range(0, len(field_id_list))]
+                temp_row.append("")
+                row.extend(temp_row)
                 data.append(row)
             total_line.append("")
         else:
-            for i, branch in enumerate(branch_list):
-                """第一层循环，以网点名称生成行"""
-                performance_list = performance_service.find_performance_by_range(date_begin, date_end, "dept_name", branch["dept_name"])
-                row = [i + 1, branch["dept_name"], len(performance_list)]
-                if len(performance_list) > 0:
-                    temp_list = [0 for x in range(0, len(field_summable_list))]
-                    for k, performance in enumerate(performance_list):
-                        extra_fields = performance.extra_fields
-                        for j, a_f_id in enumerate(field_id_list):
-                            """第二层循环，以可用字段生成列"""
-                            if a_f_id in extra_fields:
-                                if a_f_id in field_summable_list:
-                                    if extra_fields[a_f_id] != 0:
-                                        if type_list[j + 3] == "int":
-                                            temp_list[j] += int(extra_fields[a_f_id])
-                                            total_line[j + 3] += int(extra_fields[a_f_id])
-                                        elif type_list[j + 3] == "float":
-                                            temp_list[j] += float(extra_fields[a_f_id])
-                                            total_line[j + 3] += float(extra_fields[a_f_id])
+            if gather:
+                # 将某时间段内，每个网点业绩求和汇总
+                for i, branch in enumerate(branch_list):
+                    """第一层循环，以网点名称生成行"""
+                    performance_list = performance_service.find_performance_by_range(date_begin, date_end, "dept_name",
+                                                                                     branch["dept_name"])
+                    row = [i + 1, branch["dept_name"], len(performance_list)]
+                    if len(performance_list) > 0:
+                        temp_list = [0 for x in range(0, len(field_summable_list))]
+                        for k, performance in enumerate(performance_list):
+                            extra_fields = performance.extra_fields
+                            for j, a_f_id in enumerate(field_id_list):
+                                """第二层循环，以可用字段生成列"""
+                                if a_f_id in extra_fields:
+                                    if a_f_id in field_summable_list:
+                                        if extra_fields[a_f_id] != 0:
+                                            if type_list[j + 3] == "int":
+                                                temp_list[j] += int(extra_fields[a_f_id])
+                                                total_line[j + 3] += int(extra_fields[a_f_id])
+                                            elif type_list[j + 3] == "float":
+                                                temp_list[j] += float(extra_fields[a_f_id])
+                                                total_line[j + 3] += float(extra_fields[a_f_id])
+                                    else:
+                                        pass
                                 else:
                                     pass
-                            else:
-                                pass
-                                # row.append("" for x in range(0, len(field_summable_list)))
-                    row.extend(temp_list)
-                else:
-                    temp_list = ["" for x in range(0, len(field_summable_list))]
-                    row.extend(temp_list)
-                data.append(row)
+                                    # row.append("" for x in range(0, len(field_summable_list)))
+                        row.extend(temp_list)
+                    else:
+                        temp_list = ["" for x in range(0, len(field_summable_list))]
+                        row.extend(temp_list)
+                    data.append(row)
+            else:
+                # 将某时间段内，每个网点业绩列出来
+                for i, branch in enumerate(branch_list):
+                    """第一层循环，以网点名称生成行"""
+                    performance_list = performance_service.find_performance_by_range(date_begin, date_end, "dept_name",
+                                                                                     branch["dept_name"])
+                    if len(performance_list) > 0:
+                        for k, performance in enumerate(performance_list):
+                            row = [line_num, branch["dept_name"], performance.date.strftime("%Y-%m-%d")]
+                            line_num += 1
+                            extra_fields = performance.extra_fields
+                            for j, a_f_id in enumerate(field_id_list):
+                                """第二层循环，以可用字段生成列"""
+                                if a_f_id in extra_fields:
+                                    row.append(extra_fields[a_f_id])
+                                    if a_f_id in field_summable_list:
+                                        if extra_fields[a_f_id] != 0:
+                                            if type_list[j + 3] == "int":
+                                                total_line[j + 3] += int(extra_fields[a_f_id])
+                                            elif type_list[j + 3] == "float":
+                                                total_line[j + 3] += float(extra_fields[a_f_id])
+                                    else:
+                                        pass
+
+                                else:
+                                    row.append("")
+                            row.append(performance.submit_user)
+                            data.append(row)
+                    else:
+                        pass
+                total_line.append("")
+            logger.info("Total行生成完毕。")
         return title_line, data, total_line, type_list
 
     @staticmethod
@@ -128,30 +187,39 @@ class StatisticsService(object):
             f.write(html)
 
     @staticmethod
-    def data_to_html(subject, title_line, data, total_line):
-        content = "<html><body>"
-        content += "<h2>{}</h2>".format(subject)
+    def data_to_html(subject, title_line, data, total_line, style_list=None):
+        if style_list is None:
+            style_list = ["width:30px;", "width:90px;", "width:80px;", "", "", "", "width:80px;", "", "", "", "", "", "", "", "", "", "width:50px;"]
+        content = "<html>"
+        content += "<head><style>tr{font-size:12px;text-align:center;}td{font-size:12px;text-align:center;width:40px;}.td1{width:90px;}.td2{width:80px;}.td3{width:50px;}</style></head>"
+
+        content += "<body><h2>{}</h2>".format(subject)
         content += "<table border=\"1\" style= \"border-collapse: collapse; border-color: #BCD1E6;\"><tbody><tr style= \"border-color: #9AA2A9;\">"
 
         # 生成首行
-        for title_td in title_line:
-            content += "<td width=\"70\" align=\"center\">"
-            content += "<p><B>{}</B></p>".format(title_td)
-            content += "</td>"
+        for i, title_td in enumerate(title_line):
+            content += "<td style=\"{}\"><p><B>{}</B></p></td>".format(style_list[i], title_td)
+            content += ""
         content += "</tr>"
+        logger.info("Table_Title行生成完毕。")
         # 生成数据行
         for i, row in enumerate(data):
             """第一层循环，以网点名称生成行"""
             content += "<tr>"
             for col in row:
                 """第二层循环，以可用字段生成列"""
-                content += "<td align=\"center\">{}</td>".format(col)
+                if col == "":
+                    content += "<td >-</td>"
+                else:
+                    content += "<td >{}</td>".format(col)
             content += "</tr>"
+        logger.info("Table_中间行生成完毕。")
         # 生成汇总行
         content += "<tr>"
         for total_td in total_line:
-            content += "<td align=\"center\"><p><B>{}</B></p></td>".format(total_td)
+            content += "<td ><p><B>{}</B></p></td>".format(total_td)
         content += "</tr>"
+        logger.info("Table_Total行生成完毕。")
         content += "</tbody></table>"
         content += "</body></html>"
         return content

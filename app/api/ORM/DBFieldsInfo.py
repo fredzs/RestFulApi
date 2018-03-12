@@ -38,3 +38,4 @@ class DBFieldsInfo(Base):
     @staticmethod
     def obj_2_json_simple(obj):
         return {"field_id": obj.field_id, "field_name": obj.field_name, "field_type": obj.field_type, "field_unit": obj.field_unit}
+
