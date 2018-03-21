@@ -20,6 +20,8 @@ class LogService(object):
         # if not isinstance(content, str):
         #     content_obj = json.loads(content)
         # else:
+        if page is None:
+            page = "Server"
         content_str = str(content)
         log = Log(user_name, page, resource, method, content_str)
         result = self._db_log_service.db_save(log)

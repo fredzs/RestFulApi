@@ -25,7 +25,7 @@ def index():
     """默认的Get请求"""
     logger.info('')
     log_service = LogService()
-    log_service.submit_log("admin", "/api", "/api", "http_get", "")
+    log_service.submit_log("admin", "Server", "/api", "http_get", "")
     logger.info('---------收到index页面请求：/api，已记录日志。----------')
 
     request_date = datetime.today().strftime("%Y-%m-%d")
