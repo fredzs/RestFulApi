@@ -9,6 +9,7 @@ from app.api.Service.DeptInfoService import DeptInfoService
 from app.api.Service.EmailService import EmailService
 from app.api.Service.FieldsInfoService import FieldsInfoService
 from app.api.Service.PerformanceService import PerformanceService
+from app.api.Service.StatisticsService import StatisticsService
 from app.api.Service.UserInfoService import UserInfoService
 from app.api.Service.LogService import LogService
 from . import main
@@ -217,6 +218,47 @@ def sort_field():
             return "success", 201
         else:
             logger.info('POST请求/api/sort_field处理完毕，返回值%s' % "fail")
+            return "fail", 500
+
+
+@main.route('/api/statistics', methods=['GET'])
+@main.route('/test/api/statistics', methods=['GET'])
+def make_statistics():
+    """POST方法，用于给字段排序"""
+    logger.info('')
+    logger.info('---------收到POST请求：/api/statistics----------')
+
+    if not request.json or 'date_begin' not in request.json or 'date_end' not in request.json or 'mode' not in request.json:
+        logger.info("传入参数错误！")
+        return "args_missing", 500
+    else:
+        date_begin = request.json["date_begin"]
+        date_end = request.json["date_end"]
+        mode = request.json["mode"]
+    if 'user_name' in request.json:
+        user_name = request.json["user_name"]
+    else:
+        user_name = "admin"
+    log_service = LogService()
+    page = request.json["page"]
+    log_service.submit_log(user_name, page, "/api/statistics", "http_get", request.json)
+    logger.info("用户[%s]请求统计业绩：" % user_name)
+    logger.info("data: date_begin=%s, date_end=%s, mode=%s" % (date_begin, date_end, mode))
+
+    result = False
+    try:
+        service = StatisticsService()
+        GLOBAL_CONFIG.reload_config_file()
+        result = service.create_files(date_begin, date_end, mode)
+    except Exception as e:
+        logger.error('发生错误!')
+        logger.error(e)
+    finally:
+        if result:
+            logger.info('POST请求/api/statistics 处理完毕，返回值%s' % "success")
+            return "success", 201
+        else:
+            logger.info('POST请求/api/statistics 处理失败，返回值%s' % "fail")
             return "fail", 500
 
 

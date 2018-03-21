@@ -45,7 +45,7 @@ class EmailService(object):
     def send_range_email(self, date_begin, date_end, count_only=True, gather=False):
         try:
             self.read_config()
-            title_line, data, total_line, type_list = StatisticsService().make_statistics(date_begin, date_end, gather)
+            title_line, data, total_line, type_list = StatisticsService().get_data_from_db(date_begin, date_end, gather)
             logger.info("统计数据Data构造成功")
             if date_begin == date_end:
                 subject = "{} 网点报送汇总".format(date_begin)

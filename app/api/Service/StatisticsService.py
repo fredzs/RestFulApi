@@ -1,62 +1,57 @@
-import xlrd, xlwt
+import os
 from app.api.Service.DBService import DBService
 from app.api.Service.DeptInfoService import DeptInfoService
+from app.api.Service.HtmlService import HtmlService
 from app.api.Service.PerformanceService import PerformanceService
 from app.api.Factory.LogFactory import LogFactory
+from Config import GLOBAL_CONFIG
+from app.api.Service.XlsService import XlsService
 
 logger = LogFactory().get_logger()
 
 
 class StatisticsService(object):
-    """Class EmailService"""
+    """Class StatisticsService"""
 
     def __init__(self):
         self._db_fields_info_service = DBService("DBFieldsInfo")
-        self._from_addr = ""
-        self._password = ""
-        self._to_addr = []
-        self._smtp_server = ""
 
-    def make_statistics(self, date_begin, date_end, gather=True):
-        title_line = []
-        data = []
-        total_line = ["汇总", ""]
+    def get_data_from_db(self, date_begin, date_end, mode):
+        title_line, data, total_line= [], [], ["汇总", ""]
         performance_service = PerformanceService()
         dept_info_service = DeptInfoService()
-        field_id_list = []
-        field_summable_list = []
+        field_id_list, field_summable_list = [], []
         type_list = ["1", "1"]
         unsubmission_list = []
-        if date_begin == date_end:
-            single_day = True
+        fields_list, branch_list = [], []
+        if mode == "daily":
             fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(["business", "status"],
                                                                                                ["corporate", "1"],
                                                                                                "order_index")
             branch_list, unsubmission_list = performance_service.pre_check_submission(date_begin)
-        else:
-            single_day = False
-            if gather:
-                fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
-                    ["business", "status", "statistics"], ["corporate", "1", "1"], "order_index")
-                branch_list = dept_info_service.find_branch_kv_list("wangjing")
-            else:
-                fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
-                    ["business", "status"],
-                    ["corporate", "1"],
-                    "order_index")
-                branch_list = dept_info_service.find_branch_kv_list("wangjing")
+        elif mode == "range":
+            fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
+                ["business", "status", "statistics"], ["corporate", "1", "1"], "order_index")
+            branch_list = dept_info_service.find_branch_kv_list("wangjing")
+        elif mode == "detail":
+            fields_list = self._db_fields_info_service.db_find_list_by_attribute_list_order_by(
+                ["business", "status"],
+                ["corporate", "1"],
+                "order_index")
+            branch_list = dept_info_service.find_branch_kv_list("wangjing")
 
         # 生成title
         title_line.append("序号")
         title_line.append("网点")
-        if (not single_day) & (not gather):
+        if mode == "detail":
             title_line.append("日期")
             type_list.append("1")
             total_line.append("")
-        elif (not single_day) & gather:
+        elif mode == "range":
             title_line.append("报送天数")
             type_list.append("1")
             total_line.append("")
+
         for field in fields_list:
             type_list.append(field.field_type)
             if field.field_type == "int":
@@ -71,13 +66,14 @@ class StatisticsService(object):
             else:
                 total_line.append("")
             field_id_list.append(field.field_id)
-        if not gather:
+        if (mode == "detail") | (mode == "daily"):
             title_line.append("报送人")
         logger.info("Title行生成完毕。")
+
         # 生成data
         row = []
         line_num = 1
-        if single_day:
+        if mode == "daily":
             # 简单汇总当日所有网点
             for i, branch in enumerate(branch_list):
                 """第一层循环，以网点名称生成行"""
@@ -115,7 +111,7 @@ class StatisticsService(object):
                 data.append(row)
             total_line.append("")
         else:
-            if gather:
+            if mode == "range":
                 # 将某时间段内，每个网点业绩求和汇总
                 for i, branch in enumerate(branch_list):
                     """第一层循环，以网点名称生成行"""
@@ -147,7 +143,7 @@ class StatisticsService(object):
                         temp_list = ["" for x in range(0, len(field_summable_list))]
                         row.extend(temp_list)
                     data.append(row)
-            else:
+            elif mode == "detail":
                 # 将某时间段内，每个网点业绩列出来
                 for i, branch in enumerate(branch_list):
                     """第一层循环，以网点名称生成行"""
@@ -182,75 +178,29 @@ class StatisticsService(object):
         return title_line, data, total_line, type_list
 
     @staticmethod
-    def html_2_file(html, file_name):
-        with open(file_name, 'w') as f:
-            f.write(html)
-
-    @staticmethod
-    def data_to_html(subject, title_line, data, total_line, style_list=None):
-        if style_list is None:
-            style_list = ["width:30px;", "width:90px;", "width:80px;", "", "", "", "width:80px;", "", "", "", "", "", "", "", "", "", "width:50px;"]
-        content = "<html>"
-        content += "<head><style>tr{font-size:12px;text-align:center;}td{font-size:12px;text-align:center;width:40px;}.td1{width:90px;}.td2{width:80px;}.td3{width:50px;}</style></head>"
-
-        content += "<body><h2>{}</h2>".format(subject)
-        content += "<table border=\"1\" style= \"border-collapse: collapse; border-color: #BCD1E6;\"><tbody><tr style= \"border-color: #9AA2A9;\">"
-
-        # 生成首行
-        for i, title_td in enumerate(title_line):
-            content += "<td style=\"{}\"><p><B>{}</B></p></td>".format(style_list[i], title_td)
-            content += ""
-        content += "</tr>"
-        logger.info("Table_Title行生成完毕。")
-        # 生成数据行
-        for i, row in enumerate(data):
-            """第一层循环，以网点名称生成行"""
-            content += "<tr>"
-            for col in row:
-                """第二层循环，以可用字段生成列"""
-                if col == "":
-                    content += "<td >-</td>"
-                else:
-                    content += "<td >{}</td>".format(col)
-            content += "</tr>"
-        logger.info("Table_中间行生成完毕。")
-        # 生成汇总行
-        content += "<tr>"
-        for total_td in total_line:
-            content += "<td ><p><B>{}</B></p></td>".format(total_td)
-        content += "</tr>"
-        logger.info("Table_Total行生成完毕。")
-        content += "</tbody></table>"
-        content += "</body></html>"
-        return content
-
-    @staticmethod
-    def data_to_xls(file_name, title_line, data, total_line, type_list):
-        xls_file = xlwt.Workbook()
-        sheet = xls_file.add_sheet("业绩", cell_overwrite_ok=True)
-        current_row_number = 0
-        # 生成首行
-        for i, title_cell in enumerate(title_line):
-            sheet.write(current_row_number, i, title_cell)
-        current_row_number += 1
-
-        # 生成数据行
-        for i, row in enumerate(data):
-            for j, col in enumerate(row):
-                if col != "":
-                    if type_list[j] == "int":
-                        sheet.write(current_row_number, j, int(col))
-                    elif type_list[j] == "float":
-                        sheet.write(current_row_number, j, float(col))
-                    else:
-                        sheet.write(current_row_number, j, col)
-                else:
-                    sheet.write(current_row_number, j, col)
-            current_row_number += 1
-
-        # 生成汇总行
-        for i, total_cell in enumerate(total_line):
-            sheet.write(current_row_number, i, total_cell)
-
-        xls_file.save(file_name)
-        return file_name
+    def create_files(date_begin, date_end, mode):
+        try:
+            title_line, data, total_line, type_list = StatisticsService().get_data_from_db(date_begin, date_end, mode)
+            logger.info("统计数据Data构造成功")
+            if mode == "daily":
+                subject = "{} 网点报送汇总".format(date_begin)
+                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), date_begin) + ".xls"
+                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), date_begin) + ".html"
+            elif mode == "range":
+                subject = "{} ~ {} 网点报送汇总".format(date_begin, date_end)
+                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), "{} ~ {}_汇总".format(date_begin, date_end)) + ".xls"
+                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), "{} ~ {}_汇总".format(date_begin, date_end)) + ".html"
+            else:
+                subject = "{} ~ {} 网点报送明细".format(date_begin, date_end)
+                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), "{} ~ {}_明细".format(date_begin, date_end)) + ".xls"
+                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), "{} ~ {}_明细".format(date_begin, date_end)) + ".html"
+            style_list = HtmlService().get_style_list(mode)
+            html_content = HtmlService().data_to_html(subject, title_line, data, total_line, style_list)
+            HtmlService().html_2_file(html_content, html_file_name)
+            logger.info("html内容构造成功")
+            attachment_name = XlsService().data_to_xls(xls_file_name, title_line, data, total_line, type_list)
+            logger.info("xls内容构造成功")
+        except Exception as e:
+            logger.error("Error: 内容构造失败:")
+            logger.error(e)
+            return False
