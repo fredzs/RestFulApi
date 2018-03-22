@@ -262,14 +262,14 @@ def make_statistics():
             return "fail", 500
 
 
-@main.route('/api/send_range_email', methods=['POST'])
-@main.route('/test/api/send_range_email', methods=['POST'])
-def send_range_email():
-    """POST方法，用于给字段排序"""
+@main.route('/api/email', methods=['GET'])
+@main.route('/test/api/email', methods=['GET'])
+def send_email():
+    """GET方法，用于获取邮件"""
     logger.info('')
-    logger.info('---------收到POST请求：/api/send_range_email----------')
+    logger.info('---------收到POST请求：/api/email----------')
 
-    if not request.json or 'date_begin' not in request.json or 'date_end' not in request.json or 'count_only' not in request.json:
+    if not request.json or 'date_begin' not in request.json or 'date_end' not in request.json or 'mode' not in request.json:
         logger.info("传入参数错误！")
         return "args_missing", 500
     else:
