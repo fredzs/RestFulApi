@@ -148,6 +148,9 @@ class PerformanceService(object):
             elif field_key == "field_4":
                 if value == "0":
                     new_value = "无"
+                else:
+                    #new_value = value.replace("、", ";").replace("增加", "+").replace("万", "").replace("万元", "")
+                    pass
             elif field_key == "field_6":
                 if value == "0":
                     new_value = "无"

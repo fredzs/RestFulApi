@@ -1,7 +1,5 @@
 .idea/*
 *.pyc
 .vscode/*
-/log/api.log.2*
-
 /log/*
-/log/*.log
+/test/log/*

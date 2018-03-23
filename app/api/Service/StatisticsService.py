@@ -196,12 +196,16 @@ class StatisticsService(object):
                 subject = "{} ~ {} 网点报送明细".format(date_begin, date_end)
                 xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), "{} ~ {}_明细".format(date_begin, date_end)) + ".xls"
                 html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), "{} ~ {}_明细".format(date_begin, date_end)) + ".html"
-            style_list = HtmlService().get_style_list(mode)
-            html_content = HtmlService().data_to_html(subject, title_line, data, total_line, style_list)
+            # Html
+            html_style_list = HtmlService().get_style_list(mode)
+            html_content = HtmlService().data_to_html(subject, title_line, data, total_line, html_style_list)
             HtmlService().html_2_file(html_content, html_file_name)
-            logger.info("html内容构造成功")
-            attachment_name = XlsService().data_to_xls(xls_file_name, title_line, data, total_line, type_list)
-            logger.info("xls内容构造成功")
+            logger.info("html内容构造成功：" + html_file_name)
+
+            # xls
+            xls_style_list = XlsService().get_style_list(mode)
+            XlsService().data_to_xls(xls_file_name, title_line, data, total_line, type_list, xls_style_list)
+            logger.info("xls内容构造成功：" + xls_file_name)
             return True
         except Exception as e:
             logger.error("Error: 内容构造失败:")
