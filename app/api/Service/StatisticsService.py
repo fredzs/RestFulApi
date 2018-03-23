@@ -99,10 +99,10 @@ class StatisticsService(object):
                         else:
                             row.append("")
                     row.append(branch["submit_user"])
-                    type_list.append("1")
                 else:
                     pass
                 data.append(row)
+            type_list.append("1")
             for i, branch in enumerate(unsubmission_list):
                 row = [i + line_num, branch["dept_name"]]
                 temp_row = ["" for x in range(0, len(field_id_list))]
@@ -143,6 +143,7 @@ class StatisticsService(object):
                         temp_list = ["" for x in range(0, len(field_summable_list))]
                         row.extend(temp_list)
                     data.append(row)
+                type_list.append("1")
             elif mode == "detail":
                 # 将某时间段内，每个网点业绩列出来
                 for i, branch in enumerate(branch_list):
@@ -174,6 +175,7 @@ class StatisticsService(object):
                     else:
                         pass
                 total_line.append("")
+                type_list.append("1")
             logger.info("Total行生成完毕。")
         return title_line, data, total_line, type_list
 
