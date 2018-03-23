@@ -203,8 +203,7 @@ class StatisticsService(object):
             logger.info("html内容构造成功：" + html_file_name)
 
             # xls
-            xls_style_list = XlsService().get_style_list(mode)
-            XlsService().data_to_xls(xls_file_name, title_line, data, total_line, type_list, xls_style_list)
+            XlsService().data_to_xls(xls_file_name, title_line, data, total_line, type_list, mode)
             logger.info("xls内容构造成功：" + xls_file_name)
             return True
         except Exception as e:
