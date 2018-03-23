@@ -155,7 +155,7 @@ class PerformanceService(object):
                     new_value = value.replace("减少", "-").replace("增加", "+").replace("万", "").replace("万元", "")
                     if isinstance(value[0], int):
                         new_value = "+" + new_value
-                    new_value = new_value + "万"
+                    # new_value = new_value + "万"
             else:
                 new_value = value
             new_extra_fields[field_key] = new_value
