@@ -200,6 +200,7 @@ class StatisticsService(object):
             logger.info("html内容构造成功")
             attachment_name = XlsService().data_to_xls(xls_file_name, title_line, data, total_line, type_list)
             logger.info("xls内容构造成功")
+            return True
         except Exception as e:
             logger.error("Error: 内容构造失败:")
             logger.error(e)

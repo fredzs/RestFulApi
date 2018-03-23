@@ -226,22 +226,23 @@ def sort_field():
 def make_statistics():
     """POST方法，用于给字段排序"""
     logger.info('')
-    logger.info('---------收到POST请求：/api/statistics----------')
+    logger.info('---------收到GET请求：/api/statistics----------')
 
-    if not request.json or 'date_begin' not in request.json or 'date_end' not in request.json or 'mode' not in request.json:
+    if not request.args:
         logger.info("传入参数错误！")
         return "args_missing", 500
     else:
-        date_begin = request.json["date_begin"]
-        date_end = request.json["date_end"]
-        mode = request.json["mode"]
-    if 'user_name' in request.json:
-        user_name = request.json["user_name"]
+        date_begin = request.args.get("date_begin")
+        date_end = request.args.get("date_end")
+        mode = request.args.get("mode")
+    if request.args.get('user_name') is not None:
+        user_name = request.args.get('user_name')
     else:
         user_name = "admin"
     log_service = LogService()
-    page = request.json["page"]
-    log_service.submit_log(user_name, page, "/api/statistics", "http_get", request.json)
+    page = request.args.get('page')
+    log_content = request.args.get('content')
+    log_service.submit_log(user_name, page, "/api/statistics", "http_get", log_content)
     logger.info("用户[%s]请求统计业绩：" % user_name)
     logger.info("data: date_begin=%s, date_end=%s, mode=%s" % (date_begin, date_end, mode))
 
@@ -255,10 +256,10 @@ def make_statistics():
         logger.error(e)
     finally:
         if result:
-            logger.info('POST请求/api/statistics 处理完毕，返回值%s' % "success")
+            logger.info('GET请求/api/statistics 处理完毕，返回值%s' % "success")
             return "success", 201
         else:
-            logger.info('POST请求/api/statistics 处理失败，返回值%s' % "fail")
+            logger.info('GET请求/api/statistics 处理失败，返回值%s' % "fail")
             return "fail", 500
 
 
