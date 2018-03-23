@@ -36,6 +36,7 @@ class PerformanceService(object):
 
     @staticmethod
     def read_json(json_raw):
+        """很重要的函数，用来整理json"""
         if isinstance(json_raw, str):
             json_obj = json.loads(json_raw)
         else:
@@ -45,9 +46,11 @@ class PerformanceService(object):
         submit_user = json_obj['submit_user']
         if 'comments' in json_obj:
             comments = json_obj['comments']
+        elif 'comments' in json_obj['extra_fields']:
+            comments = json_obj['extra_fields']['comments']
         else:
             comments = ""
-        extra_fields = json_obj['extra_fields']
+        extra_fields = PerformanceService.clean_extra_fields(json_obj['extra_fields'])
         performance = Performance(dept_id, date, submit_user, comments, extra_fields)
         return performance
 
@@ -132,3 +135,28 @@ class PerformanceService(object):
             if field_id in extra_fields:
                 extra_fields_full.append({"field_name": name_list[field_id], "field_value": extra_fields[field_id], "field_unit": unit_list[field_id]})
         return extra_fields_full
+
+    @staticmethod
+    def clean_extra_fields(extra_fields):
+        """根据个性化需求，整理附加字段"""
+        new_extra_fields = dict()
+        for field_key in extra_fields:
+            value = extra_fields[field_key]
+            new_value = ""
+            if field_key == "comments":
+                continue
+            elif field_key == "field_4":
+                if value == "0":
+                    new_value = "无"
+            elif field_key == "field_6":
+                if value == "0":
+                    new_value = "无"
+                else:
+                    new_value = value.replace("减少", "-").replace("增加", "+").replace("万", "").replace("万元", "")
+                    if isinstance(value[0], int):
+                        new_value = "+" + new_value
+                    new_value = new_value + "万"
+            else:
+                new_value = value
+            new_extra_fields[field_key] = new_value
+        return new_extra_fields
