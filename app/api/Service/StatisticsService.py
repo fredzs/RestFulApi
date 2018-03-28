@@ -190,12 +190,12 @@ class StatisticsService(object):
                 html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), date_begin) + ".html"
             elif mode == "range":
                 subject = "{} ~ {} 网点报送汇总".format(date_begin, date_end)
-                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), "{} ~ {}_汇总".format(date_begin, date_end)) + ".xls"
-                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), "{} ~ {}_汇总".format(date_begin, date_end)) + ".html"
+                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), "{}_{}_汇总".format(date_begin, date_end)) + ".xls"
+                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), "{}_{}_汇总".format(date_begin, date_end)) + ".html"
             else:
                 subject = "{} ~ {} 网点报送明细".format(date_begin, date_end)
-                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), "{} ~ {}_明细".format(date_begin, date_end)) + ".xls"
-                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), "{} ~ {}_明细".format(date_begin, date_end)) + ".html"
+                xls_file_name = os.path.join(GLOBAL_CONFIG.get_field("Excel", "xls_dir"), "{}_{}_明细".format(date_begin, date_end)) + ".xls"
+                html_file_name = os.path.join(GLOBAL_CONFIG.get_field("Html", "html_dir"), "{}_{}_明细".format(date_begin, date_end)) + ".html"
             # Html
             html_style_list = HtmlService().get_style_list(mode)
             html_content = HtmlService().data_to_html(subject, title_line, data, total_line, html_style_list)

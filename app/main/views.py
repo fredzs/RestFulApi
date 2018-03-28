@@ -19,8 +19,7 @@ from Config import GLOBAL_CONFIG
 logger = LogFactory().get_logger()
 
 
-@main.route('/')
-@main.route('/api')
+@main.route('/icbc')
 def index():
     """默认的Get请求"""
     logger.info('')
@@ -34,9 +33,22 @@ def index():
                            admin_password="159357")
 
 
-@main.route('/test')
+@main.route('/api')
+def api_list():
+    """默认的Get请求"""
+    logger.info('')
+    log_service = LogService()
+    log_service.submit_log("admin", "Server", "/api", "http_get", "")
+    logger.info('---------收到index页面请求：/api，已记录日志。----------')
+
+    request_date = datetime.today().strftime("%Y-%m-%d")
+    logger.info('---------index页面请求处理完毕-----------')
+    return render_template("api_list.html", base_url="", title='api List', date=request_date, dept_name='支行营业室',
+                           admin_password="159357")
+
+
 @main.route('/test/api')
-def test():
+def api_list_test():
     """默认的Get请求"""
     logger.info('')
     log_service = LogService()
