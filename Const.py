@@ -5,7 +5,7 @@ HTML_STYLE_LIST_DETAIL = ["width:30px;", "width:100px;", "width:80px;", "", "",
 HTML_STYLE_LIST_RANGE = ["width:30px;", "width:100px;", "width:60px;", "width:100px;", "width:100px;",
                          "width:100px;", "width:100px;"]
 HTML_STYLE_LIST_DAILY = ["width:30px;", "width:100px;", "", "", "",
-                         "width:90px;", "width:60px;", "width:80px;", "", "",
+                         "width:100px;", "width:60px;", "width:60px;", "", "",
                          "", "", "", "", "",
                          "width:50px;"]
 XLS_WIDTH_LIST_DETAIL = [1200, 3500, 3500, 1800, 1800, 1800, 6000, 2000, 2000, 1800, 1800, 1800, 1800, 1800, 1800, 1800, 1800]

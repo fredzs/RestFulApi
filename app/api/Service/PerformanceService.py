@@ -146,17 +146,16 @@ class PerformanceService(object):
             if field_key == "comments":
                 continue
             elif field_key == "field_4":
-                if value == "0":
+                if len(value) == 1:
                     new_value = "无"
                 else:
-                    #new_value = value.replace("、", ";").replace("增加", "+").replace("万", "").replace("万元", "")
-                    pass
+                    new_value = value
             elif field_key == "field_6":
                 if value == "0":
                     new_value = "无"
                 else:
                     new_value = value.replace("减少", "-").replace("增加", "+").replace("万", "").replace("万元", "")
-                    if isinstance(value[0], int):
+                    if value[0].isdigit():
                         new_value = "+" + new_value
                     # new_value = new_value + "万"
             else:
