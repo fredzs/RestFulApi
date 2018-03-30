@@ -3,3 +3,10 @@
 .vscode/*
 /log/*
 /test/log/*
+/xls
+/log
+/statistics
+/__pycache__
+/test/xls
+/test/log
+/test/statistics
