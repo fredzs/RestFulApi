@@ -22,15 +22,14 @@ logger = LogFactory().get_logger()
 @main.route('/icbc')
 def index():
     """默认的Get请求"""
-    logger.info('')
-    log_service = LogService()
-    log_service.submit_log("admin", "Server", "/api", "http_get", "")
-    logger.info('---------收到index页面请求：/api，已记录日志。----------')
-
-    request_date = datetime.today().strftime("%Y-%m-%d")
-    logger.info('---------index页面请求处理完毕-----------')
-    return render_template("api_list.html", base_url="", title='api List', date=request_date, dept_name='支行营业室',
-                           admin_password="159357")
+    date_begin = request.args.get("date_begin")
+    date_end = request.args.get("date_end")
+    mode = request.args.get("mode")
+    service = StatisticsService()
+    GLOBAL_CONFIG.reload_config_file()
+    title_line, data, total_line, type_list = service.get_data_from_db(date_begin, date_end, mode)
+    logger.info('GET请求/api/statistics 处理完毕，返回值%s' % "success")
+    return render_template("dashboard.html", title_line=title_line, data=data, total_line=total_line)
 
 
 @main.route('/api')
@@ -655,3 +654,8 @@ def user():
     finally:
         logger.info('POST请求/api/user处理完毕，返回值%s' % str(result))
         return result, 201
+
+
+@main.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
