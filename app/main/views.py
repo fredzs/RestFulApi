@@ -3,6 +3,8 @@ import re
 from datetime import datetime
 from flask import request
 from flask import render_template
+from flask import g
+from werkzeug.exceptions import abort
 
 from app.api.Service.ConfigService import ConfigService
 from app.api.Service.DeptInfoService import DeptInfoService
@@ -17,6 +19,39 @@ from app.api.Factory.LogFactory import LogFactory
 from Config import GLOBAL_CONFIG
 
 logger = LogFactory().get_logger()
+
+
+@main.before_request
+def before_request():
+    # 0. init para
+    bad_request = False
+    skip_path =["/icbc"]
+
+    g.method = request.method
+    g.path = request.path
+
+    # 1. URI
+    logger.info('')
+    logger.info('---------收到{}请求：{}----------'.format(g.method, g.path))
+
+    if g.path in skip_path:
+        return
+
+    if g.method == "POST":
+        if 'user_name' in request.json:
+            g.user_name = request.json["user_name"]
+        else:
+            g.user_name = "admin"
+    elif g.method == "GET":
+        if request.args.get('user_name') is not None:
+            g.user_name = request.args.get('user_name')
+        else:
+            g.user_name = "admin"
+    logger.info('user_name:%s' % g.user_name)
+
+
+    if bad_request:
+        abort(400)
 
 
 @main.route('/icbc')
@@ -60,6 +95,9 @@ def api_list_test():
                            admin_password="159357")
 
 
+'''''''''''''''''''''''''''''''''[POST请求]'''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
 @main.route('/api/log', methods=['POST'])
 @main.route('/test/api/log', methods=['POST'])
 def add_log():
@@ -70,7 +108,8 @@ def add_log():
         request.json["user_name"], request.json["page"], request.json["method"], request.json["content"]))
     try:
         log_service = LogService()
-        result = log_service.submit_log(request.json["user_name"], request.json["page"], "web_page", request.json["method"], request.json["content"])
+        result = log_service.submit_log(request.json["user_name"], request.json["page"], "web_page",
+                                        request.json["method"], request.json["content"])
     except Exception as e:
         logger.error('发生错误!')
         logger.error(e)
@@ -230,6 +269,9 @@ def sort_field():
         else:
             logger.info('POST请求/api/sort_field处理完毕，返回值%s' % "fail")
             return "fail", 500
+
+
+'''''''''''''''''''''''''''''''''[GET请求]'''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
 @main.route('/api/statistics', methods=['GET'])
