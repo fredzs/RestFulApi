@@ -21,8 +21,8 @@ class FieldsInfoService(object):
         result = json.dumps(fields_list, default=DBFieldsInfo.obj_2_json_simple, sort_keys=False, ensure_ascii=False, indent=4)
         return result
 
-    def update_field(self, request_json):
-        old_fields = self._db_fields_info_service.db_find_one_by_attribute("field_id", request_json["field_id"])
+    def update_field(self, field_id, request_json):
+        old_fields = self._db_fields_info_service.db_find_one_by_attribute("field_id", field_id)
         setattr(old_fields, request_json["update_k"], request_json["update_v"])
         self._db_fields_info_service.db_update_db(old_fields)
         return True
@@ -43,11 +43,11 @@ class FieldsInfoService(object):
             new_order = request_json
         try:
             for item in new_order["new_order"]:
-                id = item["id"]
+                field_id = item["id"]
                 new = item["new_order"]
-                field = self._db_fields_info_service.db_find_one_by_attribute("id", id)
+                field = self._db_fields_info_service.db_find_one_by_attribute("id", field_id)
                 field.order_index = new
-                result = self._db_fields_info_service.db_update(field, id)
+                result = self._db_fields_info_service.db_update(field, field_id)
                 if result:
                     self._db_fields_info_service.db_commit()
         except Exception as e:

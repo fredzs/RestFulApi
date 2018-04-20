@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="{{url_for('static',filename='assets/js/jquery.min.js')}}"></script>
     <title>{{title}}</title>
   </head>
   <body>
@@ -12,11 +13,11 @@
       <p><a href="/api/fields_name">https://www.fredirox.com/api/fields_name</a></p>
       <p><a href="/api/display?date={{date}}&dept_name={{dept_name}}">https://www.fredirox.com/api/display?date={{date}}&dept_name={{dept_name}}</a></p>
       <p><a href="/api/admin?admin_password={{admin_password}}">https://www.fredirox.com/api/admin?admin_password={{admin_password}}</a></p>
-      <p><a href="/api/dept?user_name=赵峰">https://www.fredirox.com/api/dept?user_name=赵峰&dept_id=1</a></p>
+      <p><a href="/api/dept?dept_id=1">https://www.fredirox.com/api/dept?dept_id=1</a></p>
       <p><a href="/api/user?nick_name=赵峰">https://www.fredirox.com/api/user?nick_name=赵峰</a></p>
       <h2>POST</h2>
-      <p><a href="/api/submit">https://www.fredirox.com/api/submit</a></p>
-      <p>args: {'dept_id': 18, 'date': '2018-02-26', 'submit_user': '张晟', 'extra_fields': {'field_1': '1', 'field_2': '1', 'field_3': '2', 'field_4': '无', 'field_5': '3', 'field_6': '无', 'field_7': '3', 'field_8': '5', 'field_9': '1', 'field_10': '12', 'field_11': '13', 'field_12': '2'}}</p>
+      <p><a href="#">https://www.fredirox.com/api/submit</a><button id='submit'>Post it!</button></p>
+      <p>args: {"dept_id":18,"date":"2018-02-26","submit_user":"张晟","extra_fields":{"field_1":"1","field_2":"1","field_3":"2","field_4":"无","field_5":"3","field_6":"无","field_7":"3","field_8":"5","field_9":"1","field_10":"12","field_11":"13","field_12":"2"}}</p>
       <p><a href="/api/update_field">https://www.fredirox.com/api/update_field</a></p>
       <p>args: {'field_id': 'field_11', 'update_k': 'status', 'update_v': 1}</p>
       <p><a href="/api/create_field">https://www.fredirox.com/api/create_field</a></p>
@@ -29,5 +30,38 @@
       <p><a href="/api">https://www.fredirox.com/api</a></p>
       <h2>DELETE</h2>
       <p><a href="/api">https://www.fredirox.com/api</a></p>
+
+      <script type="text/javascript">
+        $(function(){
+            $("#submit").click(function(){
+                var data_obj = {
+                      "dept_id": "18",
+                      "date": "2018-02-26",
+                      "submit_user": "张晟",
+                      "extra_fields": {
+                        "field_1": "1",
+                        "field_2": "1",
+                        "field_3": "2",
+                        "field_4": "无",
+                        "field_5": "3",
+                        "field_6": "无",
+                        "field_7": "3",
+                        "field_8": "5",
+                        "field_9": "1",
+                        "field_10": "12",
+                        "field_11": "13",
+                        "field_12": "2"
+                      }
+                    };
+                  $.ajax({
+                    type: "POST",
+                    contentType:"application/json",
+                    url: "https://127.0.0.1:5001/api/performance",
+                    data: JSON.stringify(data_obj),
+                    dataType: "json"
+                  });
+             });
+        });
+    </script>
   </body>
 </html>
